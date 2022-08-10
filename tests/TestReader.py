@@ -9,12 +9,14 @@ from unittest import main as unitTestMain
 
 from pkg_resources import resource_filename
 
-from oglio.Reader import OglClasses
-from oglio.Reader import OglDocument
-from oglio.Reader import OglDocuments
-from oglio.Reader import OglLinks
-from oglio.Reader import OglProject
 from oglio.Reader import Reader
+
+from oglio.Types import OglClasses
+from oglio.Types import OglDocument
+from oglio.Types import OglDocuments
+from oglio.Types import OglLinks
+from oglio.Types import OglProject
+
 from tests.TestBase import TestBase
 
 
@@ -44,8 +46,7 @@ class TestReader(TestBase):
 
         fqFileName: str = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
 
-        oglProject: OglProject = self._reader.read(fqFileName=fqFileName)
-
+        oglProject:   OglProject   = self._reader.read(fqFileName=fqFileName)
         oglDocuments: OglDocuments = oglProject.oglDocuments
 
         self.assertEqual(2, len(oglDocuments), 'Mismatch in number of Pyut Documents that were read')
@@ -54,8 +55,7 @@ class TestReader(TestBase):
 
         fqFileName: str = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
 
-        oglProject: OglProject = self._reader.read(fqFileName=fqFileName)
-
+        oglProject:   OglProject   = self._reader.read(fqFileName=fqFileName)
         oglDocuments: OglDocuments = oglProject.oglDocuments
 
         try:
