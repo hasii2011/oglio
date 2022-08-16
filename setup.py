@@ -9,8 +9,8 @@ README = (HERE / "README.md").read_text()
 LICENSE = (HERE / 'LICENSE').read_text()
 
 setup(
-    name="xmlio",
-    version="0.1",
+    name="oglio",
+    version="0.2",
     author_email='Humberto.A.Sanchez.II@gmail.com',
     maintainer='Humberto A. Sanchez II',
     maintainer_email='humberto.a.sanchez.ii@gmail.com',
@@ -19,14 +19,14 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/hasii2011/xmlio",
     packages=[
-        'xmlio',
+        'oglio',
     ],
     package_data={
-        'xmlio': ['py.typed'],
+        'oglio': ['py.typed'],
     },
     install_requires=[
         'ogl==0.54.9',
         'pyutmodel==1.1.0',
-        'untanglepyut==0.2.55',
+        'untanglepyut==0.3.0',
     ],
 )

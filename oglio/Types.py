@@ -1,24 +1,30 @@
 
-from dataclasses import dataclass
-from dataclasses import field
-
 from typing import List
 from typing import NewType
 from typing import Union
 from typing import cast
 
-from ogl.OglObject import OglObject
+from dataclasses import dataclass
+from dataclasses import field
+
+from ogl.OglActor import OglActor
+from ogl.OglNote import OglNote
 from ogl.OglClass import OglClass
-from ogl.OglInterface2 import OglInterface2
 from ogl.OglLink import OglLink
+from ogl.OglText import OglText
+from ogl.OglUseCase import OglUseCase
 
 from untanglepyut.UnTangler import Document
 from untanglepyut.UnTangler import ProjectInformation
 
-OglClasses = NewType('OglClasses', List[OglClass])
-OglLinks   = NewType('OglLinks',   List[OglLink])
+OglClasses  = NewType('OglClasses',  List[OglClass])
+OglLinks    = NewType('OglLinks',    List[OglLink])
+OglNotes    = NewType('OglNotes',    List[OglNote])
+OglTexts    = NewType('OglTexts',    List[OglText])
+OglActors   = NewType('OglActors',   List[OglActor])
+OglUseCases = NewType('OglUseCases', List[OglUseCase])
 
-OglObjects = Union[List[OglObject], OglClasses, OglLinks, List[OglInterface2]]
+OglObjects = Union[OglClasses, OglLinks, OglNotes, OglTexts, OglActors, OglUseCases]
 
 
 def createOglClassesFactory() -> OglClasses:
@@ -39,6 +45,22 @@ def createOglLinksFactory() -> OglLinks:
     return OglLinks([])
 
 
+def createOglNotesFactory() -> OglNotes:
+    return OglNotes([])
+
+
+def createOglTextsFactory() -> OglTexts:
+    return OglTexts([])
+
+
+def createOglActorsFactory() -> OglActors:
+    return OglActors([])
+
+
+def createOglUseCasesFactory() -> OglUseCases:
+    return OglUseCases([])
+
+
 OglDocumentTitle = NewType('OglDocumentTitle', str)
 
 
@@ -50,8 +72,12 @@ class OglDocument:
     scrollPositionY: int = -1
     pixelsPerUnitX:  int = -1
     pixelsPerUnitY:  int = -1
-    oglClasses:       OglClasses = field(default_factory=createOglClassesFactory)
-    oglLinks:         OglLinks   = field(default_factory=createOglLinksFactory)
+    oglClasses:      OglClasses  = field(default_factory=createOglClassesFactory)
+    oglLinks:        OglLinks    = field(default_factory=createOglLinksFactory)
+    oglNotes:        OglNotes    = field(default_factory=createOglNotesFactory)
+    oglTexts:        OglTexts    = field(default_factory=createOglTextsFactory)
+    oglActors:       OglActors   = field(default_factory=createOglActorsFactory)
+    oglUseCases:     OglUseCases = field(default_factory=createOglUseCasesFactory)
 
     def toOglDocument(self, document: Document):
         self.documentType    = document.documentType
