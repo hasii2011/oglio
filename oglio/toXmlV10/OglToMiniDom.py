@@ -44,6 +44,10 @@ from ogl.sd.OglSDMessage import OglSDMessage
 
 from ogl.Singleton import Singleton             # TODO temp import this until get my common utilities module
 
+from oglio.Types import OglClasses
+from oglio.Types import OglDocument
+from oglio.Types import OglLinks
+from oglio.Types import OglTexts
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
@@ -86,12 +90,87 @@ class OglToMiniDom:
         * Updated using google docstrings
 
     """
-    def __init__(self):
+    ORIGINAL_XML_PROLOG: str = '<?xml version="1.0" ?>'
+    FIXED_XML_PROLOG:    str = '<?xml version="1.0" encoding="iso-8859-1"?>'
+
+    def __init__(self, projectVersion: str, projectCodePath: str):
+        """
+
+        Args:
+            projectVersion:
+            projectCodePath:
+        """
 
         self.logger:     Logger    = getLogger(__name__)
         self._idFactory: IDFactory = IDFactory()
 
-    def oglClassToXml(self, oglClass: OglClass, xmlDoc: Document) -> Element:
+        xmlDocument, topElement = self._createStarterXmlDocument(projectVersion=projectVersion, projectCodePath=projectCodePath)
+
+        self._xmlDocument: Document = xmlDocument
+        self._topElement:  Element  = topElement
+
+    @property
+    def xmlDocument(self) -> Document:
+        """
+        Presumably used to persist the document
+
+        Returns:  The serialized Document
+        """
+        return self._xmlDocument
+
+    def serialize(self, oglDocument: OglDocument):
+
+        documentNode: Element = self._oglDocumentToXml(oglDocument=oglDocument)
+
+        self._topElement.appendChild(documentNode)
+
+        oglClasses: OglClasses = cast(OglClasses, oglDocument.oglClasses)
+        for oglClass in oglClasses:
+            classElement: Element = self._oglClassToXml(oglClass=oglClass, xmlDoc=self._xmlDocument)
+            documentNode.appendChild(classElement)
+
+        oglLinks: OglLinks = cast(OglLinks, oglDocument.oglLinks)
+        for oglLink in oglLinks:
+            if isinstance(oglLink, OglInterface2):
+                lollipopElement: Element = self._oglInterface2ToXml(oglLink, self._xmlDocument)
+                documentNode.appendChild(lollipopElement)
+            else:
+                linkElement: Element = self._oglLinkToXml(oglLink=oglLink, xmlDoc=self._xmlDocument)
+                documentNode.appendChild(linkElement)
+
+        oglTexts: OglTexts = cast(OglTexts, oglDocument.oglTexts)
+        for oglText in oglTexts:
+            textElement: Element = self._oglTextToXml(oglText, xmlDoc=self._xmlDocument)
+            documentNode.appendChild(textElement)
+
+    def writeXml(self, fqFileName):
+        """
+        Persist the XML
+
+        Args:
+            fqFileName:  The fully qualified file name
+        """
+
+        xmlText: str = self._xmlDocument.toprettyxml()
+        updatedXml: str = OglToMiniDom.setAsISOLatin(xmlText)
+
+        with open(fqFileName, 'w') as fd:
+            fd.write(updatedXml)
+
+    @classmethod
+    def setAsISOLatin(cls, xmlTextToUpdate: str) -> str:
+        """
+        Add attribute encoding = "iso-8859-1" this is not possible with minidom, so we use pattern matching
+
+        Args:
+            xmlTextToUpdate:  Old XML
+
+        Returns:  Updated XML
+        """
+        retText: str = xmlTextToUpdate.replace(OglToMiniDom.ORIGINAL_XML_PROLOG, OglToMiniDom.FIXED_XML_PROLOG)
+        return retText
+
+    def _oglClassToXml(self, oglClass: OglClass, xmlDoc: Document) -> Element:
         """
         Exports an OglClass to a minidom Element.
 
@@ -111,7 +190,7 @@ class OglToMiniDom:
 
         return root
 
-    def oglInterface2ToXml(self, oglInterface: OglInterface2, xmlDoc: Document) -> Element:
+    def _oglInterface2ToXml(self, oglInterface: OglInterface2, xmlDoc: Document) -> Element:
         """
 
         Args:
@@ -159,7 +238,7 @@ class OglToMiniDom:
 
         return root
 
-    def oglTextToXml(self, oglText: OglText, xmlDoc: Document) -> Element:
+    def _oglTextToXml(self, oglText: OglText, xmlDoc: Document) -> Element:
 
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_TEXT)
 
@@ -212,7 +291,7 @@ class OglToMiniDom:
 
         return root
 
-    def oglLinkToXml(self, oglLink: OglLink, xmlDoc: Document):
+    def _oglLinkToXml(self, oglLink: OglLink, xmlDoc: Document):
         """
         Export an OgLink to a minidom element
         Args:
@@ -713,3 +792,31 @@ class OglToMiniDom:
             visStr = visibility.name
 
         return visStr
+
+    def _createStarterXmlDocument(self, projectVersion: str, projectCodePath: str) -> Tuple[Document, Element]:
+
+        xmlDocument: Document = Document()
+
+        topElement: Element = xmlDocument.createElement(XmlConstants.TOP_LEVEL_ELEMENT)
+
+        topElement.setAttribute(XmlConstants.ATTR_VERSION, projectVersion)
+        topElement.setAttribute(XmlConstants.ATTR_CODE_PATH, projectCodePath)
+
+        xmlDocument.appendChild(topElement)
+
+        return xmlDocument, topElement
+
+    def _oglDocumentToXml(self, oglDocument: OglDocument) -> Element:
+
+        documentNode = self._xmlDocument.createElement(XmlConstants.ELEMENT_DOCUMENT)
+
+        documentNode.setAttribute(XmlConstants.ATTR_TYPE, oglDocument.documentType)
+        documentNode.setAttribute(XmlConstants.ATTR_TITLE, oglDocument.documentTitle)
+
+        documentNode.setAttribute(XmlConstants.ATTR_SCROLL_POSITION_X, str(oglDocument.scrollPositionX))
+        documentNode.setAttribute(XmlConstants.ATTR_SCROLL_POSITION_Y, str(oglDocument.scrollPositionY))
+
+        documentNode.setAttribute(XmlConstants.ATTR_PIXELS_PER_UNIT_X, str(oglDocument.pixelsPerUnitX))
+        documentNode.setAttribute(XmlConstants.ATTR_PIXELS_PER_UNIT_Y, str(oglDocument.pixelsPerUnitY))
+
+        return documentNode
