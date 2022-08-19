@@ -44,7 +44,7 @@ from ogl.sd.OglSDMessage import OglSDMessage
 
 from ogl.Singleton import Singleton             # TODO temp import this until get my common utilities module
 
-from oglio.toXmlV10.PyutXmlConstants import PyutXmlConstants
+from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
 class IDFactory(Singleton):
@@ -102,7 +102,7 @@ class OglToMiniDom:
         Returns:
             The newly created `GraphicClass` element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_GRAPHIC_CLASS)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_CLASS)
 
         root = self.__appendOglBase(oglClass, root)
 
@@ -121,15 +121,15 @@ class OglToMiniDom:
         Returns:
             New minidom element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_GRAPHIC_LOLLIPOP)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_LOLLIPOP)
 
         destAnchor:      SelectAnchorPoint = oglInterface.destinationAnchor
         attachmentPoint: AttachmentLocation   = destAnchor.attachmentPoint
         x, y = destAnchor.GetPosition()
 
-        root.setAttribute(PyutXmlConstants.ATTR_LOLLIPOP_ATTACHMENT_POINT, attachmentPoint.__str__())
-        root.setAttribute(PyutXmlConstants.ATTR_X, str(x))
-        root.setAttribute(PyutXmlConstants.ATTR_Y, str(y))
+        root.setAttribute(XmlConstants.ATTR_LOLLIPOP_ATTACHMENT_POINT, attachmentPoint.__str__())
+        root.setAttribute(XmlConstants.ATTR_X, str(x))
+        root.setAttribute(XmlConstants.ATTR_Y, str(y))
 
         # parentUmlClass: OglClass = destAnchor.GetParent()
         # parentId:       int      = self._idFactory.getID(parentUmlClass.getPyutObject())
@@ -151,7 +151,7 @@ class OglToMiniDom:
         Returns:
             New minidom element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_GRAPHIC_NOTE)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_NOTE)
 
         self.__appendOglBase(oglNote, root)
 
@@ -161,14 +161,14 @@ class OglToMiniDom:
 
     def oglTextToXml(self, oglText: OglText, xmlDoc: Document) -> Element:
 
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_GRAPHIC_TEXT)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_TEXT)
 
         self.__appendOglBase(oglText, root)
 
-        root.setAttribute(PyutXmlConstants.ATTR_TEXT_SIZE,     str(oglText.textSize))
-        root.setAttribute(PyutXmlConstants.ATTR_IS_BOLD,       str(oglText.isBold))
-        root.setAttribute(PyutXmlConstants.ATTR_IS_ITALICIZED, str(oglText.isItalicized))
-        root.setAttribute(PyutXmlConstants.ATTR_FONT_FAMILY,   oglText.textFontFamily.value)
+        root.setAttribute(XmlConstants.ATTR_TEXT_SIZE, str(oglText.textSize))
+        root.setAttribute(XmlConstants.ATTR_IS_BOLD, str(oglText.isBold))
+        root.setAttribute(XmlConstants.ATTR_IS_ITALICIZED, str(oglText.isItalicized))
+        root.setAttribute(XmlConstants.ATTR_FONT_FAMILY, oglText.textFontFamily.value)
 
         root.appendChild(self._pyutTextToXml(oglText.pyutText, xmlDoc))
 
@@ -185,7 +185,7 @@ class OglToMiniDom:
         Returns:
             New minidom element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_GRAPHIC_ACTOR)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_ACTOR)
 
         self.__appendOglBase(oglActor, root)
 
@@ -204,7 +204,7 @@ class OglToMiniDom:
         Returns:
             A new minidom element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_GRAPHIC_USE_CASE)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_USE_CASE)
 
         self.__appendOglBase(oglUseCase, root)
 
@@ -222,21 +222,21 @@ class OglToMiniDom:
         Returns:
             A new minidom element
         """
-        root = xmlDoc.createElement(PyutXmlConstants.ELEMENT_GRAPHIC_LINK)
+        root = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_LINK)
 
         # save source and destination anchor points
         x, y = oglLink.GetSource().GetModel().GetPosition()
         simpleX, simpleY = self.__getSimpleCoordinates(x, y)
-        root.setAttribute(PyutXmlConstants.ATTR_LINK_SOURCE_ANCHOR_X, simpleX)
-        root.setAttribute(PyutXmlConstants.ATTR_LINK_SOURCE_ANCHOR_Y, simpleY)
+        root.setAttribute(XmlConstants.ATTR_LINK_SOURCE_ANCHOR_X, simpleX)
+        root.setAttribute(XmlConstants.ATTR_LINK_SOURCE_ANCHOR_Y, simpleY)
 
         x, y = oglLink.GetDestination().GetModel().GetPosition()
         simpleX, simpleY = self.__getSimpleCoordinates(x, y)
 
-        root.setAttribute(PyutXmlConstants.ATTR_LINK_DESTINATION_ANCHOR_X, simpleX)
-        root.setAttribute(PyutXmlConstants.ATTR_LINK_DESTINATION_ANCHOR_Y, simpleY)
+        root.setAttribute(XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_X, simpleX)
+        root.setAttribute(XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_Y, simpleY)
 
-        root.setAttribute(PyutXmlConstants.ATTR_SPLINE, str(oglLink.GetSpline()))
+        root.setAttribute(XmlConstants.ATTR_SPLINE, str(oglLink.GetSpline()))
 
         if isinstance(oglLink, OglAssociation):
 
@@ -245,9 +245,9 @@ class OglToMiniDom:
             dst:    OglAssociationLabel = oglLink.destinationCardinality
 
             assocLabels = {
-                PyutXmlConstants.ELEMENT_ASSOC_CENTER_LABEL:      center,
-                PyutXmlConstants.ELEMENT_ASSOC_SOURCE_LABEL:      src,
-                PyutXmlConstants.ELEMENT_ASSOC_DESTINATION_LABEL: dst
+                XmlConstants.ELEMENT_ASSOC_CENTER_LABEL     :      center,
+                XmlConstants.ELEMENT_ASSOC_SOURCE_LABEL     :      src,
+                XmlConstants.ELEMENT_ASSOC_DESTINATION_LABEL: dst
             }
             for eltName in assocLabels:
                 elt: Element = self.__createAssocLabelElement(eltName, xmlDoc, assocLabels[eltName])
@@ -255,9 +255,9 @@ class OglToMiniDom:
 
         # save control points (not anchors!)
         for x, y in oglLink.GetSegments()[1:-1]:
-            item = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_CONTROL_POINT)
-            item.setAttribute(PyutXmlConstants.ATTR_X, str(x))
-            item.setAttribute(PyutXmlConstants.ATTR_Y, str(y))
+            item = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CONTROL_POINT)
+            item.setAttribute(XmlConstants.ATTR_X, str(x))
+            item.setAttribute(XmlConstants.ATTR_Y, str(y))
             root.appendChild(item)
 
         # adding the data layer object
@@ -277,7 +277,7 @@ class OglToMiniDom:
         Returns:
             A new minidom element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_GRAPHIC_SD_INSTANCE)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_SD_INSTANCE)
 
         self.__appendOglBase(oglSDInstance, root)
 
@@ -296,7 +296,7 @@ class OglToMiniDom:
         Returns:
             A new minidom element
         """
-        root = xmlDoc.createElement(PyutXmlConstants.ELEMENT_GRAPHIC_SD_MESSAGE)
+        root = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_SD_MESSAGE)
 
         # adding the data layer object
         root.appendChild(self._pyutSDMessageToXml(oglSDMessage.getPyutObject(), xmlDoc))
@@ -314,24 +314,24 @@ class OglToMiniDom:
         Returns:
             The new updated element
         """
-        root = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_CLASS)
+        root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CLASS)
 
         classId: int = self._idFactory.getID(pyutClass)
-        root.setAttribute(PyutXmlConstants.ATTR_ID, str(classId))
-        root.setAttribute(PyutXmlConstants.ATTR_NAME, pyutClass.name)
+        root.setAttribute(XmlConstants.ATTR_ID, str(classId))
+        root.setAttribute(XmlConstants.ATTR_NAME, pyutClass.name)
 
         stereotype = pyutClass.stereotype
         if stereotype is not None:
-            root.setAttribute(PyutXmlConstants.ATTR_STEREOTYPE, stereotype.name)
+            root.setAttribute(XmlConstants.ATTR_STEREOTYPE, stereotype.name)
 
-        root.setAttribute(PyutXmlConstants.ATTR_FILENAME,    pyutClass.fileName)
+        root.setAttribute(XmlConstants.ATTR_FILENAME, pyutClass.fileName)
 
         root = self._pyutClassCommonToXml(pyutClass, root)
 
-        root.setAttribute(PyutXmlConstants.ATTR_SHOW_METHODS,       str(pyutClass.showMethods))
-        root.setAttribute(PyutXmlConstants.ATTR_SHOW_FIELDS,        str(pyutClass.showFields))
-        root.setAttribute(PyutXmlConstants.ATTR_SHOW_STEREOTYPE,    str(pyutClass.displayStereoType))
-        root.setAttribute(PyutXmlConstants.ATTR_DISPLAY_PARAMETERS, pyutClass.displayParameters.value)
+        root.setAttribute(XmlConstants.ATTR_SHOW_METHODS, str(pyutClass.showMethods))
+        root.setAttribute(XmlConstants.ATTR_SHOW_FIELDS, str(pyutClass.showFields))
+        root.setAttribute(XmlConstants.ATTR_SHOW_STEREOTYPE, str(pyutClass.displayStereoType))
+        root.setAttribute(XmlConstants.ATTR_DISPLAY_PARAMETERS, pyutClass.displayParameters.value)
 
         # methods
         for method in pyutClass.methods:
@@ -344,11 +344,11 @@ class OglToMiniDom:
 
     def _pyutInterfaceToXml(self, pyutInterface: PyutInterface, xmlDoc: Document) -> Element:
 
-        root = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_INTERFACE)
+        root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_INTERFACE)
 
         classId: int = self._idFactory.getID(pyutInterface)
-        root.setAttribute(PyutXmlConstants.ATTR_ID, str(classId))
-        root.setAttribute(PyutXmlConstants.ATTR_NAME, pyutInterface.name)
+        root.setAttribute(XmlConstants.ATTR_ID, str(classId))
+        root.setAttribute(XmlConstants.ATTR_NAME, pyutInterface.name)
 
         root = self._pyutClassCommonToXml(pyutInterface, root)
 
@@ -363,7 +363,7 @@ class OglToMiniDom:
 
     def _pyutClassCommonToXml(self, classCommon: PyutClassCommon, root: Element) -> Element:
 
-        root.setAttribute(PyutXmlConstants.ATTR_DESCRIPTION, classCommon.description)
+        root.setAttribute(XmlConstants.ATTR_DESCRIPTION, classCommon.description)
         # root.setAttribute(PyutXmlConstants.ATTR_FILENAME,    pyutInterface.getFilename())
 
         return root
@@ -379,24 +379,24 @@ class OglToMiniDom:
         Returns:
             The new updated element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_METHOD)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_METHOD)
 
-        root.setAttribute(PyutXmlConstants.ATTR_NAME, pyutMethod.name)
+        root.setAttribute(XmlConstants.ATTR_NAME, pyutMethod.name)
 
         visibility: PyutVisibilityEnum = pyutMethod.getVisibility()
         visName:    str                = self.__safeVisibilityToName(visibility)
 
         if visibility is not None:
-            root.setAttribute(PyutXmlConstants.ATTR_VISIBILITY, visName)
+            root.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
 
         for modifier in pyutMethod.modifiers:
-            xmlModifier: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_MODIFIER)
-            xmlModifier.setAttribute(PyutXmlConstants.ATTR_NAME, modifier.name)
+            xmlModifier: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_MODIFIER)
+            xmlModifier.setAttribute(XmlConstants.ATTR_NAME, modifier.name)
             root.appendChild(xmlModifier)
 
         if pyutMethod.returnType is not None:
-            xmlReturnType: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_RETURN)
-            xmlReturnType.setAttribute(PyutXmlConstants.ATTR_TYPE, str(pyutMethod.returnType))
+            xmlReturnType: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_RETURN)
+            xmlReturnType.setAttribute(XmlConstants.ATTR_TYPE, str(pyutMethod.returnType))
             root.appendChild(xmlReturnType)
 
         for param in pyutMethod.parameters:
@@ -408,9 +408,9 @@ class OglToMiniDom:
 
     def _pyutSourceCodeToXml(self, sourceCode: SourceCode, xmlDoc: Document) -> Element:
 
-        codeRoot: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_SOURCE_CODE)
+        codeRoot: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SOURCE_CODE)
         for code in sourceCode:
-            codeElement:  Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_CODE)
+            codeElement:  Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CODE)
             textCodeNode: Element = xmlDoc.createTextNode(code)
             codeElement.appendChild(textCodeNode)
             codeRoot.appendChild(codeElement)
@@ -419,9 +419,9 @@ class OglToMiniDom:
 
     def _pyutImplementorToXml(self, className: ClassName, xmlDoc: Document) -> Element:
 
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_IMPLEMENTOR)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_IMPLEMENTOR)
 
-        root.setAttribute(PyutXmlConstants.ATTR_IMPLEMENTING_CLASS_NAME, className)
+        root.setAttribute(XmlConstants.ATTR_IMPLEMENTING_CLASS_NAME, className)
 
         return root
 
@@ -435,12 +435,12 @@ class OglToMiniDom:
         Returns:
             The new updated element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_FIELD)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_FIELD)
 
         root.appendChild(self._pyutParamToXml(pyutField, xmlDoc))
         visibility: PyutVisibilityEnum = pyutField.visibility
         visName:    str                = self.__safeVisibilityToName(visibility)
-        root.setAttribute(PyutXmlConstants.ATTR_VISIBILITY, visName)
+        root.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
 
         return root
 
@@ -455,14 +455,14 @@ class OglToMiniDom:
         Returns:
             The new updated element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_PARAM)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_PARAM)
 
-        root.setAttribute(PyutXmlConstants.ATTR_NAME, pyutParam.name)
-        root.setAttribute(PyutXmlConstants.ATTR_TYPE, str(pyutParam.type))
+        root.setAttribute(XmlConstants.ATTR_NAME, pyutParam.name)
+        root.setAttribute(XmlConstants.ATTR_TYPE, str(pyutParam.type))
 
         defaultValue = pyutParam.defaultValue
         if defaultValue is not None:
-            root.setAttribute(PyutXmlConstants.ATTR_DEFAULT_VALUE, defaultValue)
+            root.setAttribute(XmlConstants.ATTR_DEFAULT_VALUE, defaultValue)
 
         return root
 
@@ -477,29 +477,29 @@ class OglToMiniDom:
         Returns:
             New miniDom element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_NOTE)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_NOTE)
 
         noteId: int = self._idFactory.getID(pyutNote)
-        root.setAttribute(PyutXmlConstants.ATTR_ID, str(noteId))
+        root.setAttribute(XmlConstants.ATTR_ID, str(noteId))
 
         content: str = pyutNote.content
         content = content.replace('\n', "\\\\\\\\")
-        root.setAttribute(PyutXmlConstants.ATTR_CONTENT, content)
+        root.setAttribute(XmlConstants.ATTR_CONTENT, content)
 
-        root.setAttribute(PyutXmlConstants.ATTR_FILENAME, pyutNote.fileName)
+        root.setAttribute(XmlConstants.ATTR_FILENAME, pyutNote.fileName)
 
         return root
 
     def _pyutTextToXml(self, pyutText: PyutText, xmlDoc: Document) -> Element:
 
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_TEXT)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_TEXT)
         textId: int = self._idFactory.getID(pyutText)
 
-        root.setAttribute(PyutXmlConstants.ATTR_ID, str(textId))
+        root.setAttribute(XmlConstants.ATTR_ID, str(textId))
         content: str = pyutText.content
         content = content.replace('\n', "\\\\\\\\")
 
-        root.setAttribute(PyutXmlConstants.ATTR_CONTENT, content)
+        root.setAttribute(XmlConstants.ATTR_CONTENT, content)
 
         return root
 
@@ -513,12 +513,12 @@ class OglToMiniDom:
         Returns:
             A new minidom element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_ACTOR)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_ACTOR)
 
         actorId = self._idFactory.getID(pyutActor)
-        root.setAttribute(PyutXmlConstants.ATTR_ID, str(actorId))
-        root.setAttribute(PyutXmlConstants.ATTR_NAME, pyutActor.name)
-        root.setAttribute(PyutXmlConstants.ATTR_FILENAME, pyutActor.fileName)
+        root.setAttribute(XmlConstants.ATTR_ID, str(actorId))
+        root.setAttribute(XmlConstants.ATTR_NAME, pyutActor.name)
+        root.setAttribute(XmlConstants.ATTR_FILENAME, pyutActor.fileName)
 
         return root
 
@@ -533,12 +533,12 @@ class OglToMiniDom:
         Returns:
             A new minidom element
         """
-        root = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_USE_CASE)
+        root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_USE_CASE)
 
         useCaseId = self._idFactory.getID(pyutUseCase)
-        root.setAttribute(PyutXmlConstants.ATTR_ID,       str(useCaseId))
-        root.setAttribute(PyutXmlConstants.ATTR_NAME,     pyutUseCase.name)
-        root.setAttribute(PyutXmlConstants.ATTR_FILENAME, pyutUseCase.fileName)
+        root.setAttribute(XmlConstants.ATTR_ID, str(useCaseId))
+        root.setAttribute(XmlConstants.ATTR_NAME, pyutUseCase.name)
+        root.setAttribute(XmlConstants.ATTR_FILENAME, pyutUseCase.fileName)
 
         return root
 
@@ -553,19 +553,19 @@ class OglToMiniDom:
         Returns:
             A new minidom element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_LINK)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_LINK)
 
-        root.setAttribute(PyutXmlConstants.ATTR_NAME,            pyutLink.name)
-        root.setAttribute(PyutXmlConstants.ATTR_TYPE,            pyutLink.linkType.name)
-        root.setAttribute(PyutXmlConstants.ATTR_CARDINALITY_SOURCE,      pyutLink.sourceCardinality)
-        root.setAttribute(PyutXmlConstants.ATTR_CARDINALITY_DESTINATION, pyutLink.destinationCardinality)
-        root.setAttribute(PyutXmlConstants.ATTR_BIDIRECTIONAL,           str(pyutLink.getBidir()))
+        root.setAttribute(XmlConstants.ATTR_NAME, pyutLink.name)
+        root.setAttribute(XmlConstants.ATTR_TYPE, pyutLink.linkType.name)
+        root.setAttribute(XmlConstants.ATTR_CARDINALITY_SOURCE, pyutLink.sourceCardinality)
+        root.setAttribute(XmlConstants.ATTR_CARDINALITY_DESTINATION, pyutLink.destinationCardinality)
+        root.setAttribute(XmlConstants.ATTR_BIDIRECTIONAL, str(pyutLink.getBidir()))
 
         srcLinkId:  int = self._idFactory.getID(pyutLink.getSource())
         destLinkId: int = self._idFactory.getID(pyutLink.getDestination())
 
-        root.setAttribute(PyutXmlConstants.ATTR_SOURCE_ID,      str(srcLinkId))
-        root.setAttribute(PyutXmlConstants.ATTR_DESTINATION_ID, str(destLinkId))
+        root.setAttribute(XmlConstants.ATTR_SOURCE_ID, str(srcLinkId))
+        root.setAttribute(XmlConstants.ATTR_DESTINATION_ID, str(destLinkId))
 
         return root
 
@@ -580,12 +580,12 @@ class OglToMiniDom:
         Returns:
             A new minidom element
         """
-        root:  Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_SD_INSTANCE)
+        root:  Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SD_INSTANCE)
         eltId: int     = self._idFactory.getID(pyutSDInstance)
 
-        root.setAttribute(PyutXmlConstants.ATTR_ID,               str(eltId))
-        root.setAttribute(PyutXmlConstants.ATTR_INSTANCE_NAME,    pyutSDInstance.instanceName)
-        root.setAttribute(PyutXmlConstants.ATTR_LIFE_LINE_LENGTH, str(pyutSDInstance.instanceLifeLineLength))
+        root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
+        root.setAttribute(XmlConstants.ATTR_INSTANCE_NAME, pyutSDInstance.instanceName)
+        root.setAttribute(XmlConstants.ATTR_LIFE_LINE_LENGTH, str(pyutSDInstance.instanceLifeLineLength))
 
         return root
 
@@ -599,21 +599,21 @@ class OglToMiniDom:
         Returns:
             A new minidom element
         """
-        root: Element = xmlDoc.createElement(PyutXmlConstants.ELEMENT_MODEL_SD_MESSAGE)
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SD_MESSAGE)
 
         eltId = self._idFactory.getID(pyutSDMessage)
-        root.setAttribute(PyutXmlConstants.ATTR_ID, str(eltId))
+        root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
 
         # message
-        root.setAttribute(PyutXmlConstants.ATTR_MESSAGE, pyutSDMessage.getMessage())
+        root.setAttribute(XmlConstants.ATTR_MESSAGE, pyutSDMessage.getMessage())
 
         # time
         idSrc = self._idFactory.getID(pyutSDMessage.getSource())
         idDst = self._idFactory.getID(pyutSDMessage.getDest())
-        root.setAttribute(PyutXmlConstants.ATTR_SOURCE_TIME_LINE,      str(pyutSDMessage.getSrcTime()))
-        root.setAttribute(PyutXmlConstants.ATTR_DESTINATION_TIME_LINE, str(pyutSDMessage.getDstTime()))
-        root.setAttribute(PyutXmlConstants.ATTR_SD_MESSAGE_SOURCE_ID,      str(idSrc))
-        root.setAttribute(PyutXmlConstants.ATTR_SD_MESSAGE_DESTINATION_ID, str(idDst))
+        root.setAttribute(XmlConstants.ATTR_SOURCE_TIME_LINE, str(pyutSDMessage.getSrcTime()))
+        root.setAttribute(XmlConstants.ATTR_DESTINATION_TIME_LINE, str(pyutSDMessage.getDstTime()))
+        root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_SOURCE_ID, str(idSrc))
+        root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_DESTINATION_ID, str(idDst))
 
         return root
 
@@ -647,8 +647,8 @@ class OglToMiniDom:
 
         simpleX, simpleY = self.__getSimpleCoordinates(x, y)
         self.logger.info(f'x,y = ({x},{y})   simpleX,simpleY = ({simpleX},{simpleY})')
-        label.setAttribute(PyutXmlConstants.ATTR_X, simpleX)
-        label.setAttribute(PyutXmlConstants.ATTR_Y, simpleY)
+        label.setAttribute(XmlConstants.ATTR_X, simpleX)
+        label.setAttribute(XmlConstants.ATTR_Y, simpleY)
 
         return label
 
@@ -666,14 +666,14 @@ class OglToMiniDom:
         # Saving size
         w, h = oglObject.GetModel().GetSize()
         simpleW, simpleH = self.__getSimpleDimensions(w, h)
-        root.setAttribute(PyutXmlConstants.ATTR_WIDTH,  simpleW)
-        root.setAttribute(PyutXmlConstants.ATTR_HEIGHT, simpleH)
+        root.setAttribute(XmlConstants.ATTR_WIDTH, simpleW)
+        root.setAttribute(XmlConstants.ATTR_HEIGHT, simpleH)
 
         # Saving position
         x, y = oglObject.GetModel().GetPosition()
         simpleX, simpleY = self.__getSimpleCoordinates(x, y)
-        root.setAttribute(PyutXmlConstants.ATTR_X, simpleX)
-        root.setAttribute(PyutXmlConstants.ATTR_Y, simpleY)
+        root.setAttribute(XmlConstants.ATTR_X, simpleX)
+        root.setAttribute(XmlConstants.ATTR_Y, simpleY)
 
         return root
 

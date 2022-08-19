@@ -23,7 +23,7 @@ from oglio.Types import OglTexts
 
 from oglio.toXmlV10.OglToMiniDomV10 import OglToMiniDom as OglToMiniDomV10
 
-from oglio.toXmlV10.PyutXmlConstants import PyutXmlConstants
+from oglio.toXmlV10.XmlConstants import XmlConstants
 
 from tests.TestBase import TestBase
 
@@ -110,10 +110,10 @@ class TestOglToMiniDomV10(TestBase):
         # We are going to cheat and just use the project information from the Untangled XML
         # We do not want to see/make visible a PyutProject object at this layer
         #
-        topElement: XmlElement = xmlDocument.createElement(PyutXmlConstants.TOP_LEVEL_ELEMENT)
+        topElement: XmlElement = xmlDocument.createElement(XmlConstants.TOP_LEVEL_ELEMENT)
 
-        topElement.setAttribute(PyutXmlConstants.ATTR_VERSION, projectVersion)
-        topElement.setAttribute(PyutXmlConstants.ATTR_CODE_PATH, projectCodePath)
+        topElement.setAttribute(XmlConstants.ATTR_VERSION, projectVersion)
+        topElement.setAttribute(XmlConstants.ATTR_CODE_PATH, projectCodePath)
 
         xmlDocument.appendChild(topElement)
 
@@ -121,16 +121,16 @@ class TestOglToMiniDomV10(TestBase):
 
     def _oglDocumentToXml(self, xmlDoc: XmlDocument, oglDocument: OglDocument) -> XmlElement:
 
-        documentNode = xmlDoc.createElement(PyutXmlConstants.ELEMENT_DOCUMENT)
+        documentNode = xmlDoc.createElement(XmlConstants.ELEMENT_DOCUMENT)
 
-        documentNode.setAttribute(PyutXmlConstants.ATTR_TYPE, oglDocument.documentType)
-        documentNode.setAttribute(PyutXmlConstants.ATTR_TITLE, oglDocument.documentTitle)
+        documentNode.setAttribute(XmlConstants.ATTR_TYPE, oglDocument.documentType)
+        documentNode.setAttribute(XmlConstants.ATTR_TITLE, oglDocument.documentTitle)
 
-        documentNode.setAttribute(PyutXmlConstants.ATTR_SCROLL_POSITION_X, str(oglDocument.scrollPositionX))
-        documentNode.setAttribute(PyutXmlConstants.ATTR_SCROLL_POSITION_Y, str(oglDocument.scrollPositionY))
+        documentNode.setAttribute(XmlConstants.ATTR_SCROLL_POSITION_X, str(oglDocument.scrollPositionX))
+        documentNode.setAttribute(XmlConstants.ATTR_SCROLL_POSITION_Y, str(oglDocument.scrollPositionY))
 
-        documentNode.setAttribute(PyutXmlConstants.ATTR_PIXELS_PER_UNIT_X, str(oglDocument.pixelsPerUnitX))
-        documentNode.setAttribute(PyutXmlConstants.ATTR_PIXELS_PER_UNIT_Y, str(oglDocument.pixelsPerUnitY))
+        documentNode.setAttribute(XmlConstants.ATTR_PIXELS_PER_UNIT_X, str(oglDocument.pixelsPerUnitX))
+        documentNode.setAttribute(XmlConstants.ATTR_PIXELS_PER_UNIT_Y, str(oglDocument.pixelsPerUnitY))
 
         return documentNode
 

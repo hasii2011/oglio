@@ -1,5 +1,5 @@
 
-class PyutXmlConstants:
+class XmlConstants:
     """
     A `no method` class that just hosts the strings that represent the Pyut XML strings
     """
