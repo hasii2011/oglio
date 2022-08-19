@@ -44,7 +44,7 @@ from ogl.sd.OglSDMessage import OglSDMessage
 
 from ogl.Singleton import Singleton             # TODO temp import this until get my common utilities module
 
-from oglio.toxml.PyutXmlConstants import PyutXmlConstants
+from oglio.toXmlV10.PyutXmlConstants import PyutXmlConstants
 
 
 class IDFactory(Singleton):

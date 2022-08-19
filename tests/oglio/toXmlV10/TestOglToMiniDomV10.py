@@ -21,9 +21,9 @@ from oglio.Types import OglDocument
 from oglio.Types import OglLinks
 from oglio.Types import OglTexts
 
-from oglio.toxml.OglToMiniDomV10 import OglToMiniDom as OglToMiniDomV10
+from oglio.toXmlV10.OglToMiniDomV10 import OglToMiniDom as OglToMiniDomV10
 
-from oglio.toxml.PyutXmlConstants import PyutXmlConstants
+from oglio.toXmlV10.PyutXmlConstants import PyutXmlConstants
 
 from tests.TestBase import TestBase
 
