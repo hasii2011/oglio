@@ -39,7 +39,7 @@
             "propagate": "False"
         },
         "tests": {
-            "level": "WARNING",
+            "level": "INFO",
             "propagate": "False"
         }
     }
