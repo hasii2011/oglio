@@ -1,5 +1,4 @@
-from typing import Any
-from typing import Dict
+
 from typing import Tuple
 from typing import Union
 from typing import cast
@@ -15,9 +14,8 @@ from miniogl.AttachmentLocation import AttachmentLocation
 
 from pyutmodel.ModelTypes import ClassName
 from pyutmodel.PyutActor import PyutActor
-from pyutmodel.PyutClass import PyutClass
+
 from pyutmodel.PyutClassCommon import PyutClassCommon
-from pyutmodel.PyutField import PyutField
 from pyutmodel.PyutInterface import PyutInterface
 from pyutmodel.PyutLink import PyutLink
 from pyutmodel.PyutMethod import SourceCode
@@ -27,58 +25,30 @@ from pyutmodel.PyutSDInstance import PyutSDInstance
 from pyutmodel.PyutSDMessage import PyutSDMessage
 from pyutmodel.PyutText import PyutText
 from pyutmodel.PyutUseCase import PyutUseCase
-from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
 
 from ogl.OglActor import OglActor
 from ogl.OglAssociation import OglAssociation
 from ogl.OglAssociationLabel import OglAssociationLabel
-from ogl.OglClass import OglClass
+
 from ogl.OglInterface2 import OglInterface2
 from ogl.OglLink import OglLink
 from ogl.OglNote import OglNote
-from ogl.OglObject import OglObject
 from ogl.OglText import OglText
 from ogl.OglUseCase import OglUseCase
 from ogl.sd.OglSDInstance import OglSDInstance
 from ogl.sd.OglSDMessage import OglSDMessage
-
-from ogl.Singleton import Singleton             # TODO temp import this until get my common utilities module
+from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
 
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
 from oglio.Types import OglLinks
 from oglio.Types import OglTexts
+from oglio.toXmlV10.BaseOglToMiniDom import BaseOglToMiniDom
+from oglio.toXmlV10.OglClassesToMiniDom import OglClassesToMiniDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
-class IDFactory(Singleton):
-    """
-    Type hinting results in self-documenting code. I really prefer and evangelize it.
-
-    A user-defined class or class object is an instance of the object named `type`, which is itself a `class`. Classes
-    are created from `type`, or in other words:
-
-    >   A class is an instance of the class `type`.  In Python 3 there is no difference between `classes` and `types`
-    """
-    nextID: int = 1
-
-    def init(self):
-        """
-        The singleton initialization method
-        """
-        self._classCache: Dict[type, int] = {}
-
-    def getID(self, cls: Union[Any, type]):
-        if cls in self._classCache:
-            return self._classCache[cls]
-        else:
-            clsId = IDFactory.nextID
-            self._classCache[cls] = clsId
-            IDFactory.nextID += 1
-            return clsId
-
-
-class OglToMiniDom:
+class OglToMiniDom(BaseOglToMiniDom):
     """
     The refactored version of the original methods that were part of the monolithic
      PyutXml`xxx` classes.
@@ -101,13 +71,16 @@ class OglToMiniDom:
             projectCodePath:
         """
 
+        super().__init__()
+
         self.logger:     Logger    = getLogger(__name__)
-        self._idFactory: IDFactory = IDFactory()
 
         xmlDocument, topElement = self._createStarterXmlDocument(projectVersion=projectVersion, projectCodePath=projectCodePath)
 
         self._xmlDocument: Document = xmlDocument
         self._topElement:  Element  = topElement
+
+        self._oglClassesToMiniDom: OglClassesToMiniDom = OglClassesToMiniDom(xmlDocument=self._xmlDocument)
 
     @property
     def xmlDocument(self) -> Document:
@@ -125,9 +98,11 @@ class OglToMiniDom:
         self._topElement.appendChild(documentNode)
 
         oglClasses: OglClasses = cast(OglClasses, oglDocument.oglClasses)
-        for oglClass in oglClasses:
-            classElement: Element = self._oglClassToXml(oglClass=oglClass, xmlDoc=self._xmlDocument)
-            documentNode.appendChild(classElement)
+
+        documentNode = self._oglClassesToMiniDom.serialize(documentNode=documentNode, oglClasses=oglClasses)
+        # for oglClass in oglClasses:
+        #     classElement: Element = self._oglClassToXml(oglClass=oglClass, xmlDoc=self._xmlDocument)
+        #     documentNode.appendChild(classElement)
 
         oglLinks: OglLinks = cast(OglLinks, oglDocument.oglLinks)
         for oglLink in oglLinks:
@@ -170,25 +145,25 @@ class OglToMiniDom:
         retText: str = xmlTextToUpdate.replace(OglToMiniDom.ORIGINAL_XML_PROLOG, OglToMiniDom.FIXED_XML_PROLOG)
         return retText
 
-    def _oglClassToXml(self, oglClass: OglClass, xmlDoc: Document) -> Element:
-        """
-        Exports an OglClass to a minidom Element.
-
-        Args:
-            oglClass:   Graphic Class to save
-            xmlDoc:     The document to append to
-
-        Returns:
-            The newly created `GraphicClass` element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_CLASS)
-
-        root = self.__appendOglBase(oglClass, root)
-
-        # adding the data layer object
-        root.appendChild(self._pyutClassToXml(cast(PyutClass, oglClass.pyutObject), xmlDoc))
-
-        return root
+    # def _oglClassToXml(self, oglClass: OglClass, xmlDoc: Document) -> Element:
+    #     """
+    #     Exports an OglClass to a minidom Element.
+    #
+    #     Args:
+    #         oglClass:   Graphic Class to save
+    #         xmlDoc:     The document to append to
+    #
+    #     Returns:
+    #         The newly created `GraphicClass` element
+    #     """
+    #     root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_CLASS)
+    #
+    #     root = self.__appendOglBase(oglClass, root)
+    #
+    #     # adding the data layer object
+    #     root.appendChild(self._pyutClassToXml(cast(PyutClass, oglClass.pyutObject), xmlDoc))
+    #
+    #     return root
 
     def _oglInterface2ToXml(self, oglInterface: OglInterface2, xmlDoc: Document) -> Element:
         """
@@ -232,7 +207,7 @@ class OglToMiniDom:
         """
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_NOTE)
 
-        self.__appendOglBase(oglNote, root)
+        self._appendOglBase(oglNote, root)
 
         root.appendChild(self._pyutNoteToXml(cast(PyutNote, oglNote.pyutObject), xmlDoc))
 
@@ -242,7 +217,7 @@ class OglToMiniDom:
 
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_TEXT)
 
-        self.__appendOglBase(oglText, root)
+        self._appendOglBase(oglText, root)
 
         root.setAttribute(XmlConstants.ATTR_TEXT_SIZE, str(oglText.textSize))
         root.setAttribute(XmlConstants.ATTR_IS_BOLD, str(oglText.isBold))
@@ -266,7 +241,7 @@ class OglToMiniDom:
         """
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_ACTOR)
 
-        self.__appendOglBase(oglActor, root)
+        self._appendOglBase(oglActor, root)
 
         root.appendChild(self._pyutActorToXml(cast(PyutActor, oglActor.pyutObject), xmlDoc))
 
@@ -285,7 +260,7 @@ class OglToMiniDom:
         """
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_USE_CASE)
 
-        self.__appendOglBase(oglUseCase, root)
+        self._appendOglBase(oglUseCase, root)
 
         root.appendChild(self._pyutUseCaseToXml(cast(PyutUseCase, oglUseCase.pyutObject), xmlDoc))
 
@@ -305,12 +280,12 @@ class OglToMiniDom:
 
         # save source and destination anchor points
         x, y = oglLink.GetSource().GetModel().GetPosition()
-        simpleX, simpleY = self.__getSimpleCoordinates(x, y)
+        simpleX, simpleY = self._getSimpleCoordinates(x, y)
         root.setAttribute(XmlConstants.ATTR_LINK_SOURCE_ANCHOR_X, simpleX)
         root.setAttribute(XmlConstants.ATTR_LINK_SOURCE_ANCHOR_Y, simpleY)
 
         x, y = oglLink.GetDestination().GetModel().GetPosition()
-        simpleX, simpleY = self.__getSimpleCoordinates(x, y)
+        simpleX, simpleY = self._getSimpleCoordinates(x, y)
 
         root.setAttribute(XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_X, simpleX)
         root.setAttribute(XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_Y, simpleY)
@@ -324,8 +299,8 @@ class OglToMiniDom:
             dst:    OglAssociationLabel = oglLink.destinationCardinality
 
             assocLabels = {
-                XmlConstants.ELEMENT_ASSOC_CENTER_LABEL     :      center,
-                XmlConstants.ELEMENT_ASSOC_SOURCE_LABEL     :      src,
+                XmlConstants.ELEMENT_ASSOC_CENTER_LABEL:      center,
+                XmlConstants.ELEMENT_ASSOC_SOURCE_LABEL:      src,
                 XmlConstants.ELEMENT_ASSOC_DESTINATION_LABEL: dst
             }
             for eltName in assocLabels:
@@ -358,7 +333,7 @@ class OglToMiniDom:
         """
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_SD_INSTANCE)
 
-        self.__appendOglBase(oglSDInstance, root)
+        self._appendOglBase(oglSDInstance, root)
 
         root.appendChild(self._pyutSDInstanceToXml(cast(PyutSDInstance, oglSDInstance.pyutObject), xmlDoc))
 
@@ -382,44 +357,44 @@ class OglToMiniDom:
 
         return root
 
-    def _pyutClassToXml(self, pyutClass: PyutClass, xmlDoc: Document) -> Element:
-        """
-        Exporting a PyutClass to a miniDom Element.
-
-        Args:
-            pyutClass:  The pyut class to save
-            xmlDoc:     The xml document to update
-
-        Returns:
-            The new updated element
-        """
-        root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CLASS)
-
-        classId: int = self._idFactory.getID(pyutClass)
-        root.setAttribute(XmlConstants.ATTR_ID, str(classId))
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutClass.name)
-
-        stereotype = pyutClass.stereotype
-        if stereotype is not None:
-            root.setAttribute(XmlConstants.ATTR_STEREOTYPE, stereotype.name)
-
-        root.setAttribute(XmlConstants.ATTR_FILENAME, pyutClass.fileName)
-
-        root = self._pyutClassCommonToXml(pyutClass, root)
-
-        root.setAttribute(XmlConstants.ATTR_SHOW_METHODS, str(pyutClass.showMethods))
-        root.setAttribute(XmlConstants.ATTR_SHOW_FIELDS, str(pyutClass.showFields))
-        root.setAttribute(XmlConstants.ATTR_SHOW_STEREOTYPE, str(pyutClass.displayStereoType))
-        root.setAttribute(XmlConstants.ATTR_DISPLAY_PARAMETERS, pyutClass.displayParameters.value)
-
-        # methods
-        for method in pyutClass.methods:
-            root.appendChild(self._pyutMethodToXml(method, xmlDoc))
-        # fields
-        for field in pyutClass.fields:
-            root.appendChild(self._pyutFieldToXml(field, xmlDoc))
-
-        return root
+    # def _pyutClassToXml(self, pyutClass: PyutClass, xmlDoc: Document) -> Element:
+    #     """
+    #     Exporting a PyutClass to a miniDom Element.
+    #
+    #     Args:
+    #         pyutClass:  The pyut class to save
+    #         xmlDoc:     The xml document to update
+    #
+    #     Returns:
+    #         The new updated element
+    #     """
+    #     root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CLASS)
+    #
+    #     classId: int = self._idFactory.getID(pyutClass)
+    #     root.setAttribute(XmlConstants.ATTR_ID, str(classId))
+    #     root.setAttribute(XmlConstants.ATTR_NAME, pyutClass.name)
+    #
+    #     stereotype = pyutClass.stereotype
+    #     if stereotype is not None:
+    #         root.setAttribute(XmlConstants.ATTR_STEREOTYPE, stereotype.name)
+    #
+    #     root.setAttribute(XmlConstants.ATTR_FILENAME, pyutClass.fileName)
+    #
+    #     root = self._pyutClassCommonToXml(pyutClass, root)
+    #
+    #     root.setAttribute(XmlConstants.ATTR_SHOW_METHODS, str(pyutClass.showMethods))
+    #     root.setAttribute(XmlConstants.ATTR_SHOW_FIELDS, str(pyutClass.showFields))
+    #     root.setAttribute(XmlConstants.ATTR_SHOW_STEREOTYPE, str(pyutClass.displayStereoType))
+    #     root.setAttribute(XmlConstants.ATTR_DISPLAY_PARAMETERS, pyutClass.displayParameters.value)
+    #
+    #     # methods
+    #     for method in pyutClass.methods:
+    #         root.appendChild(self._pyutMethodToXml(method, xmlDoc))
+    #     # fields
+    #     for field in pyutClass.fields:
+    #         root.appendChild(self._pyutFieldToXml(field, xmlDoc))
+    #
+    #     return root
 
     def _pyutInterfaceToXml(self, pyutInterface: PyutInterface, xmlDoc: Document) -> Element:
 
@@ -504,24 +479,24 @@ class OglToMiniDom:
 
         return root
 
-    def _pyutFieldToXml(self, pyutField: PyutField, xmlDoc: Document) -> Element:
-        """
-        Export a PyutField to a miniDom Element
-        Args:
-            pyutField:  The PyutField to save
-            xmlDoc:     The xml document to update
-
-        Returns:
-            The new updated element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_FIELD)
-
-        root.appendChild(self._pyutParamToXml(pyutField, xmlDoc))
-        visibility: PyutVisibilityEnum = pyutField.visibility
-        visName:    str                = self.__safeVisibilityToName(visibility)
-        root.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
-
-        return root
+    # def _pyutFieldToXml(self, pyutField: PyutField, xmlDoc: Document) -> Element:
+    #     """
+    #     Export a PyutField to a miniDom Element
+    #     Args:
+    #         pyutField:  The PyutField to save
+    #         xmlDoc:     The xml document to update
+    #
+    #     Returns:
+    #         The new updated element
+    #     """
+    #     root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_FIELD)
+    #
+    #     root.appendChild(self._pyutParamToXml(pyutField, xmlDoc))
+    #     visibility: PyutVisibilityEnum = pyutField.visibility
+    #     visName:    str                = self.__safeVisibilityToName(visibility)
+    #     root.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
+    #
+    #     return root
 
     def _pyutParamToXml(self, pyutParam: PyutParameter, xmlDoc: Document) -> Element:
         """
@@ -724,57 +699,57 @@ class OglToMiniDom:
         x: int = oglLabel.oglPosition.x
         y: int = oglLabel.oglPosition.y
 
-        simpleX, simpleY = self.__getSimpleCoordinates(x, y)
+        simpleX, simpleY = self._getSimpleCoordinates(x, y)
         self.logger.info(f'x,y = ({x},{y})   simpleX,simpleY = ({simpleX},{simpleY})')
         label.setAttribute(XmlConstants.ATTR_X, simpleX)
         label.setAttribute(XmlConstants.ATTR_Y, simpleY)
 
         return label
 
-    def __appendOglBase(self, oglObject: OglObject, root: Element) -> Element:
-        """
-        Saves the position and size of the OGL object in XML node.
-
-        Args:
-            oglObject:  OGL Object
-            root:      XML node to update
-
-        Returns:
-            The updated element
-        """
-        # Saving size
-        w, h = oglObject.GetModel().GetSize()
-        simpleW, simpleH = self.__getSimpleDimensions(w, h)
-        root.setAttribute(XmlConstants.ATTR_WIDTH, simpleW)
-        root.setAttribute(XmlConstants.ATTR_HEIGHT, simpleH)
-
-        # Saving position
-        x, y = oglObject.GetModel().GetPosition()
-        simpleX, simpleY = self.__getSimpleCoordinates(x, y)
-        root.setAttribute(XmlConstants.ATTR_X, simpleX)
-        root.setAttribute(XmlConstants.ATTR_Y, simpleY)
-
-        return root
-
-    def __getSimpleDimensions(self, w: int, h: int) -> Tuple[str, str]:
-        # reuse code but not name
-        return self.__getSimpleCoordinates(w, h)
-
-    def __getSimpleCoordinates(self, x: int, y: int) -> Tuple[str, str]:
-        """
-
-        Args:
-            x: coordinate
-            y: coordinate
-
-        Returns:
-            Simple formatted string versions of the above
-
-        """
-        simpleX: str = str(int(x))      # some older files used float
-        simpleY: str = str(int(y))      # some older files used float
-
-        return simpleX, simpleY
+    # def __appendOglBase(self, oglObject: OglObject, root: Element) -> Element:
+    #     """
+    #     Saves the position and size of the OGL object in XML node.
+    #
+    #     Args:
+    #         oglObject:  OGL Object
+    #         root:      XML node to update
+    #
+    #     Returns:
+    #         The updated element
+    #     """
+    #     # Saving size
+    #     w, h = oglObject.GetModel().GetSize()
+    #     simpleW, simpleH = self.__getSimpleDimensions(w, h)
+    #     root.setAttribute(XmlConstants.ATTR_WIDTH, simpleW)
+    #     root.setAttribute(XmlConstants.ATTR_HEIGHT, simpleH)
+    #
+    #     # Saving position
+    #     x, y = oglObject.GetModel().GetPosition()
+    #     simpleX, simpleY = self.__getSimpleCoordinates(x, y)
+    #     root.setAttribute(XmlConstants.ATTR_X, simpleX)
+    #     root.setAttribute(XmlConstants.ATTR_Y, simpleY)
+    #
+    #     return root
+    #
+    # def __getSimpleDimensions(self, w: int, h: int) -> Tuple[str, str]:
+    #     # reuse code but not name
+    #     return self.__getSimpleCoordinates(w, h)
+    #
+    # def __getSimpleCoordinates(self, x: int, y: int) -> Tuple[str, str]:
+    #     """
+    #
+    #     Args:
+    #         x: coordinate
+    #         y: coordinate
+    #
+    #     Returns:
+    #         Simple formatted string versions of the above
+    #
+    #     """
+    #     simpleX: str = str(int(x))      # some older files used float
+    #     simpleY: str = str(int(y))      # some older files used float
+    #
+    #     return simpleX, simpleY
 
     def __safeVisibilityToName(self, visibility: Union[str, PyutVisibilityEnum]) -> str:
         """
