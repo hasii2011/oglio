@@ -21,7 +21,7 @@ from oglio.Types import OglDocument
 from oglio.Types import OglLinks
 from oglio.Types import OglTexts
 
-from oglio.toXmlV10.OglToMiniDomV10 import OglToMiniDom as OglToMiniDomV10
+from oglio.toXmlV10.OglToMiniDom import OglToMiniDom as OglToMiniDomV10
 
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
