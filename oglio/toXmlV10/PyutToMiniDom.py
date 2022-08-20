@@ -1,19 +1,22 @@
 
+from typing import Union
+
 from logging import Logger
 from logging import getLogger
-from typing import Union
 
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
+from pyutmodel.ModelTypes import ClassName
 from pyutmodel.PyutClass import PyutClass
 from pyutmodel.PyutField import PyutField
+from pyutmodel.PyutInterface import PyutInterface
+from pyutmodel.PyutLink import PyutLink
 from pyutmodel.PyutMethod import SourceCode
 from pyutmodel.PyutParameter import PyutParameter
 from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
 
 from oglio.toXmlV10.BasePyutToMiniDom import BasePyutToMiniDom
-
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
@@ -60,6 +63,52 @@ class PyutToMiniDom(BasePyutToMiniDom):
         # fields
         for field in pyutClass.fields:
             root.appendChild(self._pyutFieldToXml(field, xmlDoc))
+
+        return root
+
+    def pyutInterfaceToXml(self, pyutInterface: PyutInterface, xmlDoc: Document) -> Element:
+
+        root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_INTERFACE)
+
+        classId: int = self._idFactory.getID(pyutInterface)
+        root.setAttribute(XmlConstants.ATTR_ID, str(classId))
+        root.setAttribute(XmlConstants.ATTR_NAME, pyutInterface.name)
+
+        root = self._pyutClassCommonToXml(pyutInterface, root)
+
+        for method in pyutInterface.methods:
+            root.appendChild(self._pyutMethodToXml(method, xmlDoc))
+
+        for className in pyutInterface.implementors:
+            self.logger.info(f'implementing className: {className}')
+            root.appendChild(self._pyutImplementorToXml(className, xmlDoc))
+
+        return root
+
+    def pyutLinkToXml(self, pyutLink: PyutLink, xmlDoc: Document) -> Element:
+        """
+        Exporting a PyutLink to a miniDom Element.
+
+        Args:
+            pyutLink:   Link to save
+            xmlDoc:     xml document
+
+        Returns:
+            A new minidom element
+        """
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_LINK)
+
+        root.setAttribute(XmlConstants.ATTR_NAME, pyutLink.name)
+        root.setAttribute(XmlConstants.ATTR_TYPE, pyutLink.linkType.name)
+        root.setAttribute(XmlConstants.ATTR_CARDINALITY_SOURCE, pyutLink.sourceCardinality)
+        root.setAttribute(XmlConstants.ATTR_CARDINALITY_DESTINATION, pyutLink.destinationCardinality)
+        root.setAttribute(XmlConstants.ATTR_BIDIRECTIONAL, str(pyutLink.getBidir()))
+
+        srcLinkId:  int = self._idFactory.getID(pyutLink.getSource())
+        destLinkId: int = self._idFactory.getID(pyutLink.getDestination())
+
+        root.setAttribute(XmlConstants.ATTR_SOURCE_ID, str(srcLinkId))
+        root.setAttribute(XmlConstants.ATTR_DESTINATION_ID, str(destLinkId))
 
         return root
 
@@ -152,6 +201,14 @@ class PyutToMiniDom(BasePyutToMiniDom):
             codeRoot.appendChild(codeElement)
 
         return codeRoot
+
+    def _pyutImplementorToXml(self, className: ClassName, xmlDoc: Document) -> Element:
+
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_IMPLEMENTOR)
+
+        root.setAttribute(XmlConstants.ATTR_IMPLEMENTING_CLASS_NAME, className)
+
+        return root
 
     def __safeVisibilityToName(self, visibility: Union[str, PyutVisibilityEnum]) -> str:
         """

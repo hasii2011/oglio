@@ -9,15 +9,9 @@ from logging import getLogger
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
-from miniogl.SelectAnchorPoint import SelectAnchorPoint
-from miniogl.AttachmentLocation import AttachmentLocation
-
-from pyutmodel.ModelTypes import ClassName
 from pyutmodel.PyutActor import PyutActor
 
 from pyutmodel.PyutClassCommon import PyutClassCommon
-from pyutmodel.PyutInterface import PyutInterface
-from pyutmodel.PyutLink import PyutLink
 from pyutmodel.PyutMethod import SourceCode
 from pyutmodel.PyutNote import PyutNote
 from pyutmodel.PyutParameter import PyutParameter
@@ -27,11 +21,6 @@ from pyutmodel.PyutText import PyutText
 from pyutmodel.PyutUseCase import PyutUseCase
 
 from ogl.OglActor import OglActor
-from ogl.OglAssociation import OglAssociation
-from ogl.OglAssociationLabel import OglAssociationLabel
-
-from ogl.OglInterface2 import OglInterface2
-from ogl.OglLink import OglLink
 from ogl.OglNote import OglNote
 from ogl.OglText import OglText
 from ogl.OglUseCase import OglUseCase
@@ -45,6 +34,7 @@ from oglio.Types import OglLinks
 from oglio.Types import OglTexts
 from oglio.toXmlV10.BaseOglToMiniDom import BaseOglToMiniDom
 from oglio.toXmlV10.OglClassesToMiniDom import OglClassesToMiniDom
+from oglio.toXmlV10.OglLinksToMiniDom import OglLinksToMiniDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
@@ -81,6 +71,7 @@ class OglToMiniDom(BaseOglToMiniDom):
         self._topElement:  Element  = topElement
 
         self._oglClassesToMiniDom: OglClassesToMiniDom = OglClassesToMiniDom(xmlDocument=self._xmlDocument)
+        self._oglLinksToMiniDom:   OglLinksToMiniDom   = OglLinksToMiniDom(xmlDocument=self._xmlDocument)
 
     @property
     def xmlDocument(self) -> Document:
@@ -105,13 +96,14 @@ class OglToMiniDom(BaseOglToMiniDom):
         #     documentNode.appendChild(classElement)
 
         oglLinks: OglLinks = cast(OglLinks, oglDocument.oglLinks)
-        for oglLink in oglLinks:
-            if isinstance(oglLink, OglInterface2):
-                lollipopElement: Element = self._oglInterface2ToXml(oglLink, self._xmlDocument)
-                documentNode.appendChild(lollipopElement)
-            else:
-                linkElement: Element = self._oglLinkToXml(oglLink=oglLink, xmlDoc=self._xmlDocument)
-                documentNode.appendChild(linkElement)
+        documentNode = self._oglLinksToMiniDom.serialize(documentNode=documentNode, oglLinks=oglLinks)
+        # for oglLink in oglLinks:
+        #     if isinstance(oglLink, OglInterface2):
+        #         lollipopElement: Element = self._oglInterface2ToXml(oglLink, self._xmlDocument)
+        #         documentNode.appendChild(lollipopElement)
+        #     else:
+        #         linkElement: Element = self._oglLinkToXml(oglLink=oglLink, xmlDoc=self._xmlDocument)
+        #         documentNode.appendChild(linkElement)
 
         oglTexts: OglTexts = cast(OglTexts, oglDocument.oglTexts)
         for oglText in oglTexts:
@@ -144,55 +136,6 @@ class OglToMiniDom(BaseOglToMiniDom):
         """
         retText: str = xmlTextToUpdate.replace(OglToMiniDom.ORIGINAL_XML_PROLOG, OglToMiniDom.FIXED_XML_PROLOG)
         return retText
-
-    # def _oglClassToXml(self, oglClass: OglClass, xmlDoc: Document) -> Element:
-    #     """
-    #     Exports an OglClass to a minidom Element.
-    #
-    #     Args:
-    #         oglClass:   Graphic Class to save
-    #         xmlDoc:     The document to append to
-    #
-    #     Returns:
-    #         The newly created `GraphicClass` element
-    #     """
-    #     root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_CLASS)
-    #
-    #     root = self.__appendOglBase(oglClass, root)
-    #
-    #     # adding the data layer object
-    #     root.appendChild(self._pyutClassToXml(cast(PyutClass, oglClass.pyutObject), xmlDoc))
-    #
-    #     return root
-
-    def _oglInterface2ToXml(self, oglInterface: OglInterface2, xmlDoc: Document) -> Element:
-        """
-
-        Args:
-            oglInterface:   Lollipop to convert
-            xmlDoc:         xml document
-
-        Returns:
-            New minidom element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_LOLLIPOP)
-
-        destAnchor:      SelectAnchorPoint = oglInterface.destinationAnchor
-        attachmentPoint: AttachmentLocation   = destAnchor.attachmentPoint
-        x, y = destAnchor.GetPosition()
-
-        root.setAttribute(XmlConstants.ATTR_LOLLIPOP_ATTACHMENT_POINT, attachmentPoint.__str__())
-        root.setAttribute(XmlConstants.ATTR_X, str(x))
-        root.setAttribute(XmlConstants.ATTR_Y, str(y))
-
-        # parentUmlClass: OglClass = destAnchor.GetParent()
-        # parentId:       int      = self._idFactory.getID(parentUmlClass.getPyutObject())
-        # self.logger.info(f'Interface implemented by class id: {parentId}')
-
-        # root.setAttribute(PyutXmlConstants.ATTR_IMPLEMENTED_BY_CLASS_ID, str(parentId))
-        root.appendChild(self._pyutInterfaceToXml(oglInterface.pyutInterface, xmlDoc))
-
-        return root
 
     def oglNoteToXml(self, oglNote: OglNote, xmlDoc: Document) -> Element:
         """
@@ -266,60 +209,6 @@ class OglToMiniDom(BaseOglToMiniDom):
 
         return root
 
-    def _oglLinkToXml(self, oglLink: OglLink, xmlDoc: Document):
-        """
-        Export an OgLink to a minidom element
-        Args:
-            oglLink:    OglLink to convert
-            xmlDoc:     xml document
-
-        Returns:
-            A new minidom element
-        """
-        root = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_LINK)
-
-        # save source and destination anchor points
-        x, y = oglLink.GetSource().GetModel().GetPosition()
-        simpleX, simpleY = self._getSimpleCoordinates(x, y)
-        root.setAttribute(XmlConstants.ATTR_LINK_SOURCE_ANCHOR_X, simpleX)
-        root.setAttribute(XmlConstants.ATTR_LINK_SOURCE_ANCHOR_Y, simpleY)
-
-        x, y = oglLink.GetDestination().GetModel().GetPosition()
-        simpleX, simpleY = self._getSimpleCoordinates(x, y)
-
-        root.setAttribute(XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_X, simpleX)
-        root.setAttribute(XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_Y, simpleY)
-
-        root.setAttribute(XmlConstants.ATTR_SPLINE, str(oglLink.GetSpline()))
-
-        if isinstance(oglLink, OglAssociation):
-
-            center: OglAssociationLabel = oglLink.centerLabel
-            src:    OglAssociationLabel = oglLink.sourceCardinality
-            dst:    OglAssociationLabel = oglLink.destinationCardinality
-
-            assocLabels = {
-                XmlConstants.ELEMENT_ASSOC_CENTER_LABEL:      center,
-                XmlConstants.ELEMENT_ASSOC_SOURCE_LABEL:      src,
-                XmlConstants.ELEMENT_ASSOC_DESTINATION_LABEL: dst
-            }
-            for eltName in assocLabels:
-                elt: Element = self.__createAssocLabelElement(eltName, xmlDoc, assocLabels[eltName])
-                root.appendChild(elt)
-
-        # save control points (not anchors!)
-        for x, y in oglLink.GetSegments()[1:-1]:
-            item = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CONTROL_POINT)
-            item.setAttribute(XmlConstants.ATTR_X, str(x))
-            item.setAttribute(XmlConstants.ATTR_Y, str(y))
-            root.appendChild(item)
-
-        # adding the data layer object
-
-        root.appendChild(self._pyutLinkToXml(oglLink.pyutObject, xmlDoc))
-
-        return root
-
     def oglSDInstanceToXml(self, oglSDInstance: OglSDInstance, xmlDoc: Document) -> Element:
         """
         Export an OglSDInstance to a minidom Element
@@ -354,64 +243,6 @@ class OglToMiniDom(BaseOglToMiniDom):
 
         # adding the data layer object
         root.appendChild(self._pyutSDMessageToXml(oglSDMessage.getPyutObject(), xmlDoc))
-
-        return root
-
-    # def _pyutClassToXml(self, pyutClass: PyutClass, xmlDoc: Document) -> Element:
-    #     """
-    #     Exporting a PyutClass to a miniDom Element.
-    #
-    #     Args:
-    #         pyutClass:  The pyut class to save
-    #         xmlDoc:     The xml document to update
-    #
-    #     Returns:
-    #         The new updated element
-    #     """
-    #     root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CLASS)
-    #
-    #     classId: int = self._idFactory.getID(pyutClass)
-    #     root.setAttribute(XmlConstants.ATTR_ID, str(classId))
-    #     root.setAttribute(XmlConstants.ATTR_NAME, pyutClass.name)
-    #
-    #     stereotype = pyutClass.stereotype
-    #     if stereotype is not None:
-    #         root.setAttribute(XmlConstants.ATTR_STEREOTYPE, stereotype.name)
-    #
-    #     root.setAttribute(XmlConstants.ATTR_FILENAME, pyutClass.fileName)
-    #
-    #     root = self._pyutClassCommonToXml(pyutClass, root)
-    #
-    #     root.setAttribute(XmlConstants.ATTR_SHOW_METHODS, str(pyutClass.showMethods))
-    #     root.setAttribute(XmlConstants.ATTR_SHOW_FIELDS, str(pyutClass.showFields))
-    #     root.setAttribute(XmlConstants.ATTR_SHOW_STEREOTYPE, str(pyutClass.displayStereoType))
-    #     root.setAttribute(XmlConstants.ATTR_DISPLAY_PARAMETERS, pyutClass.displayParameters.value)
-    #
-    #     # methods
-    #     for method in pyutClass.methods:
-    #         root.appendChild(self._pyutMethodToXml(method, xmlDoc))
-    #     # fields
-    #     for field in pyutClass.fields:
-    #         root.appendChild(self._pyutFieldToXml(field, xmlDoc))
-    #
-    #     return root
-
-    def _pyutInterfaceToXml(self, pyutInterface: PyutInterface, xmlDoc: Document) -> Element:
-
-        root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_INTERFACE)
-
-        classId: int = self._idFactory.getID(pyutInterface)
-        root.setAttribute(XmlConstants.ATTR_ID, str(classId))
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutInterface.name)
-
-        root = self._pyutClassCommonToXml(pyutInterface, root)
-
-        for method in pyutInterface.methods:
-            root.appendChild(self._pyutMethodToXml(method, xmlDoc))
-
-        for className in pyutInterface.implementors:
-            self.logger.info(f'implementing className: {className}')
-            root.appendChild(self._pyutImplementorToXml(className, xmlDoc))
 
         return root
 
@@ -470,33 +301,6 @@ class OglToMiniDom(BaseOglToMiniDom):
             codeRoot.appendChild(codeElement)
 
         return codeRoot
-
-    def _pyutImplementorToXml(self, className: ClassName, xmlDoc: Document) -> Element:
-
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_IMPLEMENTOR)
-
-        root.setAttribute(XmlConstants.ATTR_IMPLEMENTING_CLASS_NAME, className)
-
-        return root
-
-    # def _pyutFieldToXml(self, pyutField: PyutField, xmlDoc: Document) -> Element:
-    #     """
-    #     Export a PyutField to a miniDom Element
-    #     Args:
-    #         pyutField:  The PyutField to save
-    #         xmlDoc:     The xml document to update
-    #
-    #     Returns:
-    #         The new updated element
-    #     """
-    #     root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_FIELD)
-    #
-    #     root.appendChild(self._pyutParamToXml(pyutField, xmlDoc))
-    #     visibility: PyutVisibilityEnum = pyutField.visibility
-    #     visName:    str                = self.__safeVisibilityToName(visibility)
-    #     root.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
-    #
-    #     return root
 
     def _pyutParamToXml(self, pyutParam: PyutParameter, xmlDoc: Document) -> Element:
         """
@@ -596,33 +400,6 @@ class OglToMiniDom(BaseOglToMiniDom):
 
         return root
 
-    def _pyutLinkToXml(self, pyutLink: PyutLink, xmlDoc: Document) -> Element:
-        """
-        Exporting a PyutLink to a miniDom Element.
-
-        Args:
-            pyutLink:   Link to save
-            xmlDoc:     xml document
-
-        Returns:
-            A new minidom element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_LINK)
-
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutLink.name)
-        root.setAttribute(XmlConstants.ATTR_TYPE, pyutLink.linkType.name)
-        root.setAttribute(XmlConstants.ATTR_CARDINALITY_SOURCE, pyutLink.sourceCardinality)
-        root.setAttribute(XmlConstants.ATTR_CARDINALITY_DESTINATION, pyutLink.destinationCardinality)
-        root.setAttribute(XmlConstants.ATTR_BIDIRECTIONAL, str(pyutLink.getBidir()))
-
-        srcLinkId:  int = self._idFactory.getID(pyutLink.getSource())
-        destLinkId: int = self._idFactory.getID(pyutLink.getDestination())
-
-        root.setAttribute(XmlConstants.ATTR_SOURCE_ID, str(srcLinkId))
-        root.setAttribute(XmlConstants.ATTR_DESTINATION_ID, str(destLinkId))
-
-        return root
-
     def _pyutSDInstanceToXml(self, pyutSDInstance: PyutSDInstance, xmlDoc: Document) -> Element:
         """
         Exporting a PyutSDInstance to an minidom Element.
@@ -670,86 +447,6 @@ class OglToMiniDom(BaseOglToMiniDom):
         root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_DESTINATION_ID, str(idDst))
 
         return root
-
-    # noinspection SpellCheckingInspection
-    def __createAssocLabelElement(self, eltText: str, xmlDoc: Document, oglLabel: OglAssociationLabel) -> Element:
-        """
-        Creates an element of the form:
-
-        ```html
-        `<eltText x="nnnn.n" y="nnnn.n"/>`
-        ```
-
-        e.g.
-
-        ```html
-            `<LabelCenter x="1811.0" y="1137.5"/>`
-        ```
-
-        Args:
-            eltText:    The element name
-            xmlDoc:     The minidom document
-            oglLabel:   A description of a label includes text and position
-
-        Returns:
-            A new minidom element
-        """
-        label: Element = xmlDoc.createElement(eltText)
-
-        x: int = oglLabel.oglPosition.x
-        y: int = oglLabel.oglPosition.y
-
-        simpleX, simpleY = self._getSimpleCoordinates(x, y)
-        self.logger.info(f'x,y = ({x},{y})   simpleX,simpleY = ({simpleX},{simpleY})')
-        label.setAttribute(XmlConstants.ATTR_X, simpleX)
-        label.setAttribute(XmlConstants.ATTR_Y, simpleY)
-
-        return label
-
-    # def __appendOglBase(self, oglObject: OglObject, root: Element) -> Element:
-    #     """
-    #     Saves the position and size of the OGL object in XML node.
-    #
-    #     Args:
-    #         oglObject:  OGL Object
-    #         root:      XML node to update
-    #
-    #     Returns:
-    #         The updated element
-    #     """
-    #     # Saving size
-    #     w, h = oglObject.GetModel().GetSize()
-    #     simpleW, simpleH = self.__getSimpleDimensions(w, h)
-    #     root.setAttribute(XmlConstants.ATTR_WIDTH, simpleW)
-    #     root.setAttribute(XmlConstants.ATTR_HEIGHT, simpleH)
-    #
-    #     # Saving position
-    #     x, y = oglObject.GetModel().GetPosition()
-    #     simpleX, simpleY = self.__getSimpleCoordinates(x, y)
-    #     root.setAttribute(XmlConstants.ATTR_X, simpleX)
-    #     root.setAttribute(XmlConstants.ATTR_Y, simpleY)
-    #
-    #     return root
-    #
-    # def __getSimpleDimensions(self, w: int, h: int) -> Tuple[str, str]:
-    #     # reuse code but not name
-    #     return self.__getSimpleCoordinates(w, h)
-    #
-    # def __getSimpleCoordinates(self, x: int, y: int) -> Tuple[str, str]:
-    #     """
-    #
-    #     Args:
-    #         x: coordinate
-    #         y: coordinate
-    #
-    #     Returns:
-    #         Simple formatted string versions of the above
-    #
-    #     """
-    #     simpleX: str = str(int(x))      # some older files used float
-    #     simpleY: str = str(int(y))      # some older files used float
-    #
-    #     return simpleX, simpleY
 
     def __safeVisibilityToName(self, visibility: Union[str, PyutVisibilityEnum]) -> str:
         """
