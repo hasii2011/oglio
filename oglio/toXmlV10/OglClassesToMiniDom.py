@@ -22,10 +22,8 @@ class OglClassesToMiniDom(BaseOglToMiniDom):
 
     def __init__(self, xmlDocument: Document):
 
-        super().__init__()
+        super().__init__(xmlDocument=xmlDocument)
         self.logger: Logger = getLogger(__name__)
-
-        self._xmlDocument: Document = xmlDocument
 
         self._pyutToMiniDom: PyutToMiniDom = PyutToMiniDom()
 

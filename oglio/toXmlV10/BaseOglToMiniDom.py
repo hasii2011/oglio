@@ -4,6 +4,7 @@ from typing import Tuple
 
 from logging import Logger
 from logging import getLogger
+from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
 from ogl.OglObject import OglObject
@@ -14,10 +15,11 @@ from oglio.toXmlV10.XmlConstants import XmlConstants
 
 class BaseOglToMiniDom(BaseToMiniDom):
 
-    def __init__(self):
+    def __init__(self, xmlDocument: Document):
 
         super().__init__()
-        self.baseLogger: Logger    = getLogger(__name__)
+        self.baseLogger:   Logger   = getLogger(__name__)
+        self._xmlDocument: Document = xmlDocument
 
     def _appendOglBase(self, oglObject: OglObject, root: Element) -> Element:
         """

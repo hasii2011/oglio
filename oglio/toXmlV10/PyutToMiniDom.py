@@ -8,12 +8,14 @@ from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
 from pyutmodel.ModelTypes import ClassName
+from pyutmodel.PyutActor import PyutActor
 from pyutmodel.PyutClass import PyutClass
 from pyutmodel.PyutField import PyutField
 from pyutmodel.PyutInterface import PyutInterface
 from pyutmodel.PyutLink import PyutLink
 from pyutmodel.PyutMethod import SourceCode
 from pyutmodel.PyutParameter import PyutParameter
+from pyutmodel.PyutUseCase import PyutUseCase
 from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
 
 from oglio.toXmlV10.BasePyutToMiniDom import BasePyutToMiniDom
@@ -38,52 +40,52 @@ class PyutToMiniDom(BasePyutToMiniDom):
         Returns:
             The new updated element
         """
-        root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CLASS)
+        pyutClassElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CLASS)
 
         classId: int = self._idFactory.getID(pyutClass)
-        root.setAttribute(XmlConstants.ATTR_ID, str(classId))
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutClass.name)
+        pyutClassElement.setAttribute(XmlConstants.ATTR_ID, str(classId))
+        pyutClassElement.setAttribute(XmlConstants.ATTR_NAME, pyutClass.name)
 
         stereotype = pyutClass.stereotype
         if stereotype is not None:
-            root.setAttribute(XmlConstants.ATTR_STEREOTYPE, stereotype.name)
+            pyutClassElement.setAttribute(XmlConstants.ATTR_STEREOTYPE, stereotype.name)
 
-        root.setAttribute(XmlConstants.ATTR_FILENAME, pyutClass.fileName)
+        pyutClassElement.setAttribute(XmlConstants.ATTR_FILENAME, pyutClass.fileName)
 
-        root = self._pyutClassCommonToXml(pyutClass, root)
+        pyutClassElement = self._pyutClassCommonToXml(pyutClass, pyutClassElement)
 
-        root.setAttribute(XmlConstants.ATTR_SHOW_METHODS, str(pyutClass.showMethods))
-        root.setAttribute(XmlConstants.ATTR_SHOW_FIELDS, str(pyutClass.showFields))
-        root.setAttribute(XmlConstants.ATTR_SHOW_STEREOTYPE, str(pyutClass.displayStereoType))
-        root.setAttribute(XmlConstants.ATTR_DISPLAY_PARAMETERS, pyutClass.displayParameters.value)
+        pyutClassElement.setAttribute(XmlConstants.ATTR_SHOW_METHODS, str(pyutClass.showMethods))
+        pyutClassElement.setAttribute(XmlConstants.ATTR_SHOW_FIELDS, str(pyutClass.showFields))
+        pyutClassElement.setAttribute(XmlConstants.ATTR_SHOW_STEREOTYPE, str(pyutClass.displayStereoType))
+        pyutClassElement.setAttribute(XmlConstants.ATTR_DISPLAY_PARAMETERS, pyutClass.displayParameters.value)
 
         # methods
         for method in pyutClass.methods:
-            root.appendChild(self._pyutMethodToXml(method, xmlDoc))
+            pyutClassElement.appendChild(self._pyutMethodToXml(method, xmlDoc))
         # fields
         for field in pyutClass.fields:
-            root.appendChild(self._pyutFieldToXml(field, xmlDoc))
+            pyutClassElement.appendChild(self._pyutFieldToXml(field, xmlDoc))
 
-        return root
+        return pyutClassElement
 
     def pyutInterfaceToXml(self, pyutInterface: PyutInterface, xmlDoc: Document) -> Element:
 
-        root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_INTERFACE)
+        pyutInterfaceElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_INTERFACE)
 
         classId: int = self._idFactory.getID(pyutInterface)
-        root.setAttribute(XmlConstants.ATTR_ID, str(classId))
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutInterface.name)
+        pyutInterfaceElement.setAttribute(XmlConstants.ATTR_ID, str(classId))
+        pyutInterfaceElement.setAttribute(XmlConstants.ATTR_NAME, pyutInterface.name)
 
-        root = self._pyutClassCommonToXml(pyutInterface, root)
+        pyutInterfaceElement = self._pyutClassCommonToXml(pyutInterface, pyutInterfaceElement)
 
         for method in pyutInterface.methods:
-            root.appendChild(self._pyutMethodToXml(method, xmlDoc))
+            pyutInterfaceElement.appendChild(self._pyutMethodToXml(method, xmlDoc))
 
         for className in pyutInterface.implementors:
             self.logger.info(f'implementing className: {className}')
-            root.appendChild(self._pyutImplementorToXml(className, xmlDoc))
+            pyutInterfaceElement.appendChild(self._pyutImplementorToXml(className, xmlDoc))
 
-        return root
+        return pyutInterfaceElement
 
     def pyutLinkToXml(self, pyutLink: PyutLink, xmlDoc: Document) -> Element:
         """
@@ -112,6 +114,45 @@ class PyutToMiniDom(BasePyutToMiniDom):
 
         return root
 
+    def pyutUseCaseToXml(self, pyutUseCase: PyutUseCase, xmlDoc: Document) -> Element:
+        """
+        Export a PyutUseCase to a minidom Element.
+
+        Args:
+            pyutUseCase:    Use case to convert
+            xmlDoc:         xml document
+
+        Returns:
+            A new minidom element
+        """
+        pyutUseCaseElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_USE_CASE)
+
+        useCaseId = self._idFactory.getID(pyutUseCase)
+        pyutUseCaseElement.setAttribute(XmlConstants.ATTR_ID, str(useCaseId))
+        pyutUseCaseElement.setAttribute(XmlConstants.ATTR_NAME, pyutUseCase.name)
+        pyutUseCaseElement.setAttribute(XmlConstants.ATTR_FILENAME, pyutUseCase.fileName)
+
+        return pyutUseCaseElement
+
+    def pyutActorToXml(self, pyutActor: PyutActor, xmlDoc: Document) -> Element:
+        """
+        Export an PyutActor to a minidom Element.
+        Args:
+            pyutActor:  Actor to convert
+            xmlDoc:     xml document
+
+        Returns:
+            A new minidom element
+        """
+        pyutActorElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_ACTOR)
+
+        actorId = self._idFactory.getID(pyutActor)
+        pyutActorElement.setAttribute(XmlConstants.ATTR_ID, str(actorId))
+        pyutActorElement.setAttribute(XmlConstants.ATTR_NAME, pyutActor.name)
+        pyutActorElement.setAttribute(XmlConstants.ATTR_FILENAME, pyutActor.fileName)
+
+        return pyutActorElement
+
     def _pyutMethodToXml(self, pyutMethod, xmlDoc) -> Element:
         """
         Exporting a PyutMethod to a miniDom Element
@@ -123,32 +164,32 @@ class PyutToMiniDom(BasePyutToMiniDom):
         Returns:
             The new updated element
         """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_METHOD)
+        pyutMethodElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_METHOD)
 
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutMethod.name)
+        pyutMethodElement.setAttribute(XmlConstants.ATTR_NAME, pyutMethod.name)
 
         visibility: PyutVisibilityEnum = pyutMethod.getVisibility()
         visName:    str                = self.__safeVisibilityToName(visibility)
 
         if visibility is not None:
-            root.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
+            pyutMethodElement.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
 
         for modifier in pyutMethod.modifiers:
             xmlModifier: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_MODIFIER)
             xmlModifier.setAttribute(XmlConstants.ATTR_NAME, modifier.name)
-            root.appendChild(xmlModifier)
+            pyutMethodElement.appendChild(xmlModifier)
 
         if pyutMethod.returnType is not None:
             xmlReturnType: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_RETURN)
             xmlReturnType.setAttribute(XmlConstants.ATTR_TYPE, str(pyutMethod.returnType))
-            root.appendChild(xmlReturnType)
+            pyutMethodElement.appendChild(xmlReturnType)
 
         for param in pyutMethod.parameters:
-            root.appendChild(self._pyutParamToXml(param, xmlDoc))
+            pyutMethodElement.appendChild(self._pyutParamToXml(param, xmlDoc))
 
         codeRoot: Element = self._pyutSourceCodeToXml(pyutMethod.sourceCode, xmlDoc)
-        root.appendChild(codeRoot)
-        return root
+        pyutMethodElement.appendChild(codeRoot)
+        return pyutMethodElement
 
     def _pyutFieldToXml(self, pyutField: PyutField, xmlDoc: Document) -> Element:
         """
@@ -160,14 +201,14 @@ class PyutToMiniDom(BasePyutToMiniDom):
         Returns:
             The new updated element
         """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_FIELD)
+        pyutFieldElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_FIELD)
 
-        root.appendChild(self._pyutParamToXml(pyutField, xmlDoc))
+        pyutFieldElement.appendChild(self._pyutParamToXml(pyutField, xmlDoc))
         visibility: PyutVisibilityEnum = pyutField.visibility
         visName:    str                = self.__safeVisibilityToName(visibility)
-        root.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
+        pyutFieldElement.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
 
-        return root
+        return pyutFieldElement
 
     def _pyutParamToXml(self, pyutParam: PyutParameter, xmlDoc: Document) -> Element:
         """
@@ -180,16 +221,16 @@ class PyutToMiniDom(BasePyutToMiniDom):
         Returns:
             The new updated element
         """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_PARAM)
+        pyutParameterElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_PARAM)
 
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutParam.name)
-        root.setAttribute(XmlConstants.ATTR_TYPE, str(pyutParam.type))
+        pyutParameterElement.setAttribute(XmlConstants.ATTR_NAME, pyutParam.name)
+        pyutParameterElement.setAttribute(XmlConstants.ATTR_TYPE, str(pyutParam.type))
 
         defaultValue = pyutParam.defaultValue
         if defaultValue is not None:
-            root.setAttribute(XmlConstants.ATTR_DEFAULT_VALUE, defaultValue)
+            pyutParameterElement.setAttribute(XmlConstants.ATTR_DEFAULT_VALUE, defaultValue)
 
-        return root
+        return pyutParameterElement
 
     def _pyutSourceCodeToXml(self, sourceCode: SourceCode, xmlDoc: Document) -> Element:
 

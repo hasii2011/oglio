@@ -1,5 +1,5 @@
 wheel~=0.37.1
-setuptools==65.1.0
+setuptools==65.2.0
 twine==4.0.1
 build==0.8.0
 html-testRunner~=1.2.1
@@ -11,7 +11,7 @@ types-setuptools==65.1.0
 
 ogl==0.54.9
 pyutmodel==1.1.0
-untanglepyut==0.3.4
+untanglepyut==0.3.5
 
 # wxpython~=4.1.2.a1.dev5426+502d8354
 wxpython

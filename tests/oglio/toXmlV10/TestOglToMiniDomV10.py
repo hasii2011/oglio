@@ -49,13 +49,6 @@ class TestOglToMiniDomV10(TestBase):
 
         singleDocument: Document          = untangler.documents['MultiLink']
 
-        #
-        # We are going to cheat and just use the project information from the Untangled XML
-        # We do not want to see/make visible a PyutProject object at this layer
-        #
-        # xmlDocument, topElement = self._createStarterXmlDocument(projectVersion=untangler.projectInformation.version,
-        #                                                          projectCodePath=untangler.projectInformation.codePath)
-
         oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=untangler.projectInformation.version,
                                                         projectCodePath=untangler.projectInformation.codePath)
 
@@ -67,7 +60,31 @@ class TestOglToMiniDomV10(TestBase):
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        oglToMiniDom.writeXml(fqFileName=f'MultiLink.xml')
+        oglToMiniDom.writeXml(fqFileName=f'MultiLink-Actual.xml')
+
+    def testUseCaseSerialization(self):
+        fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'UseCaseDiagram.xml')
+
+        untangler: UnTangler = UnTangler(fqFileName=fqFileName)
+
+        untangler.untangle()
+
+        singleDocument: Document = untangler.documents['Use-Cases']
+
+        oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=untangler.projectInformation.version,
+                                                        projectCodePath=untangler.projectInformation.codePath)
+
+        oglDocument: OglDocument = OglDocument()
+        oglDocument.toOglDocument(document=singleDocument)
+        oglDocument.oglClasses  = singleDocument.oglClasses
+        oglDocument.oglLinks    = singleDocument.oglLinks
+        oglDocument.oglTexts    = singleDocument.oglTexts
+        oglDocument.oglUseCases = singleDocument.oglUseCases
+        oglDocument.oglActors   = singleDocument.oglActors
+
+        oglToMiniDom.serialize(oglDocument=oglDocument)
+
+        oglToMiniDom.writeXml(fqFileName=f'UseCaseDiagram-Actual.xml')
 
 
 def suite() -> TestSuite:

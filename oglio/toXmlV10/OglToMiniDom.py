@@ -28,13 +28,16 @@ from ogl.sd.OglSDInstance import OglSDInstance
 from ogl.sd.OglSDMessage import OglSDMessage
 from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
 
+from oglio.Types import OglActors
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
 from oglio.Types import OglLinks
 from oglio.Types import OglTexts
+from oglio.Types import OglUseCases
 from oglio.toXmlV10.BaseOglToMiniDom import BaseOglToMiniDom
 from oglio.toXmlV10.OglClassesToMiniDom import OglClassesToMiniDom
 from oglio.toXmlV10.OglLinksToMiniDom import OglLinksToMiniDom
+from oglio.toXmlV10.OglUseCasesToMiniDom import OglUseCasesToMiniDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
@@ -61,17 +64,17 @@ class OglToMiniDom(BaseOglToMiniDom):
             projectCodePath:
         """
 
-        super().__init__()
-
         self.logger:     Logger    = getLogger(__name__)
 
         xmlDocument, topElement = self._createStarterXmlDocument(projectVersion=projectVersion, projectCodePath=projectCodePath)
 
-        self._xmlDocument: Document = xmlDocument
+        super().__init__(xmlDocument=xmlDocument)
+
         self._topElement:  Element  = topElement
 
-        self._oglClassesToMiniDom: OglClassesToMiniDom = OglClassesToMiniDom(xmlDocument=self._xmlDocument)
-        self._oglLinksToMiniDom:   OglLinksToMiniDom   = OglLinksToMiniDom(xmlDocument=self._xmlDocument)
+        self._oglClassesToMiniDom:  OglClassesToMiniDom  = OglClassesToMiniDom(xmlDocument=self._xmlDocument)
+        self._oglLinksToMiniDom:    OglLinksToMiniDom    = OglLinksToMiniDom(xmlDocument=self._xmlDocument)
+        self._oglUseCasesToMiniDom: OglUseCasesToMiniDom = OglUseCasesToMiniDom(xmlDocument=self._xmlDocument)
 
     @property
     def xmlDocument(self) -> Document:
@@ -88,22 +91,14 @@ class OglToMiniDom(BaseOglToMiniDom):
 
         self._topElement.appendChild(documentNode)
 
-        oglClasses: OglClasses = cast(OglClasses, oglDocument.oglClasses)
+        oglClasses:  OglClasses  = cast(OglClasses, oglDocument.oglClasses)
+        oglLinks:    OglLinks    = cast(OglLinks, oglDocument.oglLinks)
+        oglUseCases: OglUseCases = cast(OglUseCases, oglDocument.oglUseCases)
+        oglActors:   OglActors   = cast(OglActors, oglDocument.oglActors)
 
         documentNode = self._oglClassesToMiniDom.serialize(documentNode=documentNode, oglClasses=oglClasses)
-        # for oglClass in oglClasses:
-        #     classElement: Element = self._oglClassToXml(oglClass=oglClass, xmlDoc=self._xmlDocument)
-        #     documentNode.appendChild(classElement)
-
-        oglLinks: OglLinks = cast(OglLinks, oglDocument.oglLinks)
+        documentNode = self._oglUseCasesToMiniDom.serialize(documentNode=documentNode, oglUseCases=oglUseCases, oglActors=oglActors)
         documentNode = self._oglLinksToMiniDom.serialize(documentNode=documentNode, oglLinks=oglLinks)
-        # for oglLink in oglLinks:
-        #     if isinstance(oglLink, OglInterface2):
-        #         lollipopElement: Element = self._oglInterface2ToXml(oglLink, self._xmlDocument)
-        #         documentNode.appendChild(lollipopElement)
-        #     else:
-        #         linkElement: Element = self._oglLinkToXml(oglLink=oglLink, xmlDoc=self._xmlDocument)
-        #         documentNode.appendChild(linkElement)
 
         oglTexts: OglTexts = cast(OglTexts, oglDocument.oglTexts)
         for oglText in oglTexts:
@@ -168,44 +163,6 @@ class OglToMiniDom(BaseOglToMiniDom):
         root.setAttribute(XmlConstants.ATTR_FONT_FAMILY, oglText.textFontFamily.value)
 
         root.appendChild(self._pyutTextToXml(oglText.pyutText, xmlDoc))
-
-        return root
-
-    def oglActorToXml(self, oglActor: OglActor, xmlDoc: Document) -> Element:
-        """
-        Exporting an OglActor to a minidom Element.
-
-        Args:
-            oglActor:   Actor to convert
-            xmlDoc:     xml document
-
-        Returns:
-            New minidom element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_ACTOR)
-
-        self._appendOglBase(oglActor, root)
-
-        root.appendChild(self._pyutActorToXml(cast(PyutActor, oglActor.pyutObject), xmlDoc))
-
-        return root
-
-    def oglUseCaseToXml(self, oglUseCase: OglUseCase, xmlDoc: Document) -> Element:
-        """
-        Export an OglUseCase to a minidom Element.
-
-        Args:
-            oglUseCase:  UseCase to convert
-            xmlDoc:      xml document
-
-        Returns:
-            A new minidom element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_USE_CASE)
-
-        self._appendOglBase(oglUseCase, root)
-
-        root.appendChild(self._pyutUseCaseToXml(cast(PyutUseCase, oglUseCase.pyutObject), xmlDoc))
 
         return root
 
@@ -358,45 +315,6 @@ class OglToMiniDom(BaseOglToMiniDom):
         content = content.replace('\n', "\\\\\\\\")
 
         root.setAttribute(XmlConstants.ATTR_CONTENT, content)
-
-        return root
-
-    def _pyutActorToXml(self, pyutActor: PyutActor, xmlDoc: Document) -> Element:
-        """
-        Export an PyutActor to a minidom Element.
-        Args:
-            pyutActor:  Actor to convert
-            xmlDoc:     xml document
-
-        Returns:
-            A new minidom element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_ACTOR)
-
-        actorId = self._idFactory.getID(pyutActor)
-        root.setAttribute(XmlConstants.ATTR_ID, str(actorId))
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutActor.name)
-        root.setAttribute(XmlConstants.ATTR_FILENAME, pyutActor.fileName)
-
-        return root
-
-    def _pyutUseCaseToXml(self, pyutUseCase: PyutUseCase, xmlDoc: Document) -> Element:
-        """
-        Export a PyutUseCase to a minidom Element.
-
-        Args:
-            pyutUseCase:    Use case to convert
-            xmlDoc:         xml document
-
-        Returns:
-            A new minidom element
-        """
-        root = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_USE_CASE)
-
-        useCaseId = self._idFactory.getID(pyutUseCase)
-        root.setAttribute(XmlConstants.ATTR_ID, str(useCaseId))
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutUseCase.name)
-        root.setAttribute(XmlConstants.ATTR_FILENAME, pyutUseCase.fileName)
 
         return root
 
