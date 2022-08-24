@@ -203,84 +203,6 @@ class OglToMiniDom(BaseOglToMiniDom):
 
         return root
 
-    def _pyutClassCommonToXml(self, classCommon: PyutClassCommon, root: Element) -> Element:
-
-        root.setAttribute(XmlConstants.ATTR_DESCRIPTION, classCommon.description)
-        # root.setAttribute(PyutXmlConstants.ATTR_FILENAME,    pyutInterface.getFilename())
-
-        return root
-
-    def _pyutMethodToXml(self, pyutMethod, xmlDoc) -> Element:
-        """
-        Exporting a PyutMethod to a miniDom Element
-
-        Args:
-            pyutMethod: Method to save
-            xmlDoc:     xml document
-
-        Returns:
-            The new updated element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_METHOD)
-
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutMethod.name)
-
-        visibility: PyutVisibilityEnum = pyutMethod.getVisibility()
-        visName:    str                = self.__safeVisibilityToName(visibility)
-
-        if visibility is not None:
-            root.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
-
-        for modifier in pyutMethod.modifiers:
-            xmlModifier: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_MODIFIER)
-            xmlModifier.setAttribute(XmlConstants.ATTR_NAME, modifier.name)
-            root.appendChild(xmlModifier)
-
-        if pyutMethod.returnType is not None:
-            xmlReturnType: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_RETURN)
-            xmlReturnType.setAttribute(XmlConstants.ATTR_TYPE, str(pyutMethod.returnType))
-            root.appendChild(xmlReturnType)
-
-        for param in pyutMethod.parameters:
-            root.appendChild(self._pyutParamToXml(param, xmlDoc))
-
-        codeRoot: Element = self._pyutSourceCodeToXml(pyutMethod.sourceCode, xmlDoc)
-        root.appendChild(codeRoot)
-        return root
-
-    def _pyutSourceCodeToXml(self, sourceCode: SourceCode, xmlDoc: Document) -> Element:
-
-        codeRoot: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SOURCE_CODE)
-        for code in sourceCode:
-            codeElement:  Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CODE)
-            textCodeNode: Element = xmlDoc.createTextNode(code)
-            codeElement.appendChild(textCodeNode)
-            codeRoot.appendChild(codeElement)
-
-        return codeRoot
-
-    def _pyutParamToXml(self, pyutParam: PyutParameter, xmlDoc: Document) -> Element:
-        """
-        Export a PyutParam to a miniDom Element
-
-        Args:
-            pyutParam:  Parameter to save
-            xmlDoc:     XML Node
-
-        Returns:
-            The new updated element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_PARAM)
-
-        root.setAttribute(XmlConstants.ATTR_NAME, pyutParam.name)
-        root.setAttribute(XmlConstants.ATTR_TYPE, str(pyutParam.type))
-
-        defaultValue = pyutParam.defaultValue
-        if defaultValue is not None:
-            root.setAttribute(XmlConstants.ATTR_DEFAULT_VALUE, defaultValue)
-
-        return root
-
     def _pyutNoteToXml(self, pyutNote: PyutNote, xmlDoc: Document) -> Element:
         """
         Export a PyutNote to a miniDom Element.
@@ -365,23 +287,6 @@ class OglToMiniDom(BaseOglToMiniDom):
         root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_DESTINATION_ID, str(idDst))
 
         return root
-
-    def __safeVisibilityToName(self, visibility: Union[str, PyutVisibilityEnum]) -> str:
-        """
-        Account for old pre V10 code
-        Args:
-            visibility:
-
-        Returns:
-            The visibility name
-        """
-
-        if isinstance(visibility, str):
-            visStr: str = PyutVisibilityEnum.toEnum(visibility).name
-        else:
-            visStr = visibility.name
-
-        return visStr
 
     def _createStarterXmlDocument(self, projectVersion: str, projectCodePath: str) -> Tuple[Document, Element]:
 
