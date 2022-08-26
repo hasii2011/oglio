@@ -1,4 +1,4 @@
-
+from typing import Dict
 from typing import List
 from typing import NewType
 from typing import Union
@@ -13,6 +13,8 @@ from ogl.OglClass import OglClass
 from ogl.OglLink import OglLink
 from ogl.OglText import OglText
 from ogl.OglUseCase import OglUseCase
+from ogl.sd.OglSDInstance import OglSDInstance
+from ogl.sd.OglSDMessage import OglSDMessage
 
 from untanglepyut.UnTangler import Document
 from untanglepyut.UnTangler import ProjectInformation
@@ -23,6 +25,8 @@ OglNotes    = NewType('OglNotes',    List[OglNote])
 OglTexts    = NewType('OglTexts',    List[OglText])
 OglActors   = NewType('OglActors',   List[OglActor])
 OglUseCases = NewType('OglUseCases', List[OglUseCase])
+OglSDInstances = NewType('OglSDInstances', Dict[int, OglSDInstance])
+OglSDMessages  = NewType('OglSDMessages',  Dict[int, OglSDMessage])
 
 OglObjects = Union[OglClasses, OglLinks, OglNotes, OglTexts, OglActors, OglUseCases]
 
@@ -61,6 +65,14 @@ def createOglUseCasesFactory() -> OglUseCases:
     return OglUseCases([])
 
 
+def createOglSDInstances() -> OglSDInstances:
+    return OglSDInstances({})
+
+
+def createOglSDMessages() -> OglSDMessages:
+    return OglSDMessages({})
+
+
 OglDocumentTitle = NewType('OglDocumentTitle', str)
 
 
@@ -78,6 +90,8 @@ class OglDocument:
     oglTexts:        OglTexts    = field(default_factory=createOglTextsFactory)
     oglActors:       OglActors   = field(default_factory=createOglActorsFactory)
     oglUseCases:     OglUseCases = field(default_factory=createOglUseCasesFactory)
+    oglSDInstances:  OglSDInstances = field(default_factory=createOglSDInstances)
+    oglSDMessages:   OglSDMessages  = field(default_factory=createOglSDMessages)
 
     def toOglDocument(self, document: Document):
         self.documentType    = document.documentType

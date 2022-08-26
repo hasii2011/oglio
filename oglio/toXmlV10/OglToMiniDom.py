@@ -1,6 +1,5 @@
 
 from typing import Tuple
-from typing import Union
 from typing import cast
 
 from logging import Logger
@@ -9,24 +8,15 @@ from logging import getLogger
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
-from pyutmodel.PyutActor import PyutActor
-
-from pyutmodel.PyutClassCommon import PyutClassCommon
-from pyutmodel.PyutMethod import SourceCode
 from pyutmodel.PyutNote import PyutNote
-from pyutmodel.PyutParameter import PyutParameter
 from pyutmodel.PyutSDInstance import PyutSDInstance
 from pyutmodel.PyutSDMessage import PyutSDMessage
 from pyutmodel.PyutText import PyutText
-from pyutmodel.PyutUseCase import PyutUseCase
 
-from ogl.OglActor import OglActor
 from ogl.OglNote import OglNote
 from ogl.OglText import OglText
-from ogl.OglUseCase import OglUseCase
 from ogl.sd.OglSDInstance import OglSDInstance
 from ogl.sd.OglSDMessage import OglSDMessage
-from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
 
 from oglio.Types import OglActors
 from oglio.Types import OglClasses

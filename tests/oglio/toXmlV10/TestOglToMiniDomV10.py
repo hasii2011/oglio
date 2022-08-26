@@ -118,9 +118,23 @@ class TestOglToMiniDomV10(TestBase):
 
         singleDocument: Document = untangler.documents['SimpleSequence']
 
+        # we now have ogl objects to serialize
+
+        oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=untangler.projectInformation.version,
+                                                        projectCodePath=untangler.projectInformation.codePath)
         oglDocument: OglDocument = OglDocument()
         oglDocument.toOglDocument(document=singleDocument)
+        oglDocument.oglSDInstances = singleDocument.oglSDInstances
+        oglDocument.oglSDMessages  = singleDocument.oglSDMessages
 
+        oglToMiniDom.serialize(oglDocument=oglDocument)
+
+        generatedFileName: str = self._constructGeneratedName(SEQUENCE_DIAGRAM_FILENAME)
+        oglToMiniDom.writeXml(fqFileName=generatedFileName)
+
+        status: int = self._runDiff(USE_CASE_DIAGRAM_FILENAME)
+
+        self.assertEqual(0, status, 'Diff use case diagram serialization failed')
 
     def _runDiff(self, fileName: str) -> int:
 
