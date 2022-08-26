@@ -3,11 +3,11 @@ from xml.dom.minidom import Element
 
 from pyutmodel.PyutClassCommon import PyutClassCommon
 
-from oglio.toXmlV10.BaseToMiniDom import BaseToMiniDom
+from oglio.toXmlV10.BaseToDom import BaseToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
-class BasePyutToMiniDom(BaseToMiniDom):
+class BasePyutToDom(BaseToDom):
 
     def __init__(self):
         super().__init__()

@@ -33,7 +33,7 @@ class IDFactory(Singleton):
             return clsId
 
 
-class BaseToMiniDom:
+class BaseToDom:
 
     def __init__(self):
 

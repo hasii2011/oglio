@@ -13,12 +13,12 @@ from pyutmodel.PyutClass import PyutClass
 
 from oglio.Types import OglClasses
 
-from oglio.toXmlV10.BaseOglToMiniDom import BaseOglToMiniDom
+from oglio.toXmlV10.BaseOglToMiniDom import BaseOglToDom
 from oglio.toXmlV10.PyutToMiniDom import PyutToMiniDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
-class OglClassesToMiniDom(BaseOglToMiniDom):
+class OglClassesToMiniDom(BaseOglToDom):
 
     def __init__(self, xmlDocument: Document):
 

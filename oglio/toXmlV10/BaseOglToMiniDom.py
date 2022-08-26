@@ -9,11 +9,11 @@ from xml.dom.minidom import Element
 
 from ogl.OglObject import OglObject
 
-from oglio.toXmlV10.BaseToMiniDom import BaseToMiniDom
+from oglio.toXmlV10.BaseToDom import BaseToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
-class BaseOglToMiniDom(BaseToMiniDom):
+class BaseOglToDom(BaseToDom):
 
     def __init__(self, xmlDocument: Document):
 

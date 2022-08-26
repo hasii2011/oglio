@@ -24,14 +24,14 @@ from oglio.Types import OglDocument
 from oglio.Types import OglLinks
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
-from oglio.toXmlV10.BaseOglToMiniDom import BaseOglToMiniDom
+from oglio.toXmlV10.BaseOglToMiniDom import BaseOglToDom
 from oglio.toXmlV10.OglClassesToMiniDom import OglClassesToMiniDom
 from oglio.toXmlV10.OglLinksToMiniDom import OglLinksToMiniDom
 from oglio.toXmlV10.OglUseCasesToMiniDom import OglUseCasesToMiniDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
-class OglToMiniDom(BaseOglToMiniDom):
+class OglToMiniDom(BaseOglToDom):
     """
     The refactored version of the original methods that were part of the monolithic
      PyutXml`xxx` classes.

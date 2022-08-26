@@ -18,11 +18,11 @@ from pyutmodel.PyutParameter import PyutParameter
 from pyutmodel.PyutUseCase import PyutUseCase
 from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
 
-from oglio.toXmlV10.BasePyutToMiniDom import BasePyutToMiniDom
+from oglio.toXmlV10.BasePyutToMiniDom import BasePyutToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
-class PyutToMiniDom(BasePyutToMiniDom):
+class PyutToMiniDom(BasePyutToDom):
 
     def __init__(self):
 
