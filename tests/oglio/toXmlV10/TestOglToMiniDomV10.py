@@ -23,6 +23,7 @@ from tests.TestBase import TestBase
 
 MULTI_LINK_DOCUMENT_FILENAME: str = 'MultiLinkDocument.xml'
 USE_CASE_DIAGRAM_FILENAME:    str = 'UseCaseDiagram.xml'
+SEQUENCE_DIAGRAM_FILENAME:    str = 'SimpleSequenceDiagram.xml'
 
 
 class TestOglToMiniDomV10(TestBase):
@@ -107,6 +108,19 @@ class TestOglToMiniDomV10(TestBase):
 
         self.assertEqual(0, status, 'Diff use case diagram serialization failed')
         self._cleanupGenerated(USE_CASE_DIAGRAM_FILENAME)
+
+    def testSequenceDiagramSerialization(self):
+        fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, SEQUENCE_DIAGRAM_FILENAME)
+
+        untangler: UnTangler = UnTangler(fqFileName=fqFileName)
+
+        untangler.untangle()
+
+        singleDocument: Document = untangler.documents['SimpleSequence']
+
+        oglDocument: OglDocument = OglDocument()
+        oglDocument.toOglDocument(document=singleDocument)
+
 
     def _runDiff(self, fileName: str) -> int:
 
