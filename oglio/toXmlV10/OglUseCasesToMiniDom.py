@@ -12,7 +12,7 @@ from pyutmodel.PyutUseCase import PyutUseCase
 
 from oglio.Types import OglActors
 from oglio.Types import OglUseCases
-from oglio.toXmlV10.BaseOglToMiniDom import BaseOglToDom
+from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
 from oglio.toXmlV10.PyutToMiniDom import PyutToMiniDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 

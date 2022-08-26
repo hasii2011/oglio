@@ -14,7 +14,7 @@ from ogl.OglInterface2 import OglInterface2
 from ogl.OglLink import OglLink
 
 from oglio.Types import OglLinks
-from oglio.toXmlV10.BaseOglToMiniDom import BaseOglToDom
+from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
 from oglio.toXmlV10.PyutToMiniDom import PyutToMiniDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 

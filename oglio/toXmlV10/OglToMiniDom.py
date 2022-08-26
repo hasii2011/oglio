@@ -24,7 +24,7 @@ from oglio.Types import OglDocument
 from oglio.Types import OglLinks
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
-from oglio.toXmlV10.BaseOglToMiniDom import BaseOglToDom
+from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
 from oglio.toXmlV10.OglClassesToMiniDom import OglClassesToMiniDom
 from oglio.toXmlV10.OglLinksToMiniDom import OglLinksToMiniDom
 from oglio.toXmlV10.OglUseCasesToMiniDom import OglUseCasesToMiniDom
