@@ -14,7 +14,7 @@ from pyutmodel.PyutClass import PyutClass
 from oglio.Types import OglClasses
 
 from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
-from oglio.toXmlV10.PyutToMiniDom import PyutToMiniDom
+from oglio.toXmlV10.PyutToDom import PyutToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
@@ -25,7 +25,7 @@ class OglClassesToMiniDom(BaseOglToDom):
         super().__init__(xmlDocument=xmlDocument)
         self.logger: Logger = getLogger(__name__)
 
-        self._pyutToMiniDom: PyutToMiniDom = PyutToMiniDom()
+        self._pyutToMiniDom: PyutToDom = PyutToDom()
 
     def serialize(self, documentNode: Element, oglClasses: OglClasses) -> Element:
 

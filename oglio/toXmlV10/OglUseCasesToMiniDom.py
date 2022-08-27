@@ -13,7 +13,7 @@ from pyutmodel.PyutUseCase import PyutUseCase
 from oglio.Types import OglActors
 from oglio.Types import OglUseCases
 from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
-from oglio.toXmlV10.PyutToMiniDom import PyutToMiniDom
+from oglio.toXmlV10.PyutToDom import PyutToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
@@ -24,7 +24,7 @@ class OglUseCasesToMiniDom(BaseOglToDom):
 
         self.useCaseLogger: Logger = getLogger(__name__)
 
-        self._pyutToMiniDom: PyutToMiniDom = PyutToMiniDom()
+        self._pyutToMiniDom: PyutToDom = PyutToDom()
 
     def serialize(self, documentNode: Element, oglUseCases: OglUseCases, oglActors: OglActors) -> Element:
         """

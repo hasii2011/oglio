@@ -15,7 +15,7 @@ from ogl.OglLink import OglLink
 
 from oglio.Types import OglLinks
 from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
-from oglio.toXmlV10.PyutToMiniDom import PyutToMiniDom
+from oglio.toXmlV10.PyutToDom import PyutToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
@@ -26,7 +26,7 @@ class OglLinksToMiniDom(BaseOglToDom):
         super().__init__(xmlDocument=xmlDocument)
         self.linksLogger: Logger = getLogger(__name__)
 
-        self._pyutToMiniDom: PyutToMiniDom = PyutToMiniDom()
+        self._pyutToMiniDom: PyutToDom = PyutToDom()
 
     def serialize(self, documentNode: Element, oglLinks: OglLinks) -> Element:
 

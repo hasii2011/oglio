@@ -22,7 +22,7 @@ from oglio.toXmlV10.BasePyutToDom import BasePyutToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
-class PyutToMiniDom(BasePyutToDom):
+class PyutToDom(BasePyutToDom):
 
     def __init__(self):
 
