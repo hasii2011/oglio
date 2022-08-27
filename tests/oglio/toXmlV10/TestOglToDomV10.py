@@ -17,7 +17,7 @@ from untanglepyut.UnTangler import UnTangler
 
 from oglio.Types import OglDocument
 
-from oglio.toXmlV10.OglToMiniDom import OglToMiniDom as OglToMiniDomV10
+from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
 from tests.TestBase import TestBase
 

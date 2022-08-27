@@ -32,7 +32,7 @@ from oglio.toXmlV10.OglUseCasesToDom import OglUseCasesToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
-class OglToMiniDom(BaseOglToDom):
+class OglToDom(BaseOglToDom):
     """
     The refactored version of the original methods that were part of the monolithic
      PyutXml`xxx` classes.
@@ -110,7 +110,7 @@ class OglToMiniDom(BaseOglToDom):
         """
 
         xmlText: str = self._xmlDocument.toprettyxml()
-        updatedXml: str = OglToMiniDom.setAsISOLatin(xmlText)
+        updatedXml: str = OglToDom.setAsISOLatin(xmlText)
 
         with open(fqFileName, 'w') as fd:
             fd.write(updatedXml)
@@ -125,7 +125,7 @@ class OglToMiniDom(BaseOglToDom):
 
         Returns:  Updated XML
         """
-        retText: str = xmlTextToUpdate.replace(OglToMiniDom.ORIGINAL_XML_PROLOG, OglToMiniDom.FIXED_XML_PROLOG)
+        retText: str = xmlTextToUpdate.replace(OglToDom.ORIGINAL_XML_PROLOG, OglToDom.FIXED_XML_PROLOG)
         return retText
 
     def oglNoteToXml(self, oglNote: OglNote, xmlDoc: Document) -> Element:
