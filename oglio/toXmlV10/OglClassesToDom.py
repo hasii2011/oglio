@@ -30,8 +30,8 @@ class OglClassesToDom(BaseOglToDom):
     def serialize(self, documentNode: Element, oglClasses: OglClasses) -> Element:
 
         for oglClass in oglClasses:
-            classElement: Element = self._oglClassToXml(oglClass=oglClass, xmlDoc=self._xmlDocument)
-            documentNode.appendChild(classElement)
+            graphicClass: Element = self._oglClassToXml(oglClass=oglClass, xmlDoc=self._xmlDocument)
+            documentNode.appendChild(graphicClass)
 
         return documentNode
 
@@ -46,11 +46,11 @@ class OglClassesToDom(BaseOglToDom):
         Returns:
             The newly created `GraphicClass` element
         """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_CLASS)
+        graphicClass: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_CLASS)
 
-        root = self._appendOglBase(oglClass, root)
+        graphicClass = self._appendOglBase(oglClass, graphicClass)
 
         # adding the data layer object
-        root.appendChild(self._pyutToMiniDom.pyutClassToXml(cast(PyutClass, oglClass.pyutObject), xmlDoc))
+        graphicClass.appendChild(self._pyutToMiniDom.pyutClassToXml(cast(PyutClass, oglClass.pyutObject), xmlDoc))
 
-        return root
+        return graphicClass

@@ -80,6 +80,8 @@ class TestOglToDomV10(TestBase):
 
     def testUseCaseSerialization(self):
 
+        self._cleanupGenerated(USE_CASE_DIAGRAM_FILENAME)
+
         fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, USE_CASE_DIAGRAM_FILENAME)
 
         untangler: UnTangler = UnTangler(fqFileName=fqFileName)
@@ -107,30 +109,29 @@ class TestOglToDomV10(TestBase):
         status: int = self._runDiff(USE_CASE_DIAGRAM_FILENAME)
 
         self.assertEqual(0, status, 'Diff use case diagram serialization failed')
-        self._cleanupGenerated(USE_CASE_DIAGRAM_FILENAME)
 
-    def testSequenceDiagramSerialization(self):
-        fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, SEQUENCE_DIAGRAM_FILENAME)
-
-        untangler: UnTangler = UnTangler(fqFileName=fqFileName)
-
-        untangler.untangle()
-
-        singleDocument: Document = untangler.documents['SimpleSequence']
-
-        # we now have ogl objects to serialize
-
-        oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=untangler.projectInformation.version,
-                                                        projectCodePath=untangler.projectInformation.codePath)
-        oglDocument: OglDocument = OglDocument()
-        oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglSDInstances = singleDocument.oglSDInstances
-        oglDocument.oglSDMessages  = singleDocument.oglSDMessages
-
-        oglToMiniDom.serialize(oglDocument=oglDocument)
-
-        generatedFileName: str = self._constructGeneratedName(SEQUENCE_DIAGRAM_FILENAME)
-        oglToMiniDom.writeXml(fqFileName=generatedFileName)
+    # def testSequenceDiagramSerialization(self):
+    #     fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, SEQUENCE_DIAGRAM_FILENAME)
+    #
+    #     untangler: UnTangler = UnTangler(fqFileName=fqFileName)
+    #
+    #     untangler.untangle()
+    #
+    #     singleDocument: Document = untangler.documents['SimpleSequence']
+    #
+    #     # we now have ogl objects to serialize
+    #
+    #     oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=untangler.projectInformation.version,
+    #                                                     projectCodePath=untangler.projectInformation.codePath)
+    #     oglDocument: OglDocument = OglDocument()
+    #     oglDocument.toOglDocument(document=singleDocument)
+    #     oglDocument.oglSDInstances = singleDocument.oglSDInstances
+    #     oglDocument.oglSDMessages  = singleDocument.oglSDMessages
+    #
+    #     oglToMiniDom.serialize(oglDocument=oglDocument)
+    #
+    #     generatedFileName: str = self._constructGeneratedName(SEQUENCE_DIAGRAM_FILENAME)
+    #     oglToMiniDom.writeXml(fqFileName=generatedFileName)
 
         # status: int = self._runDiff(USE_CASE_DIAGRAM_FILENAME)
         #

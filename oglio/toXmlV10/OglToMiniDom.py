@@ -22,6 +22,7 @@ from oglio.Types import OglActors
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
 from oglio.Types import OglLinks
+from oglio.Types import OglSDInstances
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
 from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
@@ -81,10 +82,11 @@ class OglToMiniDom(BaseOglToDom):
 
         self._topElement.appendChild(documentNode)
 
-        oglClasses:  OglClasses  = cast(OglClasses, oglDocument.oglClasses)
-        oglLinks:    OglLinks    = cast(OglLinks, oglDocument.oglLinks)
-        oglUseCases: OglUseCases = cast(OglUseCases, oglDocument.oglUseCases)
-        oglActors:   OglActors   = cast(OglActors, oglDocument.oglActors)
+        oglClasses:     OglClasses     = cast(OglClasses, oglDocument.oglClasses)
+        oglLinks:       OglLinks       = cast(OglLinks, oglDocument.oglLinks)
+        oglUseCases:    OglUseCases    = cast(OglUseCases, oglDocument.oglUseCases)
+        oglActors:      OglActors      = cast(OglActors, oglDocument.oglActors)
+        oglSDInstances: OglSDInstances = cast(OglSDInstances, oglDocument.oglSDInstances)
 
         documentNode = self._oglClassesToMiniDom.serialize(documentNode=documentNode, oglClasses=oglClasses)
         documentNode = self._oglUseCasesToMiniDom.serialize(documentNode=documentNode, oglUseCases=oglUseCases, oglActors=oglActors)
@@ -94,6 +96,10 @@ class OglToMiniDom(BaseOglToDom):
         for oglText in oglTexts:
             textElement: Element = self._oglTextToXml(oglText, xmlDoc=self._xmlDocument)
             documentNode.appendChild(textElement)
+
+        for oglSDInstance in oglSDInstances.values():
+            sdInstanceElement: Element = self._oglSDInstanceToXml(oglSDInstance, self._xmlDocument)
+            documentNode.appendChild(sdInstanceElement)
 
     def writeXml(self, fqFileName):
         """
@@ -156,7 +162,7 @@ class OglToMiniDom(BaseOglToDom):
 
         return root
 
-    def oglSDInstanceToXml(self, oglSDInstance: OglSDInstance, xmlDoc: Document) -> Element:
+    def _oglSDInstanceToXml(self, oglSDInstance: OglSDInstance, xmlDoc: Document) -> Element:
         """
         Export an OglSDInstance to a minidom Element
 
