@@ -26,7 +26,7 @@ USE_CASE_DIAGRAM_FILENAME:    str = 'UseCaseDiagram.xml'
 SEQUENCE_DIAGRAM_FILENAME:    str = 'SimpleSequenceDiagram.xml'
 
 
-class TestOglToMiniDomV10(TestBase):
+class TestOglToDomV10(TestBase):
     """
     The serialization code needs pre-made OGL Objects.  So we will untangle
     XML documents and feed them to the serializer;  It should return identical XML
@@ -39,10 +39,10 @@ class TestOglToMiniDomV10(TestBase):
     @classmethod
     def setUpClass(cls):
         TestBase.setUpLogging()
-        TestOglToMiniDomV10.clsLogger = getLogger(__name__)
+        TestOglToDomV10.clsLogger = getLogger(__name__)
 
     def setUp(self):
-        self.logger: Logger = TestOglToMiniDomV10.clsLogger
+        self.logger: Logger = TestOglToDomV10.clsLogger
 
         super().setUp()
 
@@ -141,7 +141,7 @@ class TestOglToMiniDomV10(TestBase):
         baseFileName:      str = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, fileName)
         generatedFileName: str = self._constructGeneratedName(fileName=fileName)
 
-        status: int = osSystem(f'{TestOglToMiniDomV10.EXTERNAL_DIFF} {baseFileName} {generatedFileName}')
+        status: int = osSystem(f'{TestOglToDomV10.EXTERNAL_DIFF} {baseFileName} {generatedFileName}')
 
         return status
 
@@ -149,7 +149,7 @@ class TestOglToMiniDomV10(TestBase):
 
         generatedFileName: str = self._constructGeneratedName(fileName=fileName)
 
-        osSystem(f'{TestOglToMiniDomV10.EXTERNAL_CLEAN_UP_TMP} {generatedFileName}')
+        osSystem(f'{TestOglToDomV10.EXTERNAL_CLEAN_UP_TMP} {generatedFileName}')
 
     def _constructGeneratedName(self, fileName: str) -> str:
 
@@ -163,7 +163,7 @@ def suite() -> TestSuite:
 
     testSuite: TestSuite = TestSuite()
     # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestOglToMiniDomV10))
+    testSuite.addTest(unittest.makeSuite(TestOglToDomV10))
 
     return testSuite
 
