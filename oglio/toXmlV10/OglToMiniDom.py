@@ -25,7 +25,7 @@ from oglio.Types import OglLinks
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
 from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
-from oglio.toXmlV10.OglClassesToMiniDom import OglClassesToMiniDom
+from oglio.toXmlV10.OglClassesToDom import OglClassesToDom
 from oglio.toXmlV10.OglLinksToDom import OglLinksToDom
 from oglio.toXmlV10.OglUseCasesToDom import OglUseCasesToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
@@ -62,7 +62,7 @@ class OglToMiniDom(BaseOglToDom):
 
         self._topElement:  Element  = topElement
 
-        self._oglClassesToMiniDom:  OglClassesToMiniDom  = OglClassesToMiniDom(xmlDocument=self._xmlDocument)
+        self._oglClassesToMiniDom:  OglClassesToDom  = OglClassesToDom(xmlDocument=self._xmlDocument)
         self._oglLinksToMiniDom:    OglLinksToDom    = OglLinksToDom(xmlDocument=self._xmlDocument)
         self._oglUseCasesToMiniDom: OglUseCasesToDom = OglUseCasesToDom(xmlDocument=self._xmlDocument)
 

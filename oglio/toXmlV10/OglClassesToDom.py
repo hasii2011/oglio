@@ -18,7 +18,7 @@ from oglio.toXmlV10.PyutToDom import PyutToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
-class OglClassesToMiniDom(BaseOglToDom):
+class OglClasesToDom(BaseOglToDom):
 
     def __init__(self, xmlDocument: Document):
 
