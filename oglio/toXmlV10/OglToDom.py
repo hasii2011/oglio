@@ -23,6 +23,7 @@ from oglio.Types import OglClasses
 from oglio.Types import OglDocument
 from oglio.Types import OglLinks
 from oglio.Types import OglSDInstances
+from oglio.Types import OglSDMessages
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
 from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
@@ -84,15 +85,16 @@ class OglToDom(BaseOglToDom):
 
         oglClasses:     OglClasses     = cast(OglClasses, oglDocument.oglClasses)
         oglLinks:       OglLinks       = cast(OglLinks, oglDocument.oglLinks)
+        oglTexts:       OglTexts       = cast(OglTexts, oglDocument.oglTexts)
         oglUseCases:    OglUseCases    = cast(OglUseCases, oglDocument.oglUseCases)
         oglActors:      OglActors      = cast(OglActors, oglDocument.oglActors)
         oglSDInstances: OglSDInstances = cast(OglSDInstances, oglDocument.oglSDInstances)
+        oglSDMessages:  OglSDMessages  = cast(OglSDMessages,  oglDocument.oglSDMessages)
 
         documentNode = self._oglClassesToMiniDom.serialize(documentNode=documentNode, oglClasses=oglClasses)
         documentNode = self._oglUseCasesToMiniDom.serialize(documentNode=documentNode, oglUseCases=oglUseCases, oglActors=oglActors)
         documentNode = self._oglLinksToMiniDom.serialize(documentNode=documentNode, oglLinks=oglLinks)
 
-        oglTexts: OglTexts = cast(OglTexts, oglDocument.oglTexts)
         for oglText in oglTexts:
             textElement: Element = self._oglTextToXml(oglText, xmlDoc=self._xmlDocument)
             documentNode.appendChild(textElement)
@@ -100,6 +102,10 @@ class OglToDom(BaseOglToDom):
         for oglSDInstance in oglSDInstances.values():
             sdInstanceElement: Element = self._oglSDInstanceToXml(oglSDInstance, self._xmlDocument)
             documentNode.appendChild(sdInstanceElement)
+
+        for oglSDMessage in oglSDMessages.values():
+            sdMessageElement: Element = self.oglSDMessageToXml(oglSDMessage=oglSDMessage, xmlDoc=self._xmlDocument)
+            documentNode.appendChild(sdMessageElement)
 
     def writeXml(self, fqFileName):
         """
@@ -194,8 +200,8 @@ class OglToDom(BaseOglToDom):
         """
         root = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_SD_MESSAGE)
 
-        # adding the data layer object
-        root.appendChild(self._pyutSDMessageToXml(oglSDMessage.getPyutObject(), xmlDoc))
+        pyutSDMessage: PyutSDMessage = oglSDMessage.getPyutObject()
+        root.appendChild(self._pyutSDMessageToXml(pyutSDMessage, xmlDoc))
 
         return root
 
@@ -249,7 +255,7 @@ class OglToDom(BaseOglToDom):
         """
         root:  Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SD_INSTANCE)
         eltId: int     = self._idFactory.getID(pyutSDInstance)
-
+        # eltId: int = pyutSDInstance.id
         root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
         root.setAttribute(XmlConstants.ATTR_INSTANCE_NAME, pyutSDInstance.instanceName)
         root.setAttribute(XmlConstants.ATTR_LIFE_LINE_LENGTH, str(pyutSDInstance.instanceLifeLineLength))
@@ -268,15 +274,20 @@ class OglToDom(BaseOglToDom):
         """
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SD_MESSAGE)
 
-        eltId = self._idFactory.getID(pyutSDMessage)
+        eltId: int = self._idFactory.getID(pyutSDMessage)
+        # eltId: int = pyutSDMessage.id
         root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
 
         # message
         root.setAttribute(XmlConstants.ATTR_MESSAGE, pyutSDMessage.getMessage())
 
         # time
-        idSrc = self._idFactory.getID(pyutSDMessage.getSource())
-        idDst = self._idFactory.getID(pyutSDMessage.getDest())
+        srcInstance: PyutSDInstance = pyutSDMessage.getSource()
+        dstInstance: PyutSDInstance = pyutSDMessage.getDestination()
+
+        idSrc: int = self._idFactory.getID(srcInstance)
+        idDst: int = self._idFactory.getID(dstInstance)
+
         root.setAttribute(XmlConstants.ATTR_SOURCE_TIME_LINE, str(pyutSDMessage.getSrcTime()))
         root.setAttribute(XmlConstants.ATTR_DESTINATION_TIME_LINE, str(pyutSDMessage.getDstTime()))
         root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_SOURCE_ID, str(idSrc))

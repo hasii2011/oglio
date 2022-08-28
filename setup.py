@@ -27,6 +27,6 @@ setup(
     install_requires=[
         'ogl==0.60.9',
         'pyutmodel==1.1.0',
-        'untanglepyut==0.4.0',
+        'untanglepyut==0.4.2',
     ],
 )

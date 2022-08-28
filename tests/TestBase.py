@@ -4,6 +4,9 @@ import json
 import logging
 import logging.config
 
+from os import system as osSystem
+from os import sep as osSep
+
 from pkg_resources import resource_filename
 
 from miniogl.DiagramFrame import DiagramFrame
@@ -28,6 +31,9 @@ class TestBase(TestCase):
     RESOURCES_PACKAGE_NAME:                      str = 'tests.resources'
     RESOURCES_TEST_CLASSES_PACKAGE_NAME:         str = f'{RESOURCES_PACKAGE_NAME}.testclasses'
     RESOURCES_TEST_DATA_PACKAGE_NAME:            str = f'{RESOURCES_PACKAGE_NAME}.testdata'
+
+    EXTERNAL_DIFF:         str = '/usr/bin/diff -w '
+    EXTERNAL_CLEAN_UP_TMP: str = 'rm -v '
 
     def setUp(self):
         """
@@ -63,3 +69,23 @@ class TestBase(TestCase):
         fqFileName: str = resource_filename(TestBase.RESOURCES_PACKAGE_NAME, JSON_LOGGING_CONFIG_FILENAME)
 
         return fqFileName
+
+    def _runDiff(self, fileName: str) -> int:
+
+        baseFileName:      str = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, fileName)
+        generatedFileName: str = self._constructGeneratedName(fileName=fileName)
+
+        status: int = osSystem(f'{TestBase.EXTERNAL_DIFF} {baseFileName} {generatedFileName}')
+
+        return status
+
+    def _cleanupGenerated(self, fileName: str):
+
+        generatedFileName: str = self._constructGeneratedName(fileName=fileName)
+
+        osSystem(f'{TestBase.EXTERNAL_CLEAN_UP_TMP} {generatedFileName}')
+
+    def _constructGeneratedName(self, fileName: str) -> str:
+
+        generatedFileName: str = f'{osSep}tmp{osSep}{fileName}'
+        return generatedFileName
