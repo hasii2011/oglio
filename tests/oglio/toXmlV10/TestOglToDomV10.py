@@ -9,10 +9,12 @@ from pkg_resources import resource_filename
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
+from pyutmodel.PyutObject import PyutObject
 from untanglepyut.UnTangler import Document
 from untanglepyut.UnTangler import UnTangler
 
 from oglio.Types import OglDocument
+from oglio.toXmlV10.BaseToDom import IDFactory
 
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
@@ -38,14 +40,18 @@ class TestOglToDomV10(TestBase):
 
         super().setUp()
 
+        PyutObject.nextID = 0   # reset to match sequence diagram
+        IDFactory.nextID = 1
+
     def tearDown(self):
         super().tearDown()
 
     def testSimpleSerialization(self):
 
-        fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_DOCUMENT_FILENAME)
+        self._cleanupGenerated(MULTI_LINK_DOCUMENT_FILENAME)
 
-        untangler: UnTangler = UnTangler(fqFileName=fqFileName)
+        fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_DOCUMENT_FILENAME)
+        untangler:  UnTangler = UnTangler(fqFileName=fqFileName)
 
         untangler.untangle()
 
@@ -68,7 +74,6 @@ class TestOglToDomV10(TestBase):
         status: int = self._runDiff(MULTI_LINK_DOCUMENT_FILENAME)
 
         self.assertEqual(0, status, 'Diff simple class serialization failed')
-        self._cleanupGenerated(MULTI_LINK_DOCUMENT_FILENAME)
 
 
 def suite() -> TestSuite:

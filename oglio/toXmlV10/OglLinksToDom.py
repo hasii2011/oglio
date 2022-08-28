@@ -152,7 +152,7 @@ class OglLinksToDom(BaseOglToDom):
         y: int = oglLabel.oglPosition.y
 
         simpleX, simpleY = self._getSimpleCoordinates(x, y)
-        self.linksLogger.info(f'x,y = ({x},{y})   simpleX,simpleY = ({simpleX},{simpleY})')
+        self.linksLogger.debug(f'x,y = ({x},{y})   simpleX,simpleY = ({simpleX},{simpleY})')
         label.setAttribute(XmlConstants.ATTR_X, simpleX)
         label.setAttribute(XmlConstants.ATTR_Y, simpleY)
 

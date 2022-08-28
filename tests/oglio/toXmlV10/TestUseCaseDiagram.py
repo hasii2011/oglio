@@ -47,9 +47,8 @@ class TestUseCaseDiagram(TestBase):
 
         self._cleanupGenerated(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
-        fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
-
-        untangler: UnTangler = UnTangler(fqFileName=fqFileName)
+        fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
+        untangler:  UnTangler = UnTangler(fqFileName=fqFileName)
 
         untangler.untangle()
 

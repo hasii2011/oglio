@@ -45,9 +45,10 @@ class TestSequenceDiagram(TestBase):
 
     def testSequenceDiagramSerialization(self):
 
-        fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
+        self._cleanupGenerated(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
 
-        untangler: UnTangler = UnTangler(fqFileName=fqFileName)
+        fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
+        untangler:  UnTangler = UnTangler(fqFileName=fqFileName)
 
         untangler.untangle()
 
