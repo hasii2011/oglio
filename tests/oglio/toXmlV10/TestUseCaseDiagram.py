@@ -4,13 +4,13 @@ from typing import cast
 from logging import Logger
 from logging import getLogger
 
+from pkg_resources import resource_filename
+
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pkg_resources import resource_filename
 from pyutmodel.PyutObject import PyutObject
 from untanglepyut.UnTangler import Document
-
 from untanglepyut.UnTangler import UnTangler
 
 from oglio.Types import OglDocument
@@ -21,55 +21,59 @@ from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 from tests.TestBase import TestBase
 
 
-class TestSequenceDiagram(TestBase):
+class TestUseCaseDiagram(TestBase):
     """
     """
-    SEQUENCE_DIAGRAM_FILENAME: str = 'SimpleSequenceDiagram.xml'
+    USE_CASE_DIAGRAM_FILENAME: str = 'UseCaseDiagram.xml'
 
     clsLogger: Logger = cast(Logger, None)
 
     @classmethod
     def setUpClass(cls):
         TestBase.setUpLogging()
-        TestSequenceDiagram.clsLogger = getLogger(__name__)
+        TestUseCaseDiagram.clsLogger = getLogger(__name__)
 
     def setUp(self):
-        self.logger: Logger = TestSequenceDiagram.clsLogger
+        self.logger: Logger = TestUseCaseDiagram.clsLogger
 
         super().setUp()
         PyutObject.nextID = 0   # reset to match sequence diagram
-        IDFactory.nextID = 1
+        IDFactory.nextID  = 1
 
     def tearDown(self):
         super().tearDown()
 
-    def testSequenceDiagramSerialization(self):
+    def testUseCaseSerialization(self):
 
-        fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
+        self._cleanupGenerated(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
+
+        fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
         untangler: UnTangler = UnTangler(fqFileName=fqFileName)
 
         untangler.untangle()
 
-        singleDocument: Document = untangler.documents['SimpleSequence']
-
-        # we now have ogl objects to serialize
+        singleDocument: Document = untangler.documents['Use-Cases']
 
         oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=untangler.projectInformation.version,
                                                         projectCodePath=untangler.projectInformation.codePath)
+
         oglDocument: OglDocument = OglDocument()
         oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglSDInstances = singleDocument.oglSDInstances
-        oglDocument.oglSDMessages  = singleDocument.oglSDMessages
+        oglDocument.oglClasses  = singleDocument.oglClasses
+        oglDocument.oglLinks    = singleDocument.oglLinks
+        oglDocument.oglTexts    = singleDocument.oglTexts
+        oglDocument.oglUseCases = singleDocument.oglUseCases
+        oglDocument.oglActors   = singleDocument.oglActors
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        generatedFileName: str = self._constructGeneratedName(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
+        generatedFileName: str = self._constructGeneratedName(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
         oglToMiniDom.writeXml(fqFileName=generatedFileName)
 
-        status: int = self._runDiff(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
+        status: int = self._runDiff(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
-        self.assertEqual(0, status, 'Diff of sequence diagram serialization failed')
+        self.assertEqual(0, status, 'Diff use case diagram serialization failed')
 
 
 def suite() -> TestSuite:
@@ -78,7 +82,7 @@ def suite() -> TestSuite:
 
     testSuite: TestSuite = TestSuite()
     # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestSequenceDiagram))
+    testSuite.addTest(unittest.makeSuite(TestUseCaseDiagram))
 
     return testSuite
 

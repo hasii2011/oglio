@@ -19,7 +19,6 @@ from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 from tests.TestBase import TestBase
 
 MULTI_LINK_DOCUMENT_FILENAME: str = 'MultiLinkDocument.xml'
-USE_CASE_DIAGRAM_FILENAME:    str = 'UseCaseDiagram.xml'
 
 
 class TestOglToDomV10(TestBase):
@@ -70,38 +69,6 @@ class TestOglToDomV10(TestBase):
 
         self.assertEqual(0, status, 'Diff simple class serialization failed')
         self._cleanupGenerated(MULTI_LINK_DOCUMENT_FILENAME)
-
-    def testUseCaseSerialization(self):
-
-        self._cleanupGenerated(USE_CASE_DIAGRAM_FILENAME)
-
-        fqFileName = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, USE_CASE_DIAGRAM_FILENAME)
-
-        untangler: UnTangler = UnTangler(fqFileName=fqFileName)
-
-        untangler.untangle()
-
-        singleDocument: Document = untangler.documents['Use-Cases']
-
-        oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=untangler.projectInformation.version,
-                                                        projectCodePath=untangler.projectInformation.codePath)
-
-        oglDocument: OglDocument = OglDocument()
-        oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglClasses  = singleDocument.oglClasses
-        oglDocument.oglLinks    = singleDocument.oglLinks
-        oglDocument.oglTexts    = singleDocument.oglTexts
-        oglDocument.oglUseCases = singleDocument.oglUseCases
-        oglDocument.oglActors   = singleDocument.oglActors
-
-        oglToMiniDom.serialize(oglDocument=oglDocument)
-
-        generatedFileName: str = self._constructGeneratedName(USE_CASE_DIAGRAM_FILENAME)
-        oglToMiniDom.writeXml(fqFileName=generatedFileName)
-
-        status: int = self._runDiff(USE_CASE_DIAGRAM_FILENAME)
-
-        self.assertEqual(0, status, 'Diff use case diagram serialization failed')
 
 
 def suite() -> TestSuite:
