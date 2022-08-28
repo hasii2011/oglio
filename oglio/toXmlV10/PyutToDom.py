@@ -15,6 +15,8 @@ from pyutmodel.PyutInterface import PyutInterface
 from pyutmodel.PyutLink import PyutLink
 from pyutmodel.PyutMethod import SourceCode
 from pyutmodel.PyutParameter import PyutParameter
+from pyutmodel.PyutSDInstance import PyutSDInstance
+from pyutmodel.PyutSDMessage import PyutSDMessage
 from pyutmodel.PyutUseCase import PyutUseCase
 from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
 
@@ -152,6 +154,59 @@ class PyutToDom(BasePyutToDom):
         pyutActorElement.setAttribute(XmlConstants.ATTR_FILENAME, pyutActor.fileName)
 
         return pyutActorElement
+
+    def pyutSDInstanceToXml(self, pyutSDInstance: PyutSDInstance, xmlDoc: Document) -> Element:
+        """
+        Exporting a PyutSDInstance to an minidom Element.
+
+        Args:
+            pyutSDInstance:     Class to convert
+            xmlDoc:             xml document
+
+        Returns:
+            A new minidom element
+        """
+        root:  Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SD_INSTANCE)
+        eltId: int     = self._idFactory.getID(pyutSDInstance)
+        # eltId: int = pyutSDInstance.id
+        root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
+        root.setAttribute(XmlConstants.ATTR_INSTANCE_NAME, pyutSDInstance.instanceName)
+        root.setAttribute(XmlConstants.ATTR_LIFE_LINE_LENGTH, str(pyutSDInstance.instanceLifeLineLength))
+
+        return root
+
+    def pyutSDMessageToXml(self, pyutSDMessage: PyutSDMessage, xmlDoc: Document) -> Element:
+        """
+        Exporting a PyutSDMessage to an minidom Element.
+        Args:
+            pyutSDMessage:  SDMessage to export
+            xmlDoc:         xml document
+
+        Returns:
+            A new minidom element
+        """
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SD_MESSAGE)
+
+        eltId: int = self._idFactory.getID(pyutSDMessage)
+        # eltId: int = pyutSDMessage.id
+        root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
+
+        # message
+        root.setAttribute(XmlConstants.ATTR_MESSAGE, pyutSDMessage.getMessage())
+
+        # time
+        srcInstance: PyutSDInstance = pyutSDMessage.getSource()
+        dstInstance: PyutSDInstance = pyutSDMessage.getDestination()
+
+        idSrc: int = self._idFactory.getID(srcInstance)
+        idDst: int = self._idFactory.getID(dstInstance)
+
+        root.setAttribute(XmlConstants.ATTR_SOURCE_TIME_LINE, str(pyutSDMessage.getSrcTime()))
+        root.setAttribute(XmlConstants.ATTR_DESTINATION_TIME_LINE, str(pyutSDMessage.getDstTime()))
+        root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_SOURCE_ID, str(idSrc))
+        root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_DESTINATION_ID, str(idDst))
+
+        return root
 
     def _pyutMethodToXml(self, pyutMethod, xmlDoc) -> Element:
         """

@@ -9,14 +9,10 @@ from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
 from pyutmodel.PyutNote import PyutNote
-from pyutmodel.PyutSDInstance import PyutSDInstance
-from pyutmodel.PyutSDMessage import PyutSDMessage
 from pyutmodel.PyutText import PyutText
 
 from ogl.OglNote import OglNote
 from ogl.OglText import OglText
-from ogl.sd.OglSDInstance import OglSDInstance
-from ogl.sd.OglSDMessage import OglSDMessage
 
 from oglio.Types import OglActors
 from oglio.Types import OglClasses
@@ -26,9 +22,11 @@ from oglio.Types import OglSDInstances
 from oglio.Types import OglSDMessages
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
+
 from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
 from oglio.toXmlV10.OglClassesToDom import OglClassesToDom
 from oglio.toXmlV10.OglLinksToDom import OglLinksToDom
+from oglio.toXmlV10.OglSequenceToDom import OglSequenceToDom
 from oglio.toXmlV10.OglUseCasesToDom import OglUseCasesToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
@@ -67,6 +65,7 @@ class OglToDom(BaseOglToDom):
         self._oglClassesToMiniDom:  OglClassesToDom  = OglClassesToDom(xmlDocument=self._xmlDocument)
         self._oglLinksToMiniDom:    OglLinksToDom    = OglLinksToDom(xmlDocument=self._xmlDocument)
         self._oglUseCasesToMiniDom: OglUseCasesToDom = OglUseCasesToDom(xmlDocument=self._xmlDocument)
+        self._oglSequenceToDom:   OglSequenceToDom   = OglSequenceToDom(xmlDocument=self._xmlDocument)
 
     @property
     def xmlDocument(self) -> Document:
@@ -94,18 +93,11 @@ class OglToDom(BaseOglToDom):
         documentNode = self._oglClassesToMiniDom.serialize(documentNode=documentNode, oglClasses=oglClasses)
         documentNode = self._oglUseCasesToMiniDom.serialize(documentNode=documentNode, oglUseCases=oglUseCases, oglActors=oglActors)
         documentNode = self._oglLinksToMiniDom.serialize(documentNode=documentNode, oglLinks=oglLinks)
+        documentNode = self._oglSequenceToDom.serialize(documentNode=documentNode, oglSDMessages=oglSDMessages, oglSDInstances=oglSDInstances)
 
         for oglText in oglTexts:
             textElement: Element = self._oglTextToXml(oglText, xmlDoc=self._xmlDocument)
             documentNode.appendChild(textElement)
-
-        for oglSDInstance in oglSDInstances.values():
-            sdInstanceElement: Element = self._oglSDInstanceToXml(oglSDInstance, self._xmlDocument)
-            documentNode.appendChild(sdInstanceElement)
-
-        for oglSDMessage in oglSDMessages.values():
-            sdMessageElement: Element = self.oglSDMessageToXml(oglSDMessage=oglSDMessage, xmlDoc=self._xmlDocument)
-            documentNode.appendChild(sdMessageElement)
 
     def writeXml(self, fqFileName):
         """
@@ -168,43 +160,6 @@ class OglToDom(BaseOglToDom):
 
         return root
 
-    def _oglSDInstanceToXml(self, oglSDInstance: OglSDInstance, xmlDoc: Document) -> Element:
-        """
-        Export an OglSDInstance to a minidom Element
-
-        Args:
-            oglSDInstance:  Instance to convert
-            xmlDoc:         xml document
-
-        Returns:
-            A new minidom element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_SD_INSTANCE)
-
-        self._appendOglBase(oglSDInstance, root)
-
-        root.appendChild(self._pyutSDInstanceToXml(cast(PyutSDInstance, oglSDInstance.pyutObject), xmlDoc))
-
-        return root
-
-    def oglSDMessageToXml(self, oglSDMessage: OglSDMessage, xmlDoc: Document) -> Element:
-        """
-        Export an OglSDMessage to a minidom Element.
-
-        Args:
-            oglSDMessage:   Message to convert
-            xmlDoc:         xml document
-
-        Returns:
-            A new minidom element
-        """
-        root = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_SD_MESSAGE)
-
-        pyutSDMessage: PyutSDMessage = oglSDMessage.getPyutObject()
-        root.appendChild(self._pyutSDMessageToXml(pyutSDMessage, xmlDoc))
-
-        return root
-
     def _pyutNoteToXml(self, pyutNote: PyutNote, xmlDoc: Document) -> Element:
         """
         Export a PyutNote to a miniDom Element.
@@ -239,59 +194,6 @@ class OglToDom(BaseOglToDom):
         content = content.replace('\n', "\\\\\\\\")
 
         root.setAttribute(XmlConstants.ATTR_CONTENT, content)
-
-        return root
-
-    def _pyutSDInstanceToXml(self, pyutSDInstance: PyutSDInstance, xmlDoc: Document) -> Element:
-        """
-        Exporting a PyutSDInstance to an minidom Element.
-
-        Args:
-            pyutSDInstance:     Class to convert
-            xmlDoc:             xml document
-
-        Returns:
-            A new minidom element
-        """
-        root:  Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SD_INSTANCE)
-        eltId: int     = self._idFactory.getID(pyutSDInstance)
-        # eltId: int = pyutSDInstance.id
-        root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
-        root.setAttribute(XmlConstants.ATTR_INSTANCE_NAME, pyutSDInstance.instanceName)
-        root.setAttribute(XmlConstants.ATTR_LIFE_LINE_LENGTH, str(pyutSDInstance.instanceLifeLineLength))
-
-        return root
-
-    def _pyutSDMessageToXml(self, pyutSDMessage: PyutSDMessage, xmlDoc: Document) -> Element:
-        """
-        Exporting a PyutSDMessage to an minidom Element.
-        Args:
-            pyutSDMessage:  SDMessage to export
-            xmlDoc:         xml document
-
-        Returns:
-            A new minidom element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SD_MESSAGE)
-
-        eltId: int = self._idFactory.getID(pyutSDMessage)
-        # eltId: int = pyutSDMessage.id
-        root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
-
-        # message
-        root.setAttribute(XmlConstants.ATTR_MESSAGE, pyutSDMessage.getMessage())
-
-        # time
-        srcInstance: PyutSDInstance = pyutSDMessage.getSource()
-        dstInstance: PyutSDInstance = pyutSDMessage.getDestination()
-
-        idSrc: int = self._idFactory.getID(srcInstance)
-        idDst: int = self._idFactory.getID(dstInstance)
-
-        root.setAttribute(XmlConstants.ATTR_SOURCE_TIME_LINE, str(pyutSDMessage.getSrcTime()))
-        root.setAttribute(XmlConstants.ATTR_DESTINATION_TIME_LINE, str(pyutSDMessage.getDstTime()))
-        root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_SOURCE_ID, str(idSrc))
-        root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_DESTINATION_ID, str(idDst))
 
         return root
 
