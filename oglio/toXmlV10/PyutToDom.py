@@ -82,7 +82,7 @@ class PyutToDom(BasePyutToDom):
             pyutInterfaceElement.appendChild(self._pyutMethodToXml(method, xmlDoc))
 
         for className in pyutInterface.implementors:
-            self.logger.info(f'implementing className: {className}')
+            self.logger.debug(f'implementing className: {className}')
             pyutInterfaceElement.appendChild(self._pyutImplementorToXml(className, xmlDoc))
 
         return pyutInterfaceElement
