@@ -66,6 +66,12 @@
 		<GraphicClass width="140" height="48" x="325" y="625">
 			<Class id="7" name="LollipopImplementor" stereotype="" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
 		</GraphicClass>
+		<GraphicText width="221" height="73" x="500" y="400" textSize="14" isBold="False" isItalicized="False" fontFamily="Swiss">
+			<Text id="8" content="Aggregation associates two objects describes the 'have a' relationship."/>
+		</GraphicText>
+		<GraphicText width="206" height="74" x="125" y="400" textSize="14" isBold="False" isItalicized="False" fontFamily="Swiss">
+			<Text id="9" content="Composition is a specific type of Aggregation which implies ownership."/>
+		</GraphicText>
 		<GraphicLink srcX="186" srcY="189" dstX="187" dstY="325" spline="False">
 			<LabelCenter x="579" y="300"/>
 			<LabelSrc x="579" y="300"/>
@@ -82,7 +88,7 @@
 			<Link name="" type="INTERFACE" cardSrc="" cardDestination="" bidir="False" sourceId="6" destId="5"/>
 		</GraphicLink>
 		<GraphicLollipop attachmentPoint="EAST" x="465" y="649">
-			<Interface id="8" name="IClassInterface" description="">
+			<Interface id="10" name="IClassInterface" description="">
 				<Method name="methodWithParameters" visibility="PUBLIC">
 					<Return type=""/>
 					<Param name="strParam" type="str" defaultValue="''"/>
@@ -93,11 +99,5 @@
 				<Implementor implementingClassName="LollipopImplementor"/>
 			</Interface>
 		</GraphicLollipop>
-		<GraphicText width="221" height="73" x="500" y="400" textSize="14" isBold="False" isItalicized="False" fontFamily="Swiss">
-			<Text id="9" content="Aggregation associates two objects describes the 'have a' relationship."/>
-		</GraphicText>
-		<GraphicText width="206" height="74" x="125" y="400" textSize="14" isBold="False" isItalicized="False" fontFamily="Swiss">
-			<Text id="10" content="Composition is a specific type of Aggregation which implies ownership."/>
-		</GraphicText>
 	</PyutDocument>
 </PyutProject>

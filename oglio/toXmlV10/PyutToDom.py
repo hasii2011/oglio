@@ -18,6 +18,7 @@ from pyutmodel.PyutNote import PyutNote
 from pyutmodel.PyutParameter import PyutParameter
 from pyutmodel.PyutSDInstance import PyutSDInstance
 from pyutmodel.PyutSDMessage import PyutSDMessage
+from pyutmodel.PyutText import PyutText
 from pyutmodel.PyutUseCase import PyutUseCase
 from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
 
@@ -142,6 +143,19 @@ class PyutToDom(BasePyutToDom):
         pyutNoteElement.setAttribute(XmlConstants.ATTR_FILENAME, pyutNote.fileName)
 
         return pyutNoteElement
+
+    def pyutTextToXml(self, pyutText: PyutText, xmlDoc: Document) -> Element:
+
+        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_TEXT)
+        textId: int = self._idFactory.getID(pyutText)
+
+        root.setAttribute(XmlConstants.ATTR_ID, str(textId))
+        content: str = pyutText.content
+        content = content.replace('\n', "\\\\\\\\")
+
+        root.setAttribute(XmlConstants.ATTR_CONTENT, content)
+
+        return root
 
     def pyutUseCaseToXml(self, pyutUseCase: PyutUseCase, xmlDoc: Document) -> Element:
         """

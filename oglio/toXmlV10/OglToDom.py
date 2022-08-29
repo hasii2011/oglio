@@ -27,6 +27,7 @@ from oglio.toXmlV10.OglClassesToDom import OglClassesToDom
 from oglio.toXmlV10.OglLinksToDom import OglLinksToDom
 from oglio.toXmlV10.OglNotesToDom import OglNotesToDom
 from oglio.toXmlV10.OglSequenceToDom import OglSequenceToDom
+from oglio.toXmlV10.OglTextsToDom import OglTextsToDom
 from oglio.toXmlV10.OglUseCasesToDom import OglUseCasesToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
@@ -67,6 +68,7 @@ class OglToDom(BaseOglToDom):
         self._oglUseCasesToMiniDom: OglUseCasesToDom = OglUseCasesToDom(xmlDocument=self._xmlDocument)
         self._oglSequenceToDom:   OglSequenceToDom   = OglSequenceToDom(xmlDocument=self._xmlDocument)
         self._oglNotesToDom:      OglNotesToDom      = OglNotesToDom(xmlDocument=self._xmlDocument)
+        self._oglTextsToDom:      OglTextsToDom      = OglTextsToDom(xmlDocument=self._xmlDocument)
 
     @property
     def xmlDocument(self) -> Document:
@@ -93,14 +95,11 @@ class OglToDom(BaseOglToDom):
         oglSDMessages:  OglSDMessages  = cast(OglSDMessages,  oglDocument.oglSDMessages)
 
         documentNode = self._oglClassesToMiniDom.serialize(documentNode=documentNode, oglClasses=oglClasses)
-        documentNode = self._oglUseCasesToMiniDom.serialize(documentNode=documentNode, oglUseCases=oglUseCases, oglActors=oglActors)
         documentNode = self._oglNotesToDom.serialize(documentNode=documentNode, oglNotes=oglNotes)
+        documentNode = self._oglTextsToDom.serialize(documentNode=documentNode, oglTexts=oglTexts)
+        documentNode = self._oglUseCasesToMiniDom.serialize(documentNode=documentNode, oglUseCases=oglUseCases, oglActors=oglActors)
         documentNode = self._oglLinksToMiniDom.serialize(documentNode=documentNode, oglLinks=oglLinks)
         documentNode = self._oglSequenceToDom.serialize(documentNode=documentNode, oglSDMessages=oglSDMessages, oglSDInstances=oglSDInstances)
-
-        for oglText in oglTexts:
-            textElement: Element = self._oglTextToXml(oglText, xmlDoc=self._xmlDocument)
-            documentNode.appendChild(textElement)
 
     def writeXml(self, fqFileName):
         """
@@ -128,34 +127,6 @@ class OglToDom(BaseOglToDom):
         """
         retText: str = xmlTextToUpdate.replace(OglToDom.ORIGINAL_XML_PROLOG, OglToDom.FIXED_XML_PROLOG)
         return retText
-
-    def _oglTextToXml(self, oglText: OglText, xmlDoc: Document) -> Element:
-
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_TEXT)
-
-        self._appendOglBase(oglText, root)
-
-        root.setAttribute(XmlConstants.ATTR_TEXT_SIZE, str(oglText.textSize))
-        root.setAttribute(XmlConstants.ATTR_IS_BOLD, str(oglText.isBold))
-        root.setAttribute(XmlConstants.ATTR_IS_ITALICIZED, str(oglText.isItalicized))
-        root.setAttribute(XmlConstants.ATTR_FONT_FAMILY, oglText.textFontFamily.value)
-
-        root.appendChild(self._pyutTextToXml(oglText.pyutText, xmlDoc))
-
-        return root
-
-    def _pyutTextToXml(self, pyutText: PyutText, xmlDoc: Document) -> Element:
-
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_TEXT)
-        textId: int = self._idFactory.getID(pyutText)
-
-        root.setAttribute(XmlConstants.ATTR_ID, str(textId))
-        content: str = pyutText.content
-        content = content.replace('\n', "\\\\\\\\")
-
-        root.setAttribute(XmlConstants.ATTR_CONTENT, content)
-
-        return root
 
     def _createStarterXmlDocument(self, projectVersion: str, projectCodePath: str) -> Tuple[Document, Element]:
 
