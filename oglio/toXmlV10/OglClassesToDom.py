@@ -30,12 +30,12 @@ class OglClassesToDom(BaseOglToDom):
     def serialize(self, documentNode: Element, oglClasses: OglClasses) -> Element:
 
         for oglClass in oglClasses:
-            graphicClass: Element = self._oglClassToXml(oglClass=oglClass, xmlDoc=self._xmlDocument)
+            graphicClass: Element = self._oglClassToDom(oglClass=oglClass, xmlDoc=self._xmlDocument)
             documentNode.appendChild(graphicClass)
 
         return documentNode
 
-    def _oglClassToXml(self, oglClass: OglClass, xmlDoc: Document) -> Element:
+    def _oglClassToDom(self, oglClass: OglClass, xmlDoc: Document) -> Element:
         """
         Exports an OglClass to a minidom Element.
 

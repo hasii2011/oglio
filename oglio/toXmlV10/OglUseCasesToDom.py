@@ -38,17 +38,17 @@ class OglUseCasesToDom(BaseOglToDom):
         """
 
         for oglActor in oglActors:
-            actorElement: Element = self._oglActorToXml(oglActor=oglActor, xmlDoc=self._xmlDocument)
+            actorElement: Element = self._oglActorToDom(oglActor=oglActor, xmlDoc=self._xmlDocument)
             documentNode.appendChild(actorElement)
 
         for oglUseCase in oglUseCases:
             self.useCaseLogger.debug(f'{oglUseCase}')
-            useCaseElement: Element = self._oglUseCaseToXml(oglUseCase=oglUseCase, xmlDoc=self._xmlDocument)
+            useCaseElement: Element = self._oglUseCaseToDom(oglUseCase=oglUseCase, xmlDoc=self._xmlDocument)
             documentNode.appendChild(useCaseElement)
 
         return documentNode
 
-    def _oglUseCaseToXml(self, oglUseCase: OglUseCase, xmlDoc: Document) -> Element:
+    def _oglUseCaseToDom(self, oglUseCase: OglUseCase, xmlDoc: Document) -> Element:
         """
         Export an OglUseCase to a minidom Element.
 
@@ -67,7 +67,7 @@ class OglUseCasesToDom(BaseOglToDom):
 
         return useCaseElement
 
-    def _oglActorToXml(self, oglActor: OglActor, xmlDoc: Document) -> Element:
+    def _oglActorToDom(self, oglActor: OglActor, xmlDoc: Document) -> Element:
         """
         Exporting an OglActor to a minidom Element.
 

@@ -28,12 +28,12 @@ class OglTextsToDom(BaseOglToDom):
     def serialize(self, documentNode: Element, oglTexts: OglTexts) -> Element:
 
         for oglText in oglTexts:
-            textElement: Element = self._oglTextToXml(oglText, xmlDoc=self._xmlDocument)
+            textElement: Element = self._oglTextToDom(oglText, xmlDoc=self._xmlDocument)
             documentNode.appendChild(textElement)
 
         return documentNode
 
-    def _oglTextToXml(self, oglText: OglText, xmlDoc: Document) -> Element:
+    def _oglTextToDom(self, oglText: OglText, xmlDoc: Document) -> Element:
 
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_TEXT)
 

@@ -32,12 +32,12 @@ class OglNotesToDom(BaseOglToDom):
     def serialize(self, documentNode: Element, oglNotes: OglNotes) -> Element:
 
         for oglNote in oglNotes:
-            textElement: Element = self._oglNoteToXml(oglNote, xmlDoc=self._xmlDocument)
+            textElement: Element = self._oglNoteToDom(oglNote, xmlDoc=self._xmlDocument)
             documentNode.appendChild(textElement)
 
         return documentNode
 
-    def _oglNoteToXml(self, oglNote: OglNote, xmlDoc: Document) -> Element:
+    def _oglNoteToDom(self, oglNote: OglNote, xmlDoc: Document) -> Element:
         """
         Export an OglNote to a minidom Element.
 

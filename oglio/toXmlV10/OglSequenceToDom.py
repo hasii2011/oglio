@@ -32,16 +32,16 @@ class OglSequenceToDom(BaseOglToDom):
     def serialize(self, documentNode: Element, oglSDMessages: OglSDMessages, oglSDInstances: OglSDInstances) -> Element:
 
         for oglSDInstance in oglSDInstances.values():
-            sdInstanceElement: Element = self._oglSDInstanceToXml(oglSDInstance, self._xmlDocument)
+            sdInstanceElement: Element = self._oglSDInstanceToDom(oglSDInstance, self._xmlDocument)
             documentNode.appendChild(sdInstanceElement)
 
         for oglSDMessage in oglSDMessages.values():
-            sdMessageElement: Element = self.oglSDMessageToXml(oglSDMessage=oglSDMessage, xmlDoc=self._xmlDocument)
+            sdMessageElement: Element = self._oglSDMessageToDom(oglSDMessage=oglSDMessage, xmlDoc=self._xmlDocument)
             documentNode.appendChild(sdMessageElement)
 
         return documentNode
 
-    def _oglSDInstanceToXml(self, oglSDInstance: OglSDInstance, xmlDoc: Document) -> Element:
+    def _oglSDInstanceToDom(self, oglSDInstance: OglSDInstance, xmlDoc: Document) -> Element:
         """
         Export an OglSDInstance to a minidom Element
 
@@ -60,7 +60,7 @@ class OglSequenceToDom(BaseOglToDom):
 
         return root
 
-    def oglSDMessageToXml(self, oglSDMessage: OglSDMessage, xmlDoc: Document) -> Element:
+    def _oglSDMessageToDom(self, oglSDMessage: OglSDMessage, xmlDoc: Document) -> Element:
         """
         Export an OglSDMessage to a minidom Element.
 

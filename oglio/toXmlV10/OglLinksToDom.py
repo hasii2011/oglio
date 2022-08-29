@@ -32,15 +32,15 @@ class OglLinksToDom(BaseOglToDom):
 
         for oglLink in oglLinks:
             if isinstance(oglLink, OglInterface2):
-                lollipopElement: Element = self._oglInterface2ToXml(oglLink, self._xmlDocument)
+                lollipopElement: Element = self._oglInterface2ToDom(oglLink, self._xmlDocument)
                 documentNode.appendChild(lollipopElement)
             else:
-                linkElement: Element = self._oglLinkToXml(oglLink=oglLink, xmlDoc=self._xmlDocument)
+                linkElement: Element = self._oglLinkToDom(oglLink=oglLink, xmlDoc=self._xmlDocument)
                 documentNode.appendChild(linkElement)
 
         return documentNode
 
-    def _oglInterface2ToXml(self, oglInterface: OglInterface2, xmlDoc: Document) -> Element:
+    def _oglInterface2ToDom(self, oglInterface: OglInterface2, xmlDoc: Document) -> Element:
         """
 
         Args:
@@ -69,7 +69,7 @@ class OglLinksToDom(BaseOglToDom):
 
         return root
 
-    def _oglLinkToXml(self, oglLink: OglLink, xmlDoc: Document):
+    def _oglLinkToDom(self, oglLink: OglLink, xmlDoc: Document):
         """
         Export an OgLink to a minidom element
         Args:
