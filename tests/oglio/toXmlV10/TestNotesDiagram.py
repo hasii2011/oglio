@@ -9,14 +9,11 @@ from unittest import main as unitTestMain
 
 from pkg_resources import resource_filename
 
-from pyutmodel.PyutObject import PyutObject
-
 from untanglepyut.UnTangler import Document
 from untanglepyut.UnTangler import UnTangler
 
 from oglio.Types import OglDocument
 
-from oglio.toXmlV10.BaseToDom import IDFactory
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
 from tests.TestBase import TestBase
@@ -37,8 +34,6 @@ class TestNotesDiagram(TestBase):
         self.logger: Logger = TestNotesDiagram.clsLogger
 
         super().setUp()
-        PyutObject.nextID = 0   # reset to match sequence diagram
-        IDFactory.nextID  = 1
 
     def tearDown(self):
         super().tearDown()

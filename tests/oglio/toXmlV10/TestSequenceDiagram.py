@@ -37,8 +37,6 @@ class TestSequenceDiagram(TestBase):
         self.logger: Logger = TestSequenceDiagram.clsLogger
 
         super().setUp()
-        PyutObject.nextID = 0   # reset to match sequence diagram
-        IDFactory.nextID = 1
 
     def tearDown(self):
         super().tearDown()

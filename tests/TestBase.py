@@ -10,12 +10,15 @@ from os import sep as osSep
 from pkg_resources import resource_filename
 
 from miniogl.DiagramFrame import DiagramFrame
+from pyutmodel.PyutObject import PyutObject
 
 from wx import App
 from wx import Frame
 from wx import ID_ANY
 
 from unittest import TestCase
+
+from oglio.toXmlV10.BaseToDom import IDFactory
 
 JSON_LOGGING_CONFIG_FILENAME: str = "testLoggingConfig.json"
 TEST_DIRECTORY:               str = 'tests'
@@ -44,6 +47,8 @@ class TestBase(TestCase):
         # noinspection PyTypeChecker
         umlFrame = DiagramFrame(baseFrame)
         umlFrame.Show(True)
+        PyutObject.nextID = 0   # reset to match sequence diagram
+        IDFactory.nextID  = 1
 
     def tearDown(self):
         self._app.OnExit()
