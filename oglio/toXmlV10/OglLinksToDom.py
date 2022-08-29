@@ -65,7 +65,7 @@ class OglLinksToDom(BaseOglToDom):
         # self.logger.info(f'Interface implemented by class id: {parentId}')
 
         # root.setAttribute(PyutXmlConstants.ATTR_IMPLEMENTED_BY_CLASS_ID, str(parentId))
-        root.appendChild(self._pyutToMiniDom.pyutInterfaceToXml(oglInterface.pyutInterface, xmlDoc))
+        root.appendChild(self._pyutToMiniDom.pyutInterfaceToDom(oglInterface.pyutInterface, xmlDoc))
 
         return root
 
@@ -119,7 +119,7 @@ class OglLinksToDom(BaseOglToDom):
 
         # adding the data layer object
 
-        root.appendChild(self._pyutToMiniDom.pyutLinkToXml(oglLink.pyutObject, xmlDoc))
+        root.appendChild(self._pyutToMiniDom.pyutLinkToDom(oglLink.pyutObject, xmlDoc))
 
         return root
 

@@ -44,6 +44,6 @@ class OglTextsToDom(BaseOglToDom):
         root.setAttribute(XmlConstants.ATTR_IS_ITALICIZED, str(oglText.isItalicized))
         root.setAttribute(XmlConstants.ATTR_FONT_FAMILY, oglText.textFontFamily.value)
 
-        root.appendChild(self._pyutToMiniDom.pyutTextToXml(oglText.pyutText, xmlDoc))
+        root.appendChild(self._pyutToMiniDom.pyutTextToDom(oglText.pyutText, xmlDoc))
 
         return root

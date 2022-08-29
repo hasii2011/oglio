@@ -63,7 +63,7 @@ class OglUseCasesToDom(BaseOglToDom):
 
         self._appendOglBase(oglUseCase, useCaseElement)
 
-        useCaseElement.appendChild(self._pyutToMiniDom.pyutUseCaseToXml(cast(PyutUseCase, oglUseCase.pyutObject), xmlDoc))
+        useCaseElement.appendChild(self._pyutToMiniDom.pyutUseCaseToDom(cast(PyutUseCase, oglUseCase.pyutObject), xmlDoc))
 
         return useCaseElement
 
@@ -82,7 +82,7 @@ class OglUseCasesToDom(BaseOglToDom):
 
         self._appendOglBase(oglActor, pyutActorElement)
 
-        pyutActorElement.appendChild(self._pyutToMiniDom.pyutActorToXml(cast(PyutActor, oglActor.pyutObject), xmlDoc))
+        pyutActorElement.appendChild(self._pyutToMiniDom.pyutActorToDom(cast(PyutActor, oglActor.pyutObject), xmlDoc))
 
         return pyutActorElement
 

@@ -56,7 +56,7 @@ class OglSequenceToDom(BaseOglToDom):
 
         self._appendOglBase(oglSDInstance, root)
 
-        root.appendChild(self._pyutToMiniDom.pyutSDInstanceToXml(cast(PyutSDInstance, oglSDInstance.pyutObject), xmlDoc))
+        root.appendChild(self._pyutToMiniDom.pyutSDInstanceToDom(cast(PyutSDInstance, oglSDInstance.pyutObject), xmlDoc))
 
         return root
 
@@ -74,6 +74,6 @@ class OglSequenceToDom(BaseOglToDom):
         root = self._xmlDocument.createElement(XmlConstants.ELEMENT_GRAPHIC_SD_MESSAGE)
 
         pyutSDMessage: PyutSDMessage = oglSDMessage.getPyutObject()
-        root.appendChild(self._pyutToMiniDom.pyutSDMessageToXml(pyutSDMessage, xmlDoc))
+        root.appendChild(self._pyutToMiniDom.pyutSDMessageToDom(pyutSDMessage, xmlDoc))
 
         return root

@@ -35,7 +35,7 @@ class PyutToDom(BasePyutToDom):
         super().__init__()
         self.logger: Logger = getLogger(__name__)
 
-    def pyutClassToXml(self, pyutClass: PyutClass, xmlDoc: Document) -> Element:
+    def pyutClassToDom(self, pyutClass: PyutClass, xmlDoc: Document) -> Element:
         """
         Exporting a PyutClass to a miniDom Element.
 
@@ -67,14 +67,14 @@ class PyutToDom(BasePyutToDom):
 
         # methods
         for method in pyutClass.methods:
-            pyutClassElement.appendChild(self._pyutMethodToXml(method, xmlDoc))
+            pyutClassElement.appendChild(self._pyutMethodToDom(method, xmlDoc))
         # fields
         for field in pyutClass.fields:
-            pyutClassElement.appendChild(self._pyutFieldToXml(field, xmlDoc))
+            pyutClassElement.appendChild(self._pyutFieldToDom(field, xmlDoc))
 
         return pyutClassElement
 
-    def pyutInterfaceToXml(self, pyutInterface: PyutInterface, xmlDoc: Document) -> Element:
+    def pyutInterfaceToDom(self, pyutInterface: PyutInterface, xmlDoc: Document) -> Element:
 
         pyutInterfaceElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_INTERFACE)
 
@@ -85,15 +85,15 @@ class PyutToDom(BasePyutToDom):
         pyutInterfaceElement = self._pyutClassCommonToXml(pyutInterface, pyutInterfaceElement)
 
         for method in pyutInterface.methods:
-            pyutInterfaceElement.appendChild(self._pyutMethodToXml(method, xmlDoc))
+            pyutInterfaceElement.appendChild(self._pyutMethodToDom(method, xmlDoc))
 
         for className in pyutInterface.implementors:
             self.logger.debug(f'implementing className: {className}')
-            pyutInterfaceElement.appendChild(self._pyutImplementorToXml(className, xmlDoc))
+            pyutInterfaceElement.appendChild(self._pyutImplementorToDom(className, xmlDoc))
 
         return pyutInterfaceElement
 
-    def pyutLinkToXml(self, pyutLink: PyutLink, xmlDoc: Document) -> Element:
+    def pyutLinkToDom(self, pyutLink: PyutLink, xmlDoc: Document) -> Element:
         """
         Exporting a PyutLink to a miniDom Element.
 
@@ -120,7 +120,7 @@ class PyutToDom(BasePyutToDom):
 
         return root
 
-    def pyutNoteToXml(self, pyutNote: PyutNote, xmlDoc: Document) -> Element:
+    def pyutNoteToDom(self, pyutNote: PyutNote, xmlDoc: Document) -> Element:
         """
         Export a PyutNote to a miniDom Element.
 
@@ -144,7 +144,7 @@ class PyutToDom(BasePyutToDom):
 
         return pyutNoteElement
 
-    def pyutTextToXml(self, pyutText: PyutText, xmlDoc: Document) -> Element:
+    def pyutTextToDom(self, pyutText: PyutText, xmlDoc: Document) -> Element:
 
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_TEXT)
         textId: int = self._idFactory.getID(pyutText)
@@ -157,7 +157,7 @@ class PyutToDom(BasePyutToDom):
 
         return root
 
-    def pyutUseCaseToXml(self, pyutUseCase: PyutUseCase, xmlDoc: Document) -> Element:
+    def pyutUseCaseToDom(self, pyutUseCase: PyutUseCase, xmlDoc: Document) -> Element:
         """
         Export a PyutUseCase to a minidom Element.
 
@@ -177,7 +177,7 @@ class PyutToDom(BasePyutToDom):
 
         return pyutUseCaseElement
 
-    def pyutActorToXml(self, pyutActor: PyutActor, xmlDoc: Document) -> Element:
+    def pyutActorToDom(self, pyutActor: PyutActor, xmlDoc: Document) -> Element:
         """
         Export an PyutActor to a minidom Element.
         Args:
@@ -196,7 +196,7 @@ class PyutToDom(BasePyutToDom):
 
         return pyutActorElement
 
-    def pyutSDInstanceToXml(self, pyutSDInstance: PyutSDInstance, xmlDoc: Document) -> Element:
+    def pyutSDInstanceToDom(self, pyutSDInstance: PyutSDInstance, xmlDoc: Document) -> Element:
         """
         Exporting a PyutSDInstance to an minidom Element.
 
@@ -216,7 +216,7 @@ class PyutToDom(BasePyutToDom):
 
         return root
 
-    def pyutSDMessageToXml(self, pyutSDMessage: PyutSDMessage, xmlDoc: Document) -> Element:
+    def pyutSDMessageToDom(self, pyutSDMessage: PyutSDMessage, xmlDoc: Document) -> Element:
         """
         Exporting a PyutSDMessage to an minidom Element.
         Args:
@@ -249,7 +249,7 @@ class PyutToDom(BasePyutToDom):
 
         return root
 
-    def _pyutMethodToXml(self, pyutMethod, xmlDoc) -> Element:
+    def _pyutMethodToDom(self, pyutMethod, xmlDoc) -> Element:
         """
         Exporting a PyutMethod to a miniDom Element
 
@@ -281,13 +281,13 @@ class PyutToDom(BasePyutToDom):
             pyutMethodElement.appendChild(xmlReturnType)
 
         for param in pyutMethod.parameters:
-            pyutMethodElement.appendChild(self._pyutParamToXml(param, xmlDoc))
+            pyutMethodElement.appendChild(self._pyutParamToDom(param, xmlDoc))
 
-        codeRoot: Element = self._pyutSourceCodeToXml(pyutMethod.sourceCode, xmlDoc)
+        codeRoot: Element = self._pyutSourceCodeToDom(pyutMethod.sourceCode, xmlDoc)
         pyutMethodElement.appendChild(codeRoot)
         return pyutMethodElement
 
-    def _pyutFieldToXml(self, pyutField: PyutField, xmlDoc: Document) -> Element:
+    def _pyutFieldToDom(self, pyutField: PyutField, xmlDoc: Document) -> Element:
         """
         Export a PyutField to a miniDom Element
         Args:
@@ -299,14 +299,14 @@ class PyutToDom(BasePyutToDom):
         """
         pyutFieldElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_FIELD)
 
-        pyutFieldElement.appendChild(self._pyutParamToXml(pyutField, xmlDoc))
+        pyutFieldElement.appendChild(self._pyutParamToDom(pyutField, xmlDoc))
         visibility: PyutVisibilityEnum = pyutField.visibility
         visName:    str                = self.__safeVisibilityToName(visibility)
         pyutFieldElement.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
 
         return pyutFieldElement
 
-    def _pyutParamToXml(self, pyutParam: PyutParameter, xmlDoc: Document) -> Element:
+    def _pyutParamToDom(self, pyutParam: PyutParameter, xmlDoc: Document) -> Element:
         """
         Export a PyutParam to a miniDom Element
 
@@ -328,7 +328,7 @@ class PyutToDom(BasePyutToDom):
 
         return pyutParameterElement
 
-    def _pyutSourceCodeToXml(self, sourceCode: SourceCode, xmlDoc: Document) -> Element:
+    def _pyutSourceCodeToDom(self, sourceCode: SourceCode, xmlDoc: Document) -> Element:
 
         codeRoot: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SOURCE_CODE)
         for code in sourceCode:
@@ -339,7 +339,7 @@ class PyutToDom(BasePyutToDom):
 
         return codeRoot
 
-    def _pyutImplementorToXml(self, className: ClassName, xmlDoc: Document) -> Element:
+    def _pyutImplementorToDom(self, className: ClassName, xmlDoc: Document) -> Element:
 
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_IMPLEMENTOR)
 

@@ -51,6 +51,6 @@ class OglClassesToDom(BaseOglToDom):
         graphicClass = self._appendOglBase(oglClass, graphicClass)
 
         # adding the data layer object
-        graphicClass.appendChild(self._pyutToMiniDom.pyutClassToXml(cast(PyutClass, oglClass.pyutObject), xmlDoc))
+        graphicClass.appendChild(self._pyutToMiniDom.pyutClassToDom(cast(PyutClass, oglClass.pyutObject), xmlDoc))
 
         return graphicClass

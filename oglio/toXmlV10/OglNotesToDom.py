@@ -52,6 +52,6 @@ class OglNotesToDom(BaseOglToDom):
 
         self._appendOglBase(oglNote, graphicNoteElement)
 
-        graphicNoteElement.appendChild(self._pyutToMiniDom.pyutNoteToXml(cast(PyutNote, oglNote.pyutObject), xmlDoc))
+        graphicNoteElement.appendChild(self._pyutToMiniDom.pyutNoteToDom(cast(PyutNote, oglNote.pyutObject), xmlDoc))
 
         return graphicNoteElement
