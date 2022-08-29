@@ -8,16 +8,15 @@ from logging import getLogger
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
-from pyutmodel.PyutNote import PyutNote
 from pyutmodel.PyutText import PyutText
 
-from ogl.OglNote import OglNote
 from ogl.OglText import OglText
 
 from oglio.Types import OglActors
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
 from oglio.Types import OglLinks
+from oglio.Types import OglNotes
 from oglio.Types import OglSDInstances
 from oglio.Types import OglSDMessages
 from oglio.Types import OglTexts
@@ -26,6 +25,7 @@ from oglio.Types import OglUseCases
 from oglio.toXmlV10.BaseOglToDom import BaseOglToDom
 from oglio.toXmlV10.OglClassesToDom import OglClassesToDom
 from oglio.toXmlV10.OglLinksToDom import OglLinksToDom
+from oglio.toXmlV10.OglNotesToDom import OglNotesToDom
 from oglio.toXmlV10.OglSequenceToDom import OglSequenceToDom
 from oglio.toXmlV10.OglUseCasesToDom import OglUseCasesToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
@@ -66,6 +66,7 @@ class OglToDom(BaseOglToDom):
         self._oglLinksToMiniDom:    OglLinksToDom    = OglLinksToDom(xmlDocument=self._xmlDocument)
         self._oglUseCasesToMiniDom: OglUseCasesToDom = OglUseCasesToDom(xmlDocument=self._xmlDocument)
         self._oglSequenceToDom:   OglSequenceToDom   = OglSequenceToDom(xmlDocument=self._xmlDocument)
+        self._oglNotesToDom:      OglNotesToDom      = OglNotesToDom(xmlDocument=self._xmlDocument)
 
     @property
     def xmlDocument(self) -> Document:
@@ -87,11 +88,13 @@ class OglToDom(BaseOglToDom):
         oglTexts:       OglTexts       = cast(OglTexts, oglDocument.oglTexts)
         oglUseCases:    OglUseCases    = cast(OglUseCases, oglDocument.oglUseCases)
         oglActors:      OglActors      = cast(OglActors, oglDocument.oglActors)
+        oglNotes:       OglNotes       = cast(OglNotes,  oglDocument.oglNotes)
         oglSDInstances: OglSDInstances = cast(OglSDInstances, oglDocument.oglSDInstances)
         oglSDMessages:  OglSDMessages  = cast(OglSDMessages,  oglDocument.oglSDMessages)
 
         documentNode = self._oglClassesToMiniDom.serialize(documentNode=documentNode, oglClasses=oglClasses)
         documentNode = self._oglUseCasesToMiniDom.serialize(documentNode=documentNode, oglUseCases=oglUseCases, oglActors=oglActors)
+        documentNode = self._oglNotesToDom.serialize(documentNode=documentNode, oglNotes=oglNotes)
         documentNode = self._oglLinksToMiniDom.serialize(documentNode=documentNode, oglLinks=oglLinks)
         documentNode = self._oglSequenceToDom.serialize(documentNode=documentNode, oglSDMessages=oglSDMessages, oglSDInstances=oglSDInstances)
 
@@ -126,25 +129,6 @@ class OglToDom(BaseOglToDom):
         retText: str = xmlTextToUpdate.replace(OglToDom.ORIGINAL_XML_PROLOG, OglToDom.FIXED_XML_PROLOG)
         return retText
 
-    def oglNoteToXml(self, oglNote: OglNote, xmlDoc: Document) -> Element:
-        """
-        Export an OglNote to a minidom Element.
-
-        Args:
-            oglNote:    Note to convert
-            xmlDoc:     xml document
-
-        Returns:
-            New minidom element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_NOTE)
-
-        self._appendOglBase(oglNote, root)
-
-        root.appendChild(self._pyutNoteToXml(cast(PyutNote, oglNote.pyutObject), xmlDoc))
-
-        return root
-
     def _oglTextToXml(self, oglText: OglText, xmlDoc: Document) -> Element:
 
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_TEXT)
@@ -157,30 +141,6 @@ class OglToDom(BaseOglToDom):
         root.setAttribute(XmlConstants.ATTR_FONT_FAMILY, oglText.textFontFamily.value)
 
         root.appendChild(self._pyutTextToXml(oglText.pyutText, xmlDoc))
-
-        return root
-
-    def _pyutNoteToXml(self, pyutNote: PyutNote, xmlDoc: Document) -> Element:
-        """
-        Export a PyutNote to a miniDom Element.
-
-        Args:
-            pyutNote:   Note to convert
-            xmlDoc:     xml document
-
-        Returns:
-            New miniDom element
-        """
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_NOTE)
-
-        noteId: int = self._idFactory.getID(pyutNote)
-        root.setAttribute(XmlConstants.ATTR_ID, str(noteId))
-
-        content: str = pyutNote.content
-        content = content.replace('\n', "\\\\\\\\")
-        root.setAttribute(XmlConstants.ATTR_CONTENT, content)
-
-        root.setAttribute(XmlConstants.ATTR_FILENAME, pyutNote.fileName)
 
         return root
 

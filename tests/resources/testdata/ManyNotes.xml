@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PyutProject version="10" CodePath="">
 	<PyutDocument type="CLASS_DIAGRAM" title="Many Notes" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
-		<GraphicNote width="100" height="50" x="150" y="225">
-			<Note id="1" content="Note 1" filename=""/>
-		</GraphicNote>
 		<GraphicClass width="116" height="20" x="525" y="75">
-			<Class id="2" name="ManyNotesAttached" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
+			<Class id="1" name="ManyNotesAttached" stereotype="" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
 		</GraphicClass>
-		<GraphicLink srcX="202" srcY="225" dstX="525" dstY="85" spline="False">
-			<LabelCenter x="651" y="103"/>
-			<LabelSrc x="651" y="103"/>
-			<LabelDst x="651" y="103"/>
-			<ControlPoint x="201" y="83"/>
-			<Link name="" type="ASSOCIATION" cardSrc="" cardDestination="" bidir="False" sourceId="1" destId="2"/>
-		</GraphicLink>
+		<GraphicNote width="100" height="50" x="150" y="225">
+			<Note id="2" content="Note 1" filename=""/>
+		</GraphicNote>
 		<GraphicNote width="100" height="50" x="750" y="250">
 			<Note id="3" content="Note 3" filename=""/>
 		</GraphicNote>
 		<GraphicNote width="100" height="50" x="500" y="375">
 			<Note id="4" content="Note with Spline" filename=""/>
 		</GraphicNote>
+		<GraphicLink srcX="202" srcY="225" dstX="525" dstY="85" spline="False">
+			<LabelCenter x="651" y="103"/>
+			<LabelSrc x="651" y="103"/>
+			<LabelDst x="651" y="103"/>
+			<ControlPoint x="201" y="83"/>
+			<Link name="" type="ASSOCIATION" cardSrc="" cardDestination="" bidir="False" sourceId="2" destId="1"/>
+		</GraphicLink>
 		<GraphicLink srcX="550" srcY="375" dstX="576" dstY="94" spline="True">
 			<LabelCenter x="651" y="103"/>
 			<LabelSrc x="651" y="103"/>
 			<LabelDst x="651" y="103"/>
 			<ControlPoint x="431" y="253"/>
-			<Link name="" type="ASSOCIATION" cardSrc="" cardDestination="" bidir="False" sourceId="4" destId="2"/>
+			<Link name="" type="ASSOCIATION" cardSrc="" cardDestination="" bidir="False" sourceId="4" destId="1"/>
 		</GraphicLink>
 		<GraphicLink srcX="800" srcY="250" dstX="641" dstY="85" spline="False">
 			<LabelCenter x="651" y="103"/>
 			<LabelSrc x="651" y="103"/>
 			<LabelDst x="651" y="103"/>
 			<ControlPoint x="798" y="85"/>
-			<Link name="" type="ASSOCIATION" cardSrc="" cardDestination="" bidir="False" sourceId="3" destId="2"/>
+			<Link name="" type="ASSOCIATION" cardSrc="" cardDestination="" bidir="False" sourceId="3" destId="1"/>
 		</GraphicLink>
 	</PyutDocument>
 </PyutProject>

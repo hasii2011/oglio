@@ -14,6 +14,7 @@ from pyutmodel.PyutField import PyutField
 from pyutmodel.PyutInterface import PyutInterface
 from pyutmodel.PyutLink import PyutLink
 from pyutmodel.PyutMethod import SourceCode
+from pyutmodel.PyutNote import PyutNote
 from pyutmodel.PyutParameter import PyutParameter
 from pyutmodel.PyutSDInstance import PyutSDInstance
 from pyutmodel.PyutSDMessage import PyutSDMessage
@@ -25,7 +26,9 @@ from oglio.toXmlV10.XmlConstants import XmlConstants
 
 
 class PyutToDom(BasePyutToDom):
-
+    """
+    Serializes Pyut Models classes to DOM
+    """
     def __init__(self):
 
         super().__init__()
@@ -115,6 +118,30 @@ class PyutToDom(BasePyutToDom):
         root.setAttribute(XmlConstants.ATTR_DESTINATION_ID, str(destLinkId))
 
         return root
+
+    def pyutNoteToXml(self, pyutNote: PyutNote, xmlDoc: Document) -> Element:
+        """
+        Export a PyutNote to a miniDom Element.
+
+        Args:
+            pyutNote:   Note to convert
+            xmlDoc:     xml document
+
+        Returns:
+            New miniDom element
+        """
+        pyutNoteElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_NOTE)
+
+        noteId: int = self._idFactory.getID(pyutNote)
+        pyutNoteElement.setAttribute(XmlConstants.ATTR_ID, str(noteId))
+
+        content: str = pyutNote.content
+        content = content.replace('\n', "\\\\\\\\")
+        pyutNoteElement.setAttribute(XmlConstants.ATTR_CONTENT, content)
+
+        pyutNoteElement.setAttribute(XmlConstants.ATTR_FILENAME, pyutNote.fileName)
+
+        return pyutNoteElement
 
     def pyutUseCaseToXml(self, pyutUseCase: PyutUseCase, xmlDoc: Document) -> Element:
         """
