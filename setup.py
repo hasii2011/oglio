@@ -10,7 +10,7 @@ LICENSE = (HERE / 'LICENSE').read_text()
 
 setup(
     name="oglio",
-    version="0.2",
+    version="0.5",
     author_email='Humberto.A.Sanchez.II@gmail.com',
     maintainer='Humberto A. Sanchez II',
     maintainer_email='humberto.a.sanchez.ii@gmail.com',
@@ -22,11 +22,12 @@ setup(
         'oglio',
     ],
     package_data={
-        'oglio': ['py.typed'],
+        'oglio':          ['py.typed'],
+        'oglio.toXmlV10': ['py.typed']
     },
     install_requires=[
-        'ogl==0.60.9',
         'pyutmodel==1.1.0',
-        'untanglepyut==0.4.2',
+        'ogl==0.60.1',
+        'untanglepyut==0.4.5',
     ],
 )
