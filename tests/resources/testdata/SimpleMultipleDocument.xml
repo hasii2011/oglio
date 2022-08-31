@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PyutProject version="10" CodePath="/tmp/bogus/Ozzee.py">
+	<PyutDocument type="CLASS_DIAGRAM" title="Diagram 1" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+		<GraphicClass width="79" height="20" x="375" y="150">
+			<Class id="1" name="ClassName1" stereotype="" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
+		</GraphicClass>
+	</PyutDocument>
+	<PyutDocument type="CLASS_DIAGRAM" title="Diagram 2" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+		<GraphicClass width="112" height="20" x="375" y="100">
+			<Class id="2" name="SimpleClassName2" stereotype="" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
+		</GraphicClass>
+	</PyutDocument>
+</PyutProject>

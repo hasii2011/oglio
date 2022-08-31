@@ -36,7 +36,7 @@ class TestBase(TestCase):
     RESOURCES_TEST_DATA_PACKAGE_NAME:            str = f'{RESOURCES_PACKAGE_NAME}.testdata'
 
     EXTERNAL_DIFF:         str = '/usr/bin/diff -w '
-    EXTERNAL_CLEAN_UP_TMP: str = 'rm -v '
+    EXTERNAL_CLEAN_UP_TMP: str = 'rm '
 
     def setUp(self):
         """

@@ -4,6 +4,8 @@ from logging import getLogger
 
 from oglio.Types import OglProject
 
+from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
+
 
 class Writer:
     """
@@ -23,4 +25,9 @@ class Writer:
             oglProject:     The project we have to serialize
             fqFileName:     Where to write the XML;  Should be a
         """
-        pass
+        oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=oglProject.version, projectCodePath=oglProject.codePath)
+
+        for oglDocument in oglProject.oglDocuments.values():
+            oglToMiniDom.serialize(oglDocument=oglDocument)
+
+        oglToMiniDom.writeXml(fqFileName=fqFileName)

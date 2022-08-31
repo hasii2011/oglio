@@ -8,10 +8,6 @@ from logging import getLogger
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
-from pyutmodel.PyutText import PyutText
-
-from ogl.OglText import OglText
-
 from oglio.Types import OglActors
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
@@ -44,6 +40,7 @@ class OglToDom(BaseOglToDom):
         * Updated using google docstrings
 
     """
+    VERSION:             str = '10'
     ORIGINAL_XML_PROLOG: str = '<?xml version="1.0" ?>'
     FIXED_XML_PROLOG:    str = '<?xml version="1.0" encoding="iso-8859-1"?>'
 
@@ -99,6 +96,8 @@ class OglToDom(BaseOglToDom):
         documentNode = self._oglTextsToDom.serialize(documentNode=documentNode, oglTexts=oglTexts)
         documentNode = self._oglUseCasesToMiniDom.serialize(documentNode=documentNode, oglUseCases=oglUseCases, oglActors=oglActors)
         documentNode = self._oglLinksToMiniDom.serialize(documentNode=documentNode, oglLinks=oglLinks)
+
+        # noinspection PyUnusedLocal
         documentNode = self._oglSequenceToDom.serialize(documentNode=documentNode, oglSDMessages=oglSDMessages, oglSDInstances=oglSDInstances)
 
     def writeXml(self, fqFileName):
