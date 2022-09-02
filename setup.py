@@ -10,7 +10,7 @@ LICENSE = (HERE / 'LICENSE').read_text()
 
 setup(
     name="oglio",
-    version="0.5.1",
+    version="0.5.2",
     author_email='Humberto.A.Sanchez.II@gmail.com',
     maintainer='Humberto A. Sanchez II',
     maintainer_email='humberto.a.sanchez.ii@gmail.com',
@@ -27,7 +27,7 @@ setup(
     },
     install_requires=[
         'pyutmodel==1.1.0',
-        'ogl==0.60.1',
+        'ogl==0.60.2',
         'untanglepyut==0.4.6',
     ],
 )
