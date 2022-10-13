@@ -76,6 +76,17 @@ class OglToDom(BaseOglToDom):
         """
         return self._xmlDocument
 
+    @property
+    def xml(self) -> str:
+        """
+
+        Returns:  The serialized XML in pretty print format
+        """
+        xmlText:    str = self._xmlDocument.toprettyxml()
+        updatedXml: str = OglToDom.setAsISOLatin(xmlText)
+
+        return updatedXml
+
     def serialize(self, oglDocument: OglDocument):
 
         documentNode: Element = self._oglDocumentToXml(oglDocument=oglDocument)
@@ -108,8 +119,9 @@ class OglToDom(BaseOglToDom):
             fqFileName:  The fully qualified file name
         """
 
-        xmlText: str = self._xmlDocument.toprettyxml()
-        updatedXml: str = OglToDom.setAsISOLatin(xmlText)
+        # xmlText:    str = self._xmlDocument.toprettyxml()
+        # updatedXml: str = OglToDom.setAsISOLatin(xmlText)
+        updatedXml: str = self.xml
 
         with open(fqFileName, 'w') as fd:
             fd.write(updatedXml)

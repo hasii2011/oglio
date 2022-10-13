@@ -16,6 +16,7 @@ from oglio.Types import OglDocument
 from oglio.Types import OglDocuments
 from oglio.Types import OglLinks
 from oglio.Types import OglProject
+from oglio.UnsupportedFileTypeException import UnsupportedFileTypeException
 
 from tests.TestBase import TestBase
 
@@ -46,7 +47,7 @@ class TestReader(TestBase):
 
         fqFileName: str = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
 
-        oglProject:   OglProject   = self._reader.read(fqFileName=fqFileName)
+        oglProject:   OglProject   = self._reader.readXmlFile(fqFileName=fqFileName)
         oglDocuments: OglDocuments = oglProject.oglDocuments
 
         self.assertEqual(2, len(oglDocuments), 'Mismatch in number of Pyut Documents that were read')
@@ -55,7 +56,7 @@ class TestReader(TestBase):
 
         fqFileName: str = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
 
-        oglProject:   OglProject   = self._reader.read(fqFileName=fqFileName)
+        oglProject:   OglProject   = self._reader.readXmlFile(fqFileName=fqFileName)
         oglDocuments: OglDocuments = oglProject.oglDocuments
 
         try:
@@ -68,7 +69,7 @@ class TestReader(TestBase):
 
         fqFileName: str = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
 
-        oglProject: OglProject = self._reader.read(fqFileName=fqFileName)
+        oglProject: OglProject = self._reader.readXmlFile(fqFileName=fqFileName)
 
         oglDocuments: OglDocuments = oglProject.oglDocuments
 
@@ -77,6 +78,24 @@ class TestReader(TestBase):
             self._testDocumentContents(oglDocument=oglDocument, expectedClassCount=7, expectedLinkCount=4)
         except KeyError:
             self.assertTrue(False, f'Could not find {TestReader.TEST_DOCUMENT_NAME_2}')
+
+    def testIncorrectXmlSuffix(self):
+        self.assertRaises(UnsupportedFileTypeException, self._reader.readXmlFile, 'HokeyXmlFileName.opie')
+
+    def testIncorrectPutSuffix(self):
+        self.assertRaises(UnsupportedFileTypeException, self._reader.readXmlFile, 'HokeyPutFileName.ozzee')
+
+    def testReadCompressedFile(self):
+        fqFileName: str = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'SimpleMultipleDocument.put')
+
+        oglProject:   OglProject   = self._reader.readFile(fqFileName=fqFileName)
+        oglDocuments: OglDocuments = oglProject.oglDocuments
+
+        try:
+            oglDocument: OglDocument = oglDocuments['Diagram 1']
+            self._testDocumentContents(oglDocument=oglDocument, expectedClassCount=1, expectedLinkCount=0)
+        except KeyError:
+            self.assertTrue(False, f'Could not find Diagram 1')
 
     def _testDocumentContents(self, oglDocument: OglDocument, expectedClassCount: int, expectedLinkCount: int):
 

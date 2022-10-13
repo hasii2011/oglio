@@ -4,6 +4,9 @@ from typing import cast
 from logging import Logger
 from logging import getLogger
 
+from zlib import decompress
+from zlib import ZLIB_VERSION
+
 from untanglepyut.UnTangler import Documents
 from untanglepyut.UnTangler import UnTangler
 
@@ -15,6 +18,8 @@ from oglio.Types import OglNotes
 from oglio.Types import OglProject
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
+
+from oglio.UnsupportedFileTypeException import UnsupportedFileTypeException
 
 
 class Reader:
@@ -29,18 +34,76 @@ class Reader:
 
         self.logger: Logger = getLogger(__name__)
 
-    def read(self, fqFileName: str) -> OglProject:
+    def readFile(self, fqFileName: str) -> OglProject:
+        """
+        Parse the input .put file
+
+        Args:
+            fqFileName: The fully qualified file name
+        """
+        if fqFileName.endswith('.put') is False:
+            raise UnsupportedFileTypeException(message=f'File does not end with .put suffix')
+
+        rawXmlString: str = self._decompressFile(fqFileName=fqFileName)
+
+        untangler: UnTangler = UnTangler()
+
+        untangler.untangleXml(xmlString=rawXmlString)
+
+        oglProject: OglProject = self._makeOglProject(untangler=untangler)
+
+        return oglProject
+
+    def readXmlFile(self, fqFileName: str) -> OglProject:
 
         """
-        Parse the input XML file
+        Parse the input XML file;
 
         Args:
             fqFileName: Fully qualified file name
         """
+        if fqFileName.endswith('.xml') is False:
+            raise UnsupportedFileTypeException(message=f'File does not end with .xml suffix')
+
         untangler: UnTangler = UnTangler()
 
         untangler.untangleFile(fqFileName=fqFileName)
 
+        oglProject: OglProject = self._makeOglProject(untangler=untangler)
+
+        return oglProject
+
+    def _decompressFile(self, fqFileName: str) -> str:
+        """
+        Decompresses a previously Pyut compressed file
+        Args:
+            fqFileName: Fully qualified file name with a .put suffix
+
+        Returns:  A raw XML String
+        """
+        try:
+            with open(fqFileName, "rb") as compressedFile:
+                compressedData: bytes = compressedFile.read()
+        except (ValueError, Exception) as e:
+            self.logger.error(f'decompress open:  {e}')
+            raise e
+        else:
+            self.logger.info(f'{ZLIB_VERSION=}')
+            xmlBytes:  bytes = decompress(compressedData)  # has b'....' around it
+            xmlString: str   = xmlBytes.decode()
+            self.logger.debug(f'Document read:\n{xmlString}')
+
+        return xmlString
+
+    def _makeOglProject(self, untangler: UnTangler) -> OglProject:
+        """
+        Syntactic sugar
+
+        Args:
+            untangler:
+
+        Returns:  A populated  OglProject
+        """
         oglProject: OglProject = OglProject()
 
         oglProject.toOglProject(untangler.projectInformation)
