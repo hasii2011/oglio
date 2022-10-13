@@ -18,6 +18,8 @@ from oglio.Types import OglNotes
 from oglio.Types import OglProject
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
+from oglio.Types import OglSDInstances
+from oglio.Types import OglSDMessages
 
 from oglio.UnsupportedFileTypeException import UnsupportedFileTypeException
 
@@ -122,6 +124,8 @@ class Reader:
             oglDocument.oglTexts    = cast(OglTexts,    document.oglTexts)
             oglDocument.oglActors   = cast(OglActors,   document.oglActors)
             oglDocument.oglUseCases = cast(OglUseCases, document.oglUseCases)
+            oglDocument.oglSDInstances = cast(OglSDInstances, document.oglSDInstances)
+            oglDocument.oglSDMessages  = cast(OglSDMessages,  document.oglSDMessages)
 
             self.logger.debug(f'OglDocument - {oglDocument}')
             oglProject.oglDocuments[oglDocument.documentTitle] = oglDocument
