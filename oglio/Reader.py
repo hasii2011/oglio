@@ -28,7 +28,6 @@ class Reader:
     def __init__(self):
 
         self.logger: Logger = getLogger(__name__)
-        self.logger: Logger = getLogger(__name__)
 
     def read(self, fqFileName: str) -> OglProject:
 
@@ -38,9 +37,9 @@ class Reader:
         Args:
             fqFileName: Fully qualified file name
         """
-        untangler: UnTangler = UnTangler(fqFileName=fqFileName)
+        untangler: UnTangler = UnTangler()
 
-        untangler.untangle()
+        untangler.untangleFile(fqFileName=fqFileName)
 
         oglProject: OglProject = OglProject()
 

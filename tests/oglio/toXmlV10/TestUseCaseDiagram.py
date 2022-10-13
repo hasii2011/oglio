@@ -9,12 +9,10 @@ from pkg_resources import resource_filename
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pyutmodel.PyutObject import PyutObject
 from untanglepyut.UnTangler import Document
 from untanglepyut.UnTangler import UnTangler
 
 from oglio.Types import OglDocument
-from oglio.toXmlV10.BaseToDom import IDFactory
 
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
@@ -46,9 +44,9 @@ class TestUseCaseDiagram(TestBase):
         self._cleanupGenerated(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
         fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
-        untangler:  UnTangler = UnTangler(fqFileName=fqFileName)
+        untangler:  UnTangler = UnTangler()
 
-        untangler.untangle()
+        untangler.untangleFile(fqFileName=fqFileName)
 
         singleDocument: Document = untangler.documents['Use-Cases']
 

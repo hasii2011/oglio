@@ -45,9 +45,9 @@ class TestNotesDiagram(TestBase):
         self._cleanupGenerated(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
 
         fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
-        untangler:  UnTangler = UnTangler(fqFileName=fqFileName)
+        untangler:  UnTangler = UnTangler()
 
-        untangler.untangle()
+        untangler.untangleFile(fqFileName=fqFileName)
 
         singleDocument: Document = untangler.documents['Many Notes']
         #

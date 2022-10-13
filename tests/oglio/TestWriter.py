@@ -46,9 +46,9 @@ class TestWriter(TestBase):
         # I need 2 documents with Ogl Objects
         #
         fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestWriter.MULTI_DOCUMENT_FILENAME)
-        untangler:  UnTangler = UnTangler(fqFileName=fqFileName)
+        untangler:  UnTangler = UnTangler()
 
-        untangler.untangle()
+        untangler.untangleFile(fqFileName=fqFileName)
         #
         # from our test Ogl Objects create the oglProject
         #

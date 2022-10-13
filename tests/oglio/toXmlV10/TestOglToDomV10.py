@@ -51,9 +51,9 @@ class TestOglToDomV10(TestBase):
         self._cleanupGenerated(MULTI_LINK_DOCUMENT_FILENAME)
 
         fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_DOCUMENT_FILENAME)
-        untangler:  UnTangler = UnTangler(fqFileName=fqFileName)
+        untangler:  UnTangler = UnTangler()
 
-        untangler.untangle()
+        untangler.untangleFile(fqFileName=fqFileName)
 
         singleDocument: Document          = untangler.documents['MultiLink']
 
