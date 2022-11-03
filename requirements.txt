@@ -10,7 +10,7 @@ typing_extensions==4.4.0
 types-setuptools==65.5.0.2
 
 pyutmodel==1.1.0
-ogl==0.60.6
-untanglepyut==0.5.3
+ogl==0.60.8
+untanglepyut==0.5.5
 
 wxpython~=4.2.0
