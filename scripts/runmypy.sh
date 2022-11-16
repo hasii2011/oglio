@@ -13,7 +13,7 @@ changeToProjectRoot
 
 echo "current: $(pwd)"
 
-mypy --config-file .mypi.ini --pretty --no-color-output --show-error-codes  oglio tests
+mypy --config-file .mypi.ini --pretty --no-color-output --show-error-codes --check-untyped-defs oglio tests
 # mypy --config-file .mypi.ini --pretty --no-color-output --show-error-codes --no-incremental oglio tests
 # mypy --config-file .mypi.ini --pretty  --show-error-codes oglio tests
 status=$?
