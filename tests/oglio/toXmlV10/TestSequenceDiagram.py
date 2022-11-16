@@ -9,10 +9,13 @@ from unittest import main as unitTestMain
 
 from pkg_resources import resource_filename
 from untanglepyut.UnTangler import Document
+from untanglepyut.UnTangler import DocumentTitle
 
 from untanglepyut.UnTangler import UnTangler
 
 from oglio.Types import OglDocument
+from oglio.Types import OglSDInstances
+from oglio.Types import OglSDMessages
 
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
@@ -48,7 +51,7 @@ class TestSequenceDiagram(TestBase):
 
         untangler.untangleFile(fqFileName=fqFileName)
 
-        singleDocument: Document = untangler.documents['SimpleSequence']
+        singleDocument: Document = untangler.documents[DocumentTitle('SimpleSequence')]
 
         # we now have ogl objects to serialize
 
@@ -56,8 +59,8 @@ class TestSequenceDiagram(TestBase):
                                                         projectCodePath=untangler.projectInformation.codePath)
         oglDocument: OglDocument = OglDocument()
         oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglSDInstances = singleDocument.oglSDInstances
-        oglDocument.oglSDMessages  = singleDocument.oglSDMessages
+        oglDocument.oglSDInstances = OglSDInstances(singleDocument.oglSDInstances)
+        oglDocument.oglSDMessages  = OglSDMessages(singleDocument.oglSDMessages)
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 

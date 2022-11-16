@@ -6,6 +6,7 @@ from logging import getLogger
 
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
+from xml.dom.minidom import Text
 
 from pyutmodel.ModelTypes import ClassName
 from pyutmodel.PyutActor import PyutActor
@@ -333,7 +334,7 @@ class PyutToDom(BasePyutToDom):
         codeRoot: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SOURCE_CODE)
         for code in sourceCode:
             codeElement:  Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CODE)
-            textCodeNode: Element = xmlDoc.createTextNode(code)
+            textCodeNode: Text    = xmlDoc.createTextNode(code)
             codeElement.appendChild(textCodeNode)
             codeRoot.appendChild(codeElement)
 

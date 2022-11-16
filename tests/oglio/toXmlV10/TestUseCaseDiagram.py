@@ -10,9 +10,15 @@ from unittest import TestSuite
 from unittest import main as unitTestMain
 
 from untanglepyut.UnTangler import Document
+from untanglepyut.UnTangler import DocumentTitle
 from untanglepyut.UnTangler import UnTangler
 
+from oglio.Types import OglActors
+from oglio.Types import OglClasses
 from oglio.Types import OglDocument
+from oglio.Types import OglLinks
+from oglio.Types import OglTexts
+from oglio.Types import OglUseCases
 
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
@@ -48,18 +54,18 @@ class TestUseCaseDiagram(TestBase):
 
         untangler.untangleFile(fqFileName=fqFileName)
 
-        singleDocument: Document = untangler.documents['Use-Cases']
+        singleDocument: Document = untangler.documents[DocumentTitle('Use-Cases')]
 
         oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=untangler.projectInformation.version,
                                                         projectCodePath=untangler.projectInformation.codePath)
 
         oglDocument: OglDocument = OglDocument()
         oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglClasses  = singleDocument.oglClasses
-        oglDocument.oglLinks    = singleDocument.oglLinks
-        oglDocument.oglTexts    = singleDocument.oglTexts
-        oglDocument.oglUseCases = singleDocument.oglUseCases
-        oglDocument.oglActors   = singleDocument.oglActors
+        oglDocument.oglClasses  = cast(OglClasses, singleDocument.oglClasses)
+        oglDocument.oglLinks    = cast(OglLinks, singleDocument.oglLinks)
+        oglDocument.oglTexts    = cast(OglTexts, singleDocument.oglTexts)
+        oglDocument.oglUseCases = cast(OglUseCases, singleDocument.oglUseCases)
+        oglDocument.oglActors   = cast(OglActors, singleDocument.oglActors)
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 

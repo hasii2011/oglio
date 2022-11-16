@@ -13,6 +13,7 @@ from oglio.Reader import Reader
 
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
+from oglio.Types import OglDocumentTitle
 from oglio.Types import OglDocuments
 from oglio.Types import OglLinks
 from oglio.Types import OglProject
@@ -25,8 +26,8 @@ class TestReader(TestBase):
     """
     """
     TEST_FILE_NAME:       str = 'MultiDocumentProject.xml'
-    TEST_DOCUMENT_NAME_1: str = 'Diagram-1'
-    TEST_DOCUMENT_NAME_2: str = 'Diagram-2'
+    TEST_DOCUMENT_NAME_1: OglDocumentTitle = OglDocumentTitle('Diagram-1')
+    TEST_DOCUMENT_NAME_2: OglDocumentTitle = OglDocumentTitle('Diagram-2')
 
     clsLogger: Logger = cast(Logger, None)
 
@@ -92,7 +93,7 @@ class TestReader(TestBase):
         oglDocuments: OglDocuments = oglProject.oglDocuments
 
         try:
-            oglDocument: OglDocument = oglDocuments['Diagram 1']
+            oglDocument: OglDocument = oglDocuments[OglDocumentTitle('Diagram 1')]
             self._testDocumentContents(oglDocument=oglDocument, expectedClassCount=1, expectedLinkCount=0)
         except KeyError:
             self.assertTrue(False, f'Could not find Diagram 1')

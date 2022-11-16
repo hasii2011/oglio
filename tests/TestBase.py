@@ -47,7 +47,7 @@ class TestBase(TestCase):
         # noinspection PyTypeChecker
         umlFrame = DiagramFrame(baseFrame)
         umlFrame.Show(True)
-        PyutObject.nextID = 0   # reset to match sequence diagram
+        PyutObject.nextId = 0   # reset to match sequence diagram
         IDFactory.nextID  = 1
 
     def tearDown(self):

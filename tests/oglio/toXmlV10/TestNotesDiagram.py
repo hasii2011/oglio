@@ -10,9 +10,16 @@ from unittest import main as unitTestMain
 from pkg_resources import resource_filename
 
 from untanglepyut.UnTangler import Document
+from untanglepyut.UnTangler import DocumentTitle
 from untanglepyut.UnTangler import UnTangler
 
+from oglio.Types import OglActors
+from oglio.Types import OglClasses
 from oglio.Types import OglDocument
+from oglio.Types import OglLinks
+from oglio.Types import OglNotes
+from oglio.Types import OglTexts
+from oglio.Types import OglUseCases
 
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
@@ -49,7 +56,7 @@ class TestNotesDiagram(TestBase):
 
         untangler.untangleFile(fqFileName=fqFileName)
 
-        singleDocument: Document = untangler.documents['Many Notes']
+        singleDocument: Document = untangler.documents[DocumentTitle('Many Notes')]
         #
         #  Testing starts here
         #
@@ -58,12 +65,12 @@ class TestNotesDiagram(TestBase):
 
         oglDocument: OglDocument = OglDocument()
         oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglClasses  = singleDocument.oglClasses
-        oglDocument.oglLinks    = singleDocument.oglLinks
-        oglDocument.oglTexts    = singleDocument.oglTexts
-        oglDocument.oglNotes    = singleDocument.oglNotes
-        oglDocument.oglUseCases = singleDocument.oglUseCases
-        oglDocument.oglActors   = singleDocument.oglActors
+        oglDocument.oglClasses  = cast(OglClasses, singleDocument.oglClasses)
+        oglDocument.oglLinks    = cast(OglLinks, singleDocument.oglLinks)
+        oglDocument.oglTexts    = cast(OglTexts, singleDocument.oglTexts)
+        oglDocument.oglNotes    = cast(OglNotes, singleDocument.oglNotes)
+        oglDocument.oglUseCases = cast(OglUseCases, singleDocument.oglUseCases)
+        oglDocument.oglActors   = cast(OglActors, singleDocument.oglActors)
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 

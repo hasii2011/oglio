@@ -11,9 +11,14 @@ from unittest import main as unitTestMain
 
 from pyutmodel.PyutObject import PyutObject
 from untanglepyut.UnTangler import Document
+from untanglepyut.UnTangler import DocumentTitle
 from untanglepyut.UnTangler import UnTangler
 
+from oglio.Types import OglClasses
 from oglio.Types import OglDocument
+from oglio.Types import OglLinks
+from oglio.Types import OglTexts
+
 from oglio.toXmlV10.BaseToDom import IDFactory
 
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
@@ -40,7 +45,7 @@ class TestOglToDomV10(TestBase):
 
         super().setUp()
 
-        PyutObject.nextID = 0   # reset to match sequence diagram
+        PyutObject.nextId = 0   # reset to match sequence diagram
         IDFactory.nextID = 1
 
     def tearDown(self):
@@ -55,16 +60,16 @@ class TestOglToDomV10(TestBase):
 
         untangler.untangleFile(fqFileName=fqFileName)
 
-        singleDocument: Document          = untangler.documents['MultiLink']
+        singleDocument: Document          = untangler.documents[DocumentTitle('MultiLink')]
 
         oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=untangler.projectInformation.version,
                                                         projectCodePath=untangler.projectInformation.codePath)
 
         oglDocument: OglDocument = OglDocument()
         oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglClasses = singleDocument.oglClasses
-        oglDocument.oglLinks   = singleDocument.oglLinks
-        oglDocument.oglTexts   = singleDocument.oglTexts
+        oglDocument.oglClasses = cast(OglClasses, singleDocument.oglClasses)
+        oglDocument.oglLinks   = cast(OglLinks, singleDocument.oglLinks)
+        oglDocument.oglTexts   = cast(OglTexts, singleDocument.oglTexts)
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
