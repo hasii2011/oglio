@@ -12,7 +12,7 @@ types-setuptools==65.5.0.3
 wxpython~=4.2.0
 
 pyutmodel==1.2.0
-ogl==0.60.9
+ogl~=0.60.10
 
-untanglepyut==0.6.0
+untanglepyut~=0.6.1
 
