@@ -19,6 +19,7 @@ from pyutmodel.PyutNote import PyutNote
 from pyutmodel.PyutParameter import PyutParameter
 from pyutmodel.PyutSDInstance import PyutSDInstance
 from pyutmodel.PyutSDMessage import PyutSDMessage
+from pyutmodel.PyutStereotype import PyutStereotype
 from pyutmodel.PyutText import PyutText
 from pyutmodel.PyutUseCase import PyutUseCase
 from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
@@ -53,9 +54,9 @@ class PyutToDom(BasePyutToDom):
         pyutClassElement.setAttribute(XmlConstants.ATTR_ID, str(classId))
         pyutClassElement.setAttribute(XmlConstants.ATTR_NAME, pyutClass.name)
 
-        stereotype = pyutClass.stereotype
+        stereotype: PyutStereotype = pyutClass.stereotype
         if stereotype is not None:
-            pyutClassElement.setAttribute(XmlConstants.ATTR_STEREOTYPE, stereotype.name)
+            pyutClassElement.setAttribute(XmlConstants.ATTR_STEREOTYPE, stereotype.value)
 
         pyutClassElement.setAttribute(XmlConstants.ATTR_FILENAME, pyutClass.fileName)
 

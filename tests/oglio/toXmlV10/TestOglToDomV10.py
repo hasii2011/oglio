@@ -52,6 +52,14 @@ class TestOglToDomV10(TestBase):
         super().tearDown()
 
     def testSimpleSerialization(self):
+        """
+        TODO:  This test is sensitive to the ogl preferences for text
+            text_bold = False
+            text_italicize = False
+            text_font_family = Swiss
+            text_font_size = 14
+        Save the current preferences;  Set these;  then at test conclusion restore them
+        """
 
         self._cleanupGenerated(MULTI_LINK_DOCUMENT_FILENAME)
 
