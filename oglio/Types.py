@@ -111,10 +111,12 @@ def createOglDocumentsFactory() -> OglDocuments:
 
 @dataclass
 class OglProject:
+    fileName: str = cast(str, None)
     version:  str = cast(str, None)
     codePath: str = cast(str, None)
     oglDocuments: OglDocuments = field(default_factory=createOglDocumentsFactory)
 
     def toOglProject(self, project: ProjectInformation):
+        self.fileName = project.fileName
         self.version  = project.version
         self.codePath = project.codePath

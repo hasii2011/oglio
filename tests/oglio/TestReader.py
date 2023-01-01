@@ -44,6 +44,13 @@ class TestReader(TestBase):
     def tearDown(self):
         super().tearDown()
 
+    def testProjectInformation(self):
+        fqFileName: str = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
+
+        oglProject:   OglProject   = self._reader.readXmlFile(fqFileName=fqFileName)
+
+        self.assertEqual(fqFileName, oglProject.fileName, 'Where is my file name')
+
     def testMultiDocumentRead(self):
 
         fqFileName: str = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
