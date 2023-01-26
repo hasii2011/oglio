@@ -17,6 +17,7 @@ class IDFactory(Singleton):
     """
     nextID: int = 1
 
+    # noinspection PyAttributeOutsideInit
     def init(self):
         """
         The singleton initialization method

@@ -200,7 +200,7 @@ class PyutToDom(BasePyutToDom):
 
     def pyutSDInstanceToDom(self, pyutSDInstance: PyutSDInstance, xmlDoc: Document) -> Element:
         """
-        Exporting a PyutSDInstance to an minidom Element.
+        Exporting a PyutSDInstance to a minidom Element.
 
         Args:
             pyutSDInstance:     Class to convert
