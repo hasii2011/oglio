@@ -28,7 +28,7 @@ setup(
     install_requires=[
         'wxPython==4.2.0',
         'pyutmodel~=1.3.4',
-        'ogl~=0.60.30',
-        'untanglepyut~=0.6.6',
+        'ogl~=0.60.41',
+        'untanglepyut~=0.6.10',
     ],
 )
