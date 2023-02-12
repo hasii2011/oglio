@@ -10,7 +10,7 @@ LICENSE = (HERE / 'LICENSE').read_text()
 
 setup(
     name="oglio",
-    version="0.5.51",
+    version="0.5.60",
     author_email='Humberto.A.Sanchez.II@gmail.com',
     maintainer='Humberto A. Sanchez II',
     maintainer_email='humberto.a.sanchez.ii@gmail.com',
@@ -27,8 +27,8 @@ setup(
     },
     install_requires=[
         'wxPython==4.2.0',
-        'pyutmodel~=1.3.4',
-        'ogl~=0.60.41',
-        'untanglepyut~=0.6.10',
+        'pyutmodel~=1.4.0',
+        'ogl~=0.70.0',
+        'untanglepyut~=0.6.20',
     ],
 )

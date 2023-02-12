@@ -235,7 +235,7 @@ class PyutToDom(BasePyutToDom):
         root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
 
         # message
-        root.setAttribute(XmlConstants.ATTR_MESSAGE, pyutSDMessage.getMessage())
+        root.setAttribute(XmlConstants.ATTR_MESSAGE, pyutSDMessage.message)
 
         # time
         srcInstance: PyutSDInstance = pyutSDMessage.getSource()
@@ -244,8 +244,8 @@ class PyutToDom(BasePyutToDom):
         idSrc: int = self._idFactory.getID(srcInstance)
         idDst: int = self._idFactory.getID(dstInstance)
 
-        root.setAttribute(XmlConstants.ATTR_SOURCE_TIME_LINE, str(pyutSDMessage.getSrcTime()))
-        root.setAttribute(XmlConstants.ATTR_DESTINATION_TIME_LINE, str(pyutSDMessage.getDstTime()))
+        root.setAttribute(XmlConstants.ATTR_SOURCE_TIME_LINE, str(pyutSDMessage.sourceY))
+        root.setAttribute(XmlConstants.ATTR_DESTINATION_TIME_LINE, str(pyutSDMessage.destinationY))
         root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_SOURCE_ID, str(idSrc))
         root.setAttribute(XmlConstants.ATTR_SD_MESSAGE_DESTINATION_ID, str(idDst))
 

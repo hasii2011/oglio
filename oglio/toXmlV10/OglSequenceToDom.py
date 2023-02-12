@@ -73,7 +73,7 @@ class OglSequenceToDom(BaseOglToDom):
         """
         root = self._xmlDocument.createElement(XmlConstants.ELEMENT_GRAPHIC_SD_MESSAGE)
 
-        pyutSDMessage: PyutSDMessage = oglSDMessage.getPyutObject()
+        pyutSDMessage: PyutSDMessage = oglSDMessage.pyutSDMessage
         root.appendChild(self._pyutToMiniDom.pyutSDMessageToDom(pyutSDMessage, xmlDoc))
 
         return root
