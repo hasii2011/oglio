@@ -35,7 +35,7 @@ jobs:
             pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04  wxPython
             pip install pyutmodel~=1.4.0
             pip install ogl~=0.70.0
-            pip install untanglepyut==0.6.20
+            pip install untanglepyut==0.6.25
       - run:
             name: run tests
             command: | 
