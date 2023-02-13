@@ -9,6 +9,7 @@ from unittest import main as unitTestMain
 
 from pkg_resources import resource_filename
 
+from oglio import OglVersion
 from oglio.Reader import Reader
 
 from oglio.Types import OglClasses
@@ -50,6 +51,9 @@ class TestReader(TestBase):
         oglProject:   OglProject   = self._reader.readXmlFile(fqFileName=fqFileName)
 
         self.assertEqual(fqFileName, oglProject.fileName, 'Where is my file name')
+        expectedVersion: str = OglVersion.version
+        actualVersion:   str =  oglProject.version
+        self.assertEqual(expectedVersion, actualVersion, 'Mismatch in support Ogl Xml versions')
 
     def testMultiDocumentRead(self):
 

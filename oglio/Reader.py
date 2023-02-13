@@ -10,6 +10,7 @@ from zlib import ZLIB_VERSION
 from untanglepyut.UnTangler import Documents
 from untanglepyut.UnTangler import UnTangler
 
+from oglio import OglVersion
 from oglio.Types import OglActors
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
@@ -110,6 +111,7 @@ class Reader:
 
         oglProject.toOglProject(untangler.projectInformation)
 
+        assert oglProject.version == OglVersion.version, 'We have mismatched XML versions'
         documents: Documents = untangler.documents
         for document in documents.values():
             self.logger.debug(f'Untangled - {document.documentTitle}')
