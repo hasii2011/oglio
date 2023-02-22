@@ -5,7 +5,7 @@ from logging import getLogger
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
-from miniogl.AttachmentLocation import AttachmentLocation
+from miniogl.AttachmentSide import AttachmentSide
 from miniogl.SelectAnchorPoint import SelectAnchorPoint
 
 from ogl.OglAssociation import OglAssociation
@@ -53,7 +53,7 @@ class OglLinksToDom(BaseOglToDom):
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_LOLLIPOP)
 
         destAnchor:      SelectAnchorPoint = oglInterface.destinationAnchor
-        attachmentPoint: AttachmentLocation   = destAnchor.attachmentPoint
+        attachmentPoint: AttachmentSide   = destAnchor.attachmentPoint
         x, y = destAnchor.GetPosition()
 
         root.setAttribute(XmlConstants.ATTR_LOLLIPOP_ATTACHMENT_POINT, attachmentPoint.__str__())
@@ -82,12 +82,12 @@ class OglLinksToDom(BaseOglToDom):
         root = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_LINK)
 
         # save source and destination anchor points
-        x, y = oglLink.GetSource().GetModel().GetPosition()
+        x, y = oglLink.sourceAnchor.GetModel().GetPosition()
         simpleX, simpleY = self._getSimpleCoordinates(x, y)
         root.setAttribute(XmlConstants.ATTR_LINK_SOURCE_ANCHOR_X, simpleX)
         root.setAttribute(XmlConstants.ATTR_LINK_SOURCE_ANCHOR_Y, simpleY)
 
-        x, y = oglLink.GetDestination().GetModel().GetPosition()
+        x, y = oglLink.destinationAnchor.GetModel().GetPosition()
         simpleX, simpleY = self._getSimpleCoordinates(x, y)
 
         root.setAttribute(XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_X, simpleX)
