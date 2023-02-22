@@ -3,7 +3,7 @@ from typing import Any
 from typing import Dict
 from typing import Union
 
-from ogl.Singleton import Singleton
+from hasiicommon.Singleton import Singleton
 
 
 class IDFactory(Singleton):
