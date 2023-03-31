@@ -111,7 +111,7 @@ class OglLinksToDom(BaseOglToDom):
                 root.appendChild(elt)
 
         # save control points (not anchors!)
-        for x, y in oglLink.GetSegments()[1:-1]:
+        for x, y in oglLink.segments[1:-1]:
             item = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CONTROL_POINT)
             item.setAttribute(XmlConstants.ATTR_X, str(x))
             item.setAttribute(XmlConstants.ATTR_Y, str(y))
@@ -135,7 +135,7 @@ class OglLinksToDom(BaseOglToDom):
         e.g.
 
         ```html
-            `<LabelCenter x="1811.0" y="1137.5"/>`
+            `<LabelCenter x="1811" y="1137"/>`
         ```
 
         Args:

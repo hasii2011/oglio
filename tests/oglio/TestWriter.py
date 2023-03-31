@@ -1,13 +1,10 @@
 
 from typing import cast
 
-from logging import Logger
-from logging import getLogger
-
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pkg_resources import resource_filename
+
 from untanglepyut.UnTangler import Documents
 from untanglepyut.UnTangler import UnTangler
 
@@ -26,6 +23,7 @@ from oglio.Types import OglUseCases
 from oglio.Types import createOglDocumentsFactory
 from oglio.Writer import Writer
 from oglio.toXmlV10.OglToDom import OglToDom
+
 from tests.TestBase import TestBase
 
 
@@ -35,16 +33,7 @@ class TestWriter(TestBase):
     """
     MULTI_DOCUMENT_FILENAME: str = 'SimpleMultipleDocument.xml'
 
-    clsLogger: Logger = cast(Logger, None)
-
-    @classmethod
-    def setUpClass(cls):
-        TestBase.setUpLogging()
-        TestWriter.clsLogger = getLogger(__name__)
-
     def setUp(self):
-        self.logger: Logger = TestWriter.clsLogger
-
         super().setUp()
 
     def tearDown(self):
@@ -76,7 +65,8 @@ class TestWriter(TestBase):
 
         Returns:  An OglProject
         """
-        fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestWriter.MULTI_DOCUMENT_FILENAME)
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestWriter.MULTI_DOCUMENT_FILENAME)
+
         untangler:  UnTangler = UnTangler()
 
         untangler.untangleFile(fqFileName=fqFileName)

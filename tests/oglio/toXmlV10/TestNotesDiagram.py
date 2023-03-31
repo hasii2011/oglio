@@ -1,13 +1,8 @@
 
 from typing import cast
 
-from logging import Logger
-from logging import getLogger
-
 from unittest import TestSuite
 from unittest import main as unitTestMain
-
-from pkg_resources import resource_filename
 
 from untanglepyut.UnTangler import Document
 from untanglepyut.UnTangler import DocumentTitle
@@ -30,16 +25,8 @@ class TestNotesDiagram(TestBase):
     """
     """
     NOTES_DIAGRAM_FILENAME: str    = 'ManyNotes.xml'
-    clsLogger:              Logger = cast(Logger, None)
-
-    @classmethod
-    def setUpClass(cls):
-        TestBase.setUpLogging()
-        TestNotesDiagram.clsLogger = getLogger(__name__)
 
     def setUp(self):
-        self.logger: Logger = TestNotesDiagram.clsLogger
-
         super().setUp()
 
     def tearDown(self):
@@ -51,7 +38,8 @@ class TestNotesDiagram(TestBase):
         #
         self._cleanupGenerated(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
 
-        fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
+
         untangler:  UnTangler = UnTangler()
 
         untangler.untangleFile(fqFileName=fqFileName)

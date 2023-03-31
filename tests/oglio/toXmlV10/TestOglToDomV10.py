@@ -1,15 +1,11 @@
 
 from typing import cast
 
-from logging import Logger
-from logging import getLogger
-
-from pkg_resources import resource_filename
-
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
 from pyutmodel.PyutObject import PyutObject
+
 from untanglepyut.UnTangler import Document
 from untanglepyut.UnTangler import DocumentTitle
 from untanglepyut.UnTangler import UnTangler
@@ -33,16 +29,7 @@ class TestOglToDomV10(TestBase):
     The serialization code needs pre-made OGL Objects.  So we will untangle
     XML documents and feed them to the serializer;  It should return identical XML
     """
-    clsLogger: Logger = cast(Logger, None)
-
-    @classmethod
-    def setUpClass(cls):
-        TestBase.setUpLogging()
-        TestOglToDomV10.clsLogger = getLogger(__name__)
-
     def setUp(self):
-        self.logger: Logger = TestOglToDomV10.clsLogger
-
         super().setUp()
 
         PyutObject.nextId = 0   # reset to match sequence diagram
@@ -63,7 +50,8 @@ class TestOglToDomV10(TestBase):
 
         self._cleanupGenerated(MULTI_LINK_DOCUMENT_FILENAME)
 
-        fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_DOCUMENT_FILENAME)
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_DOCUMENT_FILENAME)
+
         untangler:  UnTangler = UnTangler()
 
         untangler.untangleFile(fqFileName=fqFileName)

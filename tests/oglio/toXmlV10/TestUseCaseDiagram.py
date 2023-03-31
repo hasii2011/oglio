@@ -1,11 +1,6 @@
 
 from typing import cast
 
-from logging import Logger
-from logging import getLogger
-
-from pkg_resources import resource_filename
-
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
@@ -30,16 +25,7 @@ class TestUseCaseDiagram(TestBase):
     """
     USE_CASE_DIAGRAM_FILENAME: str = 'UseCaseDiagram.xml'
 
-    clsLogger: Logger = cast(Logger, None)
-
-    @classmethod
-    def setUpClass(cls):
-        TestBase.setUpLogging()
-        TestUseCaseDiagram.clsLogger = getLogger(__name__)
-
     def setUp(self):
-        self.logger: Logger = TestUseCaseDiagram.clsLogger
-
         super().setUp()
 
     def tearDown(self):
@@ -49,7 +35,8 @@ class TestUseCaseDiagram(TestBase):
 
         self._cleanupGenerated(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
-        fqFileName: str       = resource_filename(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
+
         untangler:  UnTangler = UnTangler()
 
         untangler.untangleFile(fqFileName=fqFileName)

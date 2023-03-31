@@ -14,8 +14,6 @@ function changeToProjectRoot {
 
 changeToProjectRoot
 
-echo "Travis Build directory: ${TRAVIS_BUILD_DIR}"
-
 python3 -Wdefault -m tests.TestAll
 status=$?
 
