@@ -4,6 +4,8 @@ from typing import Union
 from logging import Logger
 from logging import getLogger
 
+from os import linesep as osLineSep
+
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 from xml.dom.minidom import Text
@@ -32,6 +34,9 @@ class PyutToDom(BasePyutToDom):
     """
     Serializes Pyut Models classes to DOM
     """
+    # https://www.codetable.net/hex/a
+    END_OF_LINE_MARKER: str ='&#xA;'
+
     def __init__(self):
 
         super().__init__()
@@ -139,7 +144,7 @@ class PyutToDom(BasePyutToDom):
         pyutNoteElement.setAttribute(XmlConstants.ATTR_ID, str(noteId))
 
         content: str = pyutNote.content
-        content = content.replace('\n', "\\\\\\\\")
+        content = content.replace(osLineSep, PyutToDom.END_OF_LINE_MARKER)
         pyutNoteElement.setAttribute(XmlConstants.ATTR_CONTENT, content)
 
         pyutNoteElement.setAttribute(XmlConstants.ATTR_FILENAME, pyutNote.fileName)
