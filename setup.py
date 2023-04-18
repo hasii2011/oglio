@@ -10,7 +10,7 @@ LICENSE = (HERE / 'LICENSE').read_text()
 
 setup(
     name="oglio",
-    version="0.7.1",
+    version="0.7.2",
     author_email='Humberto.A.Sanchez.II@gmail.com',
     maintainer='Humberto A. Sanchez II',
     maintainer_email='humberto.a.sanchez.ii@gmail.com',
@@ -31,6 +31,6 @@ setup(
         'hasiicommon~=0.2.2',
         'pyutmodel~=1.4.3',
         'ogl~=0.70.26',
-        'untanglepyut~=0.6.50',
+        'untanglepyut~=0.6.56',
     ],
 )

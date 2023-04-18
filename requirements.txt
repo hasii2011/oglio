@@ -7,7 +7,7 @@ html-testRunner~=1.2.1
 mypy==1.2.0
 mypy-extensions==1.0.0
 typing_extensions==4.5.0
-types-setuptools==67.6.0.7
+types-setuptools==67.6.0.8
 
 attrdict3~=2.0.2
 
@@ -17,4 +17,4 @@ hasiihelper==0.2.0
 hasiicommon==0.2.2
 pyutmodel==1.4.3
 ogl==0.70.26
-untanglepyut==0.6.50
+untanglepyut==0.6.56
