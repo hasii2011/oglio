@@ -11,8 +11,9 @@ from oglio.Types import OglDocument
 from oglio.toXmlV11.OglToXml import OglToXml
 from tests.TestBase import TestBase
 
-EMPTY_DOCUMENT_FILENAME: str = 'EmptyDocument.xml'
-SINGLE_CLASS_FILENAME:   str = 'SingleClassDocumentV11.xml'
+EMPTY_DOCUMENT_FILENAME:     str = 'EmptyDocument.xml'
+SINGLE_CLASS_FILENAME_V10:   str = 'SingleClassDocumentV10.xml'
+SINGLE_CLASS_FILENAME_V11:   str = 'SingleClassDocumentV11.xml'
 
 
 class TestOglToXmlV11(TestBase):
@@ -57,7 +58,7 @@ class TestOglToXmlV11(TestBase):
 
     def testSingleClassProject(self):
 
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, SINGLE_CLASS_FILENAME)
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, SINGLE_CLASS_FILENAME_V10)
 
         untangler:  UnTangler = UnTangler()
 
@@ -74,13 +75,13 @@ class TestOglToXmlV11(TestBase):
 
         self.logger.info(oglToXml.xml)
 
-        generatedFileName: str = self._constructGeneratedName(SINGLE_CLASS_FILENAME)
+        generatedFileName: str = self._constructGeneratedName(SINGLE_CLASS_FILENAME_V11)
 
         oglToXml.writeXml(fqFileName=generatedFileName)
 
-        status: int = self._runDiff(SINGLE_CLASS_FILENAME)
+        status: int = self._runDiff(SINGLE_CLASS_FILENAME_V11)
 
-        # self.assertEqual(0, status, 'Diff single document serialization failed')
+        self.assertEqual(0, status, 'Diff single document serialization failed')
 
 
 

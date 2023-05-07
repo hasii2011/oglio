@@ -43,13 +43,13 @@
 					<SourceCode/>
 				</Method>
 				<Field visibility="PUBLIC">
-					<Param name="publicField" type="int" defaultValue=""/>
+					<Param name="publicField" type="int" defaultValue="666"/>
 				</Field>
 				<Field visibility="PRIVATE">
-					<Param name="privateField" type="float" defaultValue=""/>
+					<Param name="privateField" type="float" defaultValue="42.0"/>
 				</Field>
 				<Field visibility="PROTECTED">
-					<Param name="protectedField" type="str" defaultValue=""/>
+					<Param name="protectedField" type="str" defaultValue="Ozzee"/>
 				</Field>
 			</Class>
 		</GraphicClass>
