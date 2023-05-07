@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PyutProject version="10" CodePath="">
+	<PyutDocument type="CLASS_DIAGRAM" title="SingleClassDiagram" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+		<GraphicClass width="429" height="145" x="300" y="175">
+			<Class id="1" name="SingleClass" stereotype="noStereotype" filename="" description="I am a single class" showMethods="True" showFields="True" showStereotype="True" displayParameters="Display">
+				<Method name="publicMethod" visibility="PUBLIC">
+					<Return type="str"/>
+					<SourceCode/>
+				</Method>
+				<Method name="privateMethod" visibility="PRIVATE">
+					<Return type="int"/>
+					<SourceCode/>
+				</Method>
+				<Method name="protectedMethod" visibility="PROTECTED">
+					<Return type="float"/>
+					<SourceCode/>
+				</Method>
+				<Method name="staticMethod" visibility="PUBLIC">
+					<Modifier name="static"/>
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="methodWithModifiers" visibility="PUBLIC">
+					<Modifier name="modifier1"/>
+					<Modifier name="final"/>
+					<Return type=""/>
+					<SourceCode/>
+				</Method>
+				<Method name="methodWithCode" visibility="PUBLIC">
+					<Return type=""/>
+					<SourceCode>
+						<Code>x: int = 0</Code>
+						<Code>y: int = 0</Code>
+						<Code></Code>
+						<Code>z: int = x + y</Code>
+					</SourceCode>
+				</Method>
+				<Method name="methodWithParameters" visibility="PUBLIC">
+					<Return type=""/>
+					<Param name="intParam" type="int" defaultValue="42"/>
+					<Param name="floatParam" type="float" defaultValue="32.0"/>
+					<Param name="strParam" type="str" defaultValue="Ozzee"/>
+					<SourceCode/>
+				</Method>
+				<Field visibility="PUBLIC">
+					<Param name="publicField" type="int" defaultValue=""/>
+				</Field>
+				<Field visibility="PRIVATE">
+					<Param name="privateField" type="float" defaultValue=""/>
+				</Field>
+				<Field visibility="PROTECTED">
+					<Param name="protectedField" type="str" defaultValue=""/>
+				</Field>
+			</Class>
+		</GraphicClass>
+	</PyutDocument>
+</PyutProject>

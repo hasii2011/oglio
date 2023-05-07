@@ -31,6 +31,6 @@ setup(
         'hasiicommon~=0.2.2',
         'pyutmodel~=1.4.3',
         'ogl~=0.70.26',
-        'untanglepyut~=0.6.56',
+        'untanglepyut~=0.6.57',
     ],
 )

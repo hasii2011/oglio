@@ -41,6 +41,11 @@
         "tests": {
             "level": "INFO",
             "propagate": "False"
+        },
+
+        "hasiihelper.UnitTestBase": {
+            "level": "INFO",
+            "propagate": "False"
         }
     }
 }
