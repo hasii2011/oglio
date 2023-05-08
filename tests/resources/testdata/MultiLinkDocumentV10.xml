@@ -74,8 +74,8 @@
 		</GraphicText>
 		<GraphicLink srcX="186" srcY="193" dstX="187" dstY="302" spline="False">
 			<LabelCenter x="401" y="-8"/>
-			<LabelSrc x="12" y="-48"/>
-			<LabelDst x="12" y="-48"/>
+			<LabelSrc x="0" y="-53"/>
+			<LabelDst x="0" y="-53"/>
 			<Link name="organizes" type="COMPOSITION" cardSrc="1" cardDestination="*" bidir="False" sourceId="1" destId="2"/>
 		</GraphicLink>
 		<GraphicLink srcX="573" srcY="194" dstX="573" dstY="300" spline="False">

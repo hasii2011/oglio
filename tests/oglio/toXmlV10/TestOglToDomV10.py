@@ -21,7 +21,7 @@ from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
 from tests.TestBase import TestBase
 
-MULTI_LINK_DOCUMENT_FILENAME: str = 'MultiLinkDocument.xml'
+MULTI_LINK_DOCUMENT_FILENAME: str = 'MultiLinkDocumentV10.xml'
 
 
 class TestOglToDomV10(TestBase):

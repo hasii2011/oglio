@@ -16,7 +16,7 @@ EMPTY_DOCUMENT_FILENAME:     str = 'EmptyDocument.xml'
 SINGLE_CLASS_FILENAME_V10:   str = 'SingleClassDocumentV10.xml'
 SINGLE_CLASS_FILENAME_V11:   str = 'SingleClassDocumentV11.xml'
 
-MULTI_LINK_FILE_NAME_V10:    str = 'MultiLinkV10.xml'
+MULTI_LINK_FILE_NAME_V10:    str = 'MultiLinkDocumentV10.xml'
 
 
 class TestOglToXmlV11(TestBase):
