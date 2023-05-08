@@ -7,14 +7,17 @@ from xml.etree.ElementTree import SubElement
 from pyutmodel.PyutClass import PyutClass
 from pyutmodel.PyutClassCommon import PyutClassCommon
 from pyutmodel.PyutField import PyutField
+from pyutmodel.PyutLink import PyutLink
 from pyutmodel.PyutMethod import PyutMethod
 from pyutmodel.PyutMethod import SourceCode
 from pyutmodel.PyutParameter import PyutParameter
 
+from oglio.toXmlV11.BaseXml import BaseXml
+from oglio.toXmlV11.InternalTypes import ElementAttributes
 from oglio.toXmlV11.XmlConstants import XmlConstants
 
 
-class PyutToXml:
+class PyutToXml(BaseXml):
     """
     Serializes Pyut Models classes to DOM
     """
@@ -22,6 +25,7 @@ class PyutToXml:
     END_OF_LINE_MARKER: str ='&#xA;'
 
     def __init__(self):
+        super().__init__()
         self.logger: Logger = getLogger(__name__)
 
     def pyutClassToXml(self, pyutClass: PyutClass, graphicElement: Element) -> Element:
@@ -58,6 +62,47 @@ class PyutToXml:
             self._pyutFieldToXml(pyutField=pyutField, pyutClassElement=pyutClassElement)
         return pyutClassElement
 
+    def pyutLinkToXml(self, pyutLink: PyutLink, oglLinkElement: Element) -> Element:
+        """
+        Exporting a PyutLink to an Element.
+
+        Args:
+            pyutLink:   Link to save
+            oglLinkElement:     xml document
+
+        Returns:
+            A new minidom element
+        """
+        srcLinkId:  int = self._idFactory.getID(pyutLink.getSource())
+        destLinkId: int = self._idFactory.getID(pyutLink.getDestination())
+
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_NAME:                    pyutLink.name,
+            XmlConstants.ATTR_TYPE:                    pyutLink.linkType.name,
+            XmlConstants.ATTR_CARDINALITY_SOURCE:      pyutLink.sourceCardinality,
+            XmlConstants.ATTR_CARDINALITY_DESTINATION: pyutLink.destinationCardinality,
+            XmlConstants.ATTR_BIDIRECTIONAL:           str(pyutLink.getBidir()),
+            XmlConstants.ATTR_SOURCE_ID:               str(srcLinkId),
+            XmlConstants.ATTR_DESTINATION_ID:          str(destLinkId),
+        })
+        pyutLinkElement: Element = SubElement(oglLinkElement, XmlConstants.ELEMENT_PYUT_LINK, attrib=attributes)
+        # root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_LINK)
+        #
+        # root.setAttribute(XmlConstants.ATTR_NAME, pyutLink.name)
+        # root.setAttribute(XmlConstants.ATTR_TYPE, pyutLink.linkType.name)
+        # root.setAttribute(XmlConstants.ATTR_CARDINALITY_SOURCE, pyutLink.sourceCardinality)
+        # root.setAttribute(XmlConstants.ATTR_CARDINALITY_DESTINATION, pyutLink.destinationCardinality)
+        # root.setAttribute(XmlConstants.ATTR_BIDIRECTIONAL, str(pyutLink.getBidir()))
+        #
+        # srcLinkId:  int = self._idFactory.getID(pyutLink.getSource())
+        # destLinkId: int = self._idFactory.getID(pyutLink.getDestination())
+        #
+        # root.setAttribute(XmlConstants.ATTR_SOURCE_ID, str(srcLinkId))
+        # root.setAttribute(XmlConstants.ATTR_DESTINATION_ID, str(destLinkId))
+        #
+        # return root
+        return pyutLinkElement
+
     def _pyutMethodToXml(self, pyutMethod: PyutMethod, pyutClassElement: Element) -> Element:
         """
         Exporting a PyutMethod to an Element
@@ -79,8 +124,8 @@ class PyutToXml:
             attributes = {
                 XmlConstants.ATTR_NAME: modifier.name,
             }
-            modifierElement: Element = SubElement(pyutMethodElement, XmlConstants.ELEMENT_MODEL_MODIFIER, attrib=attributes)
-        codeRoot: Element = self._pyutSourceCodeToXml(pyutMethod.sourceCode, pyutMethodElement)
+            SubElement(pyutMethodElement, XmlConstants.ELEMENT_MODEL_MODIFIER, attrib=attributes)
+        self._pyutSourceCodeToXml(pyutMethod.sourceCode, pyutMethodElement)
 
         for pyutParameter in pyutMethod.parameters:
             self._pyutParameterToXml(pyutParameter, pyutMethodElement)

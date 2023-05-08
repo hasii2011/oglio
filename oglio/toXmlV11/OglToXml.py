@@ -11,6 +11,7 @@ from xml.etree.ElementTree import fromstring
 
 from oglio.Types import OglDocument
 from oglio.toXmlV11.OglClassToXml import OglClassToXml
+from oglio.toXmlV11.OglLinksToXml import OglLinksToXml
 
 from oglio.toXmlV11.XmlConstants import XmlConstants
 
@@ -48,11 +49,13 @@ class OglToXml:
 
     def serialize(self, oglDocument: OglDocument):
 
-        oglToXml : OglClassToXml = OglClassToXml()
+        oglClassToXml : OglClassToXml = OglClassToXml()
+        oglLinksToXml:  OglLinksToXml = OglLinksToXml()
 
         documentElement: Element = self._oglDocumentToXml(oglDocument=oglDocument)
 
-        oglToXml.serialize(documentTop=documentElement, oglClasses=oglDocument.oglClasses)
+        oglClassToXml.serialize(documentTop=documentElement, oglClasses=oglDocument.oglClasses)
+        oglLinksToXml.serialize(documentTop=documentElement, oglLinks=oglDocument.oglLinks)
 
     def writeXml(self, fqFileName):
         """

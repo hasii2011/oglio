@@ -8,12 +8,15 @@ from untanglepyut.UnTangler import UnTangler
 
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
+from oglio.Types import OglLinks
 from oglio.toXmlV11.OglToXml import OglToXml
 from tests.TestBase import TestBase
 
 EMPTY_DOCUMENT_FILENAME:     str = 'EmptyDocument.xml'
 SINGLE_CLASS_FILENAME_V10:   str = 'SingleClassDocumentV10.xml'
 SINGLE_CLASS_FILENAME_V11:   str = 'SingleClassDocumentV11.xml'
+
+MULTI_LINK_FILE_NAME_V10:    str = 'MultiLinkV10.xml'
 
 
 class TestOglToXmlV11(TestBase):
@@ -55,7 +58,6 @@ class TestOglToXmlV11(TestBase):
 
         self.assertEqual(0, status, 'Diff empty document serialization failed')
 
-
     def testSingleClassProject(self):
 
         fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, SINGLE_CLASS_FILENAME_V10)
@@ -73,7 +75,7 @@ class TestOglToXmlV11(TestBase):
         oglToXml: OglToXml = OglToXml(projectCodePath='')
         oglToXml.serialize(oglDocument)
 
-        self.logger.info(oglToXml.xml)
+        self.logger.debug(oglToXml.xml)
 
         generatedFileName: str = self._constructGeneratedName(SINGLE_CLASS_FILENAME_V11)
 
@@ -83,6 +85,25 @@ class TestOglToXmlV11(TestBase):
 
         self.assertEqual(0, status, 'Diff single document serialization failed')
 
+    def testMultipleLinks(self):
+
+
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_FILE_NAME_V10)
+
+        untangler:  UnTangler = UnTangler()
+
+        untangler.untangleFile(fqFileName=fqFileName)
+
+        singleDocument: Document  = untangler.documents[DocumentTitle('MultiLink')]
+
+        oglDocument: OglDocument = OglDocument()
+        oglDocument.toOglDocument(document=singleDocument)
+        oglDocument.oglClasses = cast(OglClasses, singleDocument.oglClasses)
+        oglDocument.oglLinks   = cast(OglLinks,   singleDocument.oglLinks)
+
+        oglToXml: OglToXml = OglToXml(projectCodePath='')
+        oglToXml.serialize(oglDocument)
+        self.logger.info(oglToXml.xml)
 
 
 def suite() -> TestSuite:

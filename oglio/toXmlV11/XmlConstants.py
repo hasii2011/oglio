@@ -6,29 +6,31 @@ class XmlConstants:
 
     TOP_LEVEL_ELEMENT:           str = 'PyutProject'
     ELEMENT_OGL_CLASS:           str = 'OglClass'
+    ELEMENT_GRAPHIC_LINK:        str = 'OglLink'
+
     ELEMENT_GRAPHIC_LOLLIPOP:    str = 'GraphicLollipop'
     ELEMENT_GRAPHIC_NOTE:        str = 'GraphicNote'
     ELEMENT_GRAPHIC_TEXT:        str = 'GraphicText'
     ELEMENT_GRAPHIC_ACTOR:       str = 'GraphicActor'
     ELEMENT_GRAPHIC_USE_CASE:    str = 'GraphicUseCase'
-    ELEMENT_GRAPHIC_LINK:        str = 'GraphicLink'
     ELEMENT_GRAPHIC_SD_INSTANCE: str = 'GraphicSDInstance'
     ELEMENT_GRAPHIC_SD_MESSAGE:  str = 'GraphicSDMessage'
 
     ELEMENT_DOCUMENT:             str = 'PyutDocument'
     ELEMENT_PYUT_CLASS:           str = 'PyutClass'
-    ELEMENT_MODEL_INTERFACE:      str = 'Interface'
-    ELEMENT_IMPLEMENTOR:          str = 'Implementor'
     ELEMENT_PYUT_METHOD:          str = 'PyutMethod'
     ELEMENT_MODEL_PYUT_PARAMETER: str = 'PyutParameter'
     ELEMENT_MODEL_PYUT_FIELD:     str = 'PyutField'
+    ELEMENT_PYUT_LINK:            str = 'PyutLink'
+
+    ELEMENT_MODEL_INTERFACE:      str = 'Interface'
+    ELEMENT_IMPLEMENTOR:          str = 'Implementor'
 
 
     ELEMENT_MODEL_NOTE:        str = 'Note'
     ELEMENT_MODEL_TEXT:        str = 'Text'
     ELEMENT_MODEL_ACTOR:       str = 'Actor'
     ELEMENT_MODEL_USE_CASE:    str = 'UseCase'
-    ELEMENT_MODEL_LINK:        str = 'Link'
     ELEMENT_MODEL_MODIFIER:    str = 'Modifier'
     ELEMENT_MODEL_SOURCE_CODE: str = 'SourceCode'
     ELEMENT_MODEL_CODE:        str = 'Code'
@@ -37,9 +39,9 @@ class XmlConstants:
     ELEMENT_MODEL_SD_MESSAGE:    str = 'SDMessage'
     ELEMENT_MODEL_CONTROL_POINT: str = 'ControlPoint'
 
-    ELEMENT_ASSOC_CENTER_LABEL:      str = 'LabelCenter'
-    ELEMENT_ASSOC_SOURCE_LABEL:      str = 'LabelSrc'
-    ELEMENT_ASSOC_DESTINATION_LABEL: str = 'LabelDst'
+    ELEMENT_ASSOCIATION_CENTER_LABEL:      str = 'LabelCenter'
+    ELEMENT_ASSOCIATION_SOURCE_LABEL:      str = 'LabelSource'
+    ELEMENT_ASSOCIATION_DESTINATION_LABEL: str = 'LabelDestination'
 
     ATTR_VERSION: str = 'version'
 
@@ -69,20 +71,20 @@ class XmlConstants:
 
     ATTR_METHOD_RETURN_TYPE: str = 'returnType'
 
-    ATTR_LINK_SOURCE_ANCHOR_X: str = 'srcX'
-    ATTR_LINK_SOURCE_ANCHOR_Y: str = 'srcY'
+    ATTR_SPLINE:               str = 'spline'
+    ATTR_LINK_SOURCE_ANCHOR_X: str = 'sourceAnchorX'
+    ATTR_LINK_SOURCE_ANCHOR_Y: str = 'sourceAnchorY'
 
-    ATTR_LINK_DESTINATION_ANCHOR_X: str = 'dstX'
-    ATTR_LINK_DESTINATION_ANCHOR_Y: str = 'dstY'
+    ATTR_LINK_DESTINATION_ANCHOR_X: str = 'destinationAnchorX'
+    ATTR_LINK_DESTINATION_ANCHOR_Y: str = 'destinationAnchorY'
 
-    ATTR_SPLINE:        str = 'spline'
-    ATTR_BIDIRECTIONAL: str = 'bidir'
+    ATTR_BIDIRECTIONAL: str = 'bidirectional'
 
     ATTR_SOURCE_ID:      str = 'sourceId'
-    ATTR_DESTINATION_ID: str = 'destId'
+    ATTR_DESTINATION_ID: str = 'destinationId'
 
-    ATTR_CARDINALITY_SOURCE:      str = 'cardSrc'
-    ATTR_CARDINALITY_DESTINATION: str = 'cardDestination'
+    ATTR_CARDINALITY_SOURCE:      str = 'cardinalitySource'
+    ATTR_CARDINALITY_DESTINATION: str = 'cardinalityDestination'
 
     ATTR_INSTANCE_NAME:    str = 'instanceName'
     ATTR_LIFE_LINE_LENGTH: str = 'lifeLineLength'
