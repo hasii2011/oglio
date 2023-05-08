@@ -47,9 +47,6 @@ class TestOglToDomV10(TestBase):
             text_font_size = 14
         Save the current preferences;  Set these;  then at test conclusion restore them
         """
-
-        self._cleanupGenerated(MULTI_LINK_DOCUMENT_FILENAME)
-
         fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_DOCUMENT_FILENAME)
 
         untangler:  UnTangler = UnTangler()
@@ -69,12 +66,14 @@ class TestOglToDomV10(TestBase):
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        generatedFileName: str = self._constructGeneratedName(MULTI_LINK_DOCUMENT_FILENAME)
+        generatedFileName: str = TestBase.constructGeneratedName(MULTI_LINK_DOCUMENT_FILENAME)
         oglToMiniDom.writeXml(fqFileName=generatedFileName)
 
         status: int = self._runDiff(MULTI_LINK_DOCUMENT_FILENAME)
 
         self.assertEqual(0, status, 'Diff simple class serialization failed')
+
+        TestBase.cleanupGenerated(MULTI_LINK_DOCUMENT_FILENAME)
 
 
 def suite() -> TestSuite:

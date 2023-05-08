@@ -22,6 +22,10 @@ MULTI_LINK_FILE_NAME_V11:    str = 'MultiLinkDocumentV11.xml'
 CRAZY_CONTROL_POINTS_V10:    str = 'CrazyControlPointsV10.xml'
 CRAZY_CONTROL_POINTS_V11:    str = 'CrazyControlPointsV11.xml'
 
+WACKY_SPLINES_V10: str = 'WackySplinesV10.xml'
+WACKY_SPLINES_V11: str = 'WackySplinesV11.xml'
+
+GENERATED_FILE_NAMES = [EMPTY_DOCUMENT_FILENAME, SINGLE_CLASS_FILENAME_V11, MULTI_LINK_FILE_NAME_V11, CRAZY_CONTROL_POINTS_V11, WACKY_SPLINES_V11]
 
 class TestOglToXmlV11(TestBase):
     """
@@ -31,6 +35,14 @@ class TestOglToXmlV11(TestBase):
     def setUpClass(cls):
         super().setUpClass()
         
+    @classmethod
+    def tearDownClass(cls):
+        super().tearDownClass()
+        cls.clsLogger.warning(f'tearDownClass {cls.keep=}')
+        if cls.keep is False:
+            for fileName in GENERATED_FILE_NAMES:
+                cls.cleanupGenerated(fileName=fileName)
+
     def setUp(self):
         super().setUp()
         
@@ -54,7 +66,7 @@ class TestOglToXmlV11(TestBase):
 
         self.logger.debug(oglToXml.xml)
 
-        generatedFileName: str = self._constructGeneratedName(EMPTY_DOCUMENT_FILENAME)
+        generatedFileName: str = TestBase.constructGeneratedName(EMPTY_DOCUMENT_FILENAME)
 
         oglToXml.writeXml(fqFileName=generatedFileName)
 
@@ -81,7 +93,7 @@ class TestOglToXmlV11(TestBase):
 
         self.logger.debug(oglToXml.xml)
 
-        generatedFileName: str = self._constructGeneratedName(SINGLE_CLASS_FILENAME_V11)
+        generatedFileName: str = TestBase.constructGeneratedName(SINGLE_CLASS_FILENAME_V11)
 
         oglToXml.writeXml(fqFileName=generatedFileName)
 
@@ -108,7 +120,7 @@ class TestOglToXmlV11(TestBase):
         oglToXml.serialize(oglDocument)
         self.logger.debug(oglToXml.xml)
 
-        generatedFileName: str = self._constructGeneratedName(MULTI_LINK_FILE_NAME_V11)
+        generatedFileName: str = TestBase.constructGeneratedName(MULTI_LINK_FILE_NAME_V11)
 
         oglToXml.writeXml(fqFileName=generatedFileName)
 
@@ -135,13 +147,33 @@ class TestOglToXmlV11(TestBase):
 
         self.logger.debug(oglToXml.xml)
 
-        generatedFileName: str = self._constructGeneratedName(CRAZY_CONTROL_POINTS_V11)
+        generatedFileName: str = TestBase.constructGeneratedName(CRAZY_CONTROL_POINTS_V11)
 
         oglToXml.writeXml(fqFileName=generatedFileName)
 
         status: int = self._runDiff(CRAZY_CONTROL_POINTS_V11)
 
         self.assertEqual(0, status, 'Diff multi link document serialization failed')
+
+    def testSplines(self):
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, WACKY_SPLINES_V10)
+
+        untangler:  UnTangler = UnTangler()
+
+        untangler.untangleFile(fqFileName=fqFileName)
+
+        singleDocument: Document  = untangler.documents[DocumentTitle('WackySpline')]
+
+        oglDocument: OglDocument = OglDocument()
+        oglDocument.toOglDocument(document=singleDocument)
+        oglDocument.oglClasses = cast(OglClasses, singleDocument.oglClasses)
+        oglDocument.oglLinks   = cast(OglLinks,   singleDocument.oglLinks)
+
+        oglToXml: OglToXml = OglToXml(projectCodePath='')
+        oglToXml.serialize(oglDocument)
+
+        self.logger.info(oglToXml.xml)
+
 
 
 def suite() -> TestSuite:

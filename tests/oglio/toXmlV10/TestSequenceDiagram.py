@@ -29,8 +29,6 @@ class TestSequenceDiagram(TestBase):
 
     def testSequenceDiagramSerialization(self):
 
-        self._cleanupGenerated(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
-
         fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
 
         untangler:  UnTangler = UnTangler()
@@ -50,12 +48,14 @@ class TestSequenceDiagram(TestBase):
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        generatedFileName: str = self._constructGeneratedName(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
+        generatedFileName: str = TestBase.constructGeneratedName(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
         oglToMiniDom.writeXml(fqFileName=generatedFileName)
 
         status: int = self._runDiff(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
 
         self.assertEqual(0, status, 'Diff of sequence diagram serialization failed')
+
+        TestBase.cleanupGenerated(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
 
 
 def suite() -> TestSuite:

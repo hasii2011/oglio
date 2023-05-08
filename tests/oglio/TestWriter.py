@@ -31,7 +31,8 @@ class TestWriter(TestBase):
     """
     Test the simplified writer interface for Pyut
     """
-    MULTI_DOCUMENT_FILENAME: str = 'SimpleMultipleDocument.xml'
+    MULTI_DOCUMENT_FILENAME:  str = 'SimpleMultipleDocument.xml'
+    TEST_COMPRESSED_PROJECT:  str = 'TestCompressedProject.put'
 
     def setUp(self):
         super().setUp()
@@ -42,21 +43,26 @@ class TestWriter(TestBase):
     def testSimpleWrite(self):
 
         oglProject:        OglProject = self._getTestOglProject()
-        generatedFileName: str        = self._constructGeneratedName(TestWriter.MULTI_DOCUMENT_FILENAME)
+        generatedFileName: str        = TestBase.constructGeneratedName(TestWriter.MULTI_DOCUMENT_FILENAME)
 
         writer: Writer = Writer()
 
         writer.writeXmlFile(oglProject=oglProject, fqFileName=generatedFileName)
+
+        TestBase.cleanupGenerated(TestWriter.MULTI_DOCUMENT_FILENAME)
 
     def testWriteCompressedFile(self):
         """
         Manually run pyut2xml and manually diff the files
         """
         oglProject:        OglProject = self._getTestOglProject()
-        generatedFileName: str        = self._constructGeneratedName('TestCompressedProject')
+        generatedFileName: str        = TestWriter.constructGeneratedName(TestWriter.TEST_COMPRESSED_PROJECT)
         writer:            Writer     = Writer()
 
         writer.writeFile(oglProject=oglProject, fqFileName=generatedFileName)
+
+        TestBase.cleanupGenerated(TestWriter.TEST_COMPRESSED_PROJECT)
+
 
     def _getTestOglProject(self) -> OglProject:
         """
@@ -76,7 +82,7 @@ class TestWriter(TestBase):
         oglProject: OglProject = OglProject()
         oglProject.version  = OglToDom.VERSION
         oglProject.codePath = '/tmp/bogus/Ozzee.py'
-        generatedFileName: str = self._constructGeneratedName(TestWriter.MULTI_DOCUMENT_FILENAME)
+        generatedFileName: str = TestBase.constructGeneratedName(TestWriter.MULTI_DOCUMENT_FILENAME)
 
         oglDocuments: OglDocuments = createOglDocumentsFactory()
         untangledDocuments: Documents = untangler.documents

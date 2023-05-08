@@ -36,8 +36,6 @@ class TestNotesDiagram(TestBase):
         #
         # Get some OglNotes
         #
-        self._cleanupGenerated(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
-
         fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
 
         untangler:  UnTangler = UnTangler()
@@ -62,12 +60,14 @@ class TestNotesDiagram(TestBase):
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        generatedFileName: str = self._constructGeneratedName(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
+        generatedFileName: str = TestBase.constructGeneratedName(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
         oglToMiniDom.writeXml(fqFileName=generatedFileName)
 
         status: int = self._runDiff(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
 
         self.assertEqual(0, status, 'Diff notes diagram serialization failed')
+
+        TestBase.cleanupGenerated(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
 
 
 def suite() -> TestSuite:

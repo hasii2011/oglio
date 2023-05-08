@@ -33,8 +33,6 @@ class TestUseCaseDiagram(TestBase):
 
     def testUseCaseSerialization(self):
 
-        self._cleanupGenerated(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
-
         fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
         untangler:  UnTangler = UnTangler()
@@ -56,12 +54,14 @@ class TestUseCaseDiagram(TestBase):
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        generatedFileName: str = self._constructGeneratedName(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
+        generatedFileName: str = TestBase.constructGeneratedName(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
         oglToMiniDom.writeXml(fqFileName=generatedFileName)
 
         status: int = self._runDiff(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
         self.assertEqual(0, status, 'Diff use case diagram serialization failed')
+
+        TestBase.cleanupGenerated(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
 
 def suite() -> TestSuite:

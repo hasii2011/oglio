@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PyutProject version="10" CodePath="">
+	<PyutDocument type="CLASS_DIAGRAM" title="WackySpline" scrollPositionX="0" scrollPositionY="1" pixelsPerUnitX="20" pixelsPerUnitY="20">
+		<GraphicClass width="104" height="54" x="100" y="150">
+			<Class id="1" name="WackyClass2" stereotype="noStereotype" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
+		</GraphicClass>
+		<GraphicClass width="117" height="56" x="625" y="400">
+			<Class id="2" name="WackyClass2" stereotype="noStereotype" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
+		</GraphicClass>
+		<GraphicLink srcX="625" srcY="428" dstX="132" dstY="203" spline="True">
+			<ControlPoint x="229" y="511"/>
+			<Link name="" type="INHERITANCE" cardSrc="" cardDestination="" bidir="False" sourceId="2" destId="1"/>
+		</GraphicLink>
+		<GraphicLink srcX="204" srcY="177" dstX="625" dstY="428" spline="True">
+			<LabelCenter x="0" y="0"/>
+			<LabelSrc x="0" y="0"/>
+			<LabelDst x="0" y="0"/>
+			<ControlPoint x="454" y="399"/>
+			<ControlPoint x="536" y="151"/>
+			<Link name="WackySplineAssociation" type="ASSOCIATION" cardSrc="" cardDestination="" bidir="False" sourceId="1" destId="2"/>
+		</GraphicLink>
+	</PyutDocument>
+</PyutProject>
