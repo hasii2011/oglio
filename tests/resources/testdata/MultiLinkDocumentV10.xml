@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <PyutProject version="10" CodePath="">
-	<PyutDocument type="CLASS_DIAGRAM" title="MultiLink" scrollPositionX="5" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
-		<GraphicClass width="77" height="40" x="150" y="150">
+	<PyutDocument type="CLASS_DIAGRAM" title="MultiLink" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+		<GraphicClass width="78" height="44" x="150" y="150">
 			<Class id="1" name="Folder" stereotype="noStereotype" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
 				<Field visibility="PRIVATE">
 					<Param name="permissions" type="" defaultValue=""/>
 				</Field>
 			</Class>
 		</GraphicClass>
-		<GraphicClass width="88" height="50" x="150" y="325">
+		<GraphicClass width="88" height="50" x="151" y="302">
 			<Class id="2" name="File" stereotype="noStereotype" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
 				<Field visibility="PRIVATE">
 					<Param name="size" type="" defaultValue=""/>
@@ -34,7 +34,7 @@
 				</Field>
 			</Class>
 		</GraphicClass>
-		<GraphicClass width="81" height="50" x="550" y="325">
+		<GraphicClass width="81" height="50" x="525" y="300">
 			<Class id="4" name="Wheel" stereotype="noStereotype" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified">
 				<Field visibility="PRIVATE">
 					<Param name="size" type="" defaultValue=""/>
@@ -72,16 +72,16 @@
 		<GraphicText width="206" height="74" x="125" y="400" textSize="14" isBold="False" isItalicized="False" fontFamily="Swiss">
 			<Text id="9" content="Composition is a specific type of Aggregation which implies ownership."/>
 		</GraphicText>
-		<GraphicLink srcX="186" srcY="189" dstX="187" dstY="325" spline="False">
-			<LabelCenter x="579" y="300"/>
-			<LabelSrc x="579" y="300"/>
-			<LabelDst x="579" y="300"/>
+		<GraphicLink srcX="186" srcY="193" dstX="187" dstY="302" spline="False">
+			<LabelCenter x="401" y="-8"/>
+			<LabelSrc x="12" y="-48"/>
+			<LabelDst x="12" y="-48"/>
 			<Link name="organizes" type="COMPOSITION" cardSrc="1" cardDestination="*" bidir="False" sourceId="1" destId="2"/>
 		</GraphicLink>
-		<GraphicLink srcX="573" srcY="194" dstX="574" dstY="325" spline="False">
-			<LabelCenter x="579" y="300"/>
-			<LabelSrc x="579" y="300"/>
-			<LabelDst x="579" y="300"/>
+		<GraphicLink srcX="573" srcY="194" dstX="573" dstY="300" spline="False">
+			<LabelCenter x="-371" y="-8"/>
+			<LabelSrc x="0" y="-53"/>
+			<LabelDst x="0" y="-53"/>
 			<Link name="has" type="AGGREGATION" cardSrc="1" cardDestination="4" bidir="False" sourceId="3" destId="4"/>
 		</GraphicLink>
 		<GraphicLink srcX="924" srcY="350" dstX="924" dstY="249" spline="False">
