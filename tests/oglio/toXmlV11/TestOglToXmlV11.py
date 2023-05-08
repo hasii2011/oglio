@@ -19,6 +19,10 @@ SINGLE_CLASS_FILENAME_V11:   str = 'SingleClassDocumentV11.xml'
 MULTI_LINK_FILE_NAME_V10:    str = 'MultiLinkDocumentV10.xml'
 MULTI_LINK_FILE_NAME_V11:    str = 'MultiLinkDocumentV11.xml'
 
+CRAZY_CONTROL_POINTS_V10:    str = 'CrazyControlPointsV10.xml'
+CRAZY_CONTROL_POINTS_V11:    str = 'CrazyControlPointsV11.xml'
+
+
 class TestOglToXmlV11(TestBase):
     """
     """
@@ -109,6 +113,33 @@ class TestOglToXmlV11(TestBase):
         oglToXml.writeXml(fqFileName=generatedFileName)
 
         status: int = self._runDiff(MULTI_LINK_FILE_NAME_V11)
+
+        self.assertEqual(0, status, 'Diff multi link document serialization failed')
+
+    def testControlPoints(self):
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, CRAZY_CONTROL_POINTS_V10)
+
+        untangler:  UnTangler = UnTangler()
+
+        untangler.untangleFile(fqFileName=fqFileName)
+
+        singleDocument: Document  = untangler.documents[DocumentTitle('CrazyAssociation')]
+
+        oglDocument: OglDocument = OglDocument()
+        oglDocument.toOglDocument(document=singleDocument)
+        oglDocument.oglClasses = cast(OglClasses, singleDocument.oglClasses)
+        oglDocument.oglLinks   = cast(OglLinks,   singleDocument.oglLinks)
+
+        oglToXml: OglToXml = OglToXml(projectCodePath='')
+        oglToXml.serialize(oglDocument)
+
+        self.logger.debug(oglToXml.xml)
+
+        generatedFileName: str = self._constructGeneratedName(CRAZY_CONTROL_POINTS_V11)
+
+        oglToXml.writeXml(fqFileName=generatedFileName)
+
+        status: int = self._runDiff(CRAZY_CONTROL_POINTS_V11)
 
         self.assertEqual(0, status, 'Diff multi link document serialization failed')
 

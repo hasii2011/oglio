@@ -59,10 +59,19 @@ class OglLinksToXml(BaseOglToXml):
                     XmlConstants.ATTR_X: str(x),
                     XmlConstants.ATTR_Y: str(y),
                 })
+                # noinspection PyUnusedLocal
                 labelElement: Element = SubElement(oglLinkSubElement, eltName, attrib=labelAttributes)
 
-        # TODO Control points
+        # save control points (not anchors!)
+        for x, y in oglLink.segments[1:-1]:
+            controlPointAttributes: ElementAttributes = ElementAttributes({
+                XmlConstants.ATTR_X: str(x),
+                XmlConstants.ATTR_Y: str(y),
+            })
+            SubElement(oglLinkSubElement, XmlConstants.ELEMENT_MODEL_CONTROL_POINT, attrib=controlPointAttributes)
+
         self._pyutToXml.pyutLinkToXml(pyutLink=oglLink.pyutObject, oglLinkElement=oglLinkSubElement)
+
         return oglLinkSubElement
 
     def _oglLinkAttributes(self, oglLink: OglLink) -> ElementAttributes:

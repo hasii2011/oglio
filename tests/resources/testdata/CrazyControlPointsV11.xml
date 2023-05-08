@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<PyutProject version="11" CodePath="">
+    <PyutDocument type="CLASS_DIAGRAM" title="CrazyAssociation" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+        <OglClass width="95" height="37" x="125" y="125">
+            <PyutClass id="1" name="SourceClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" description="" />
+        </OglClass>
+        <OglClass width="104" height="38" x="450" y="125">
+            <PyutClass id="2" name="DestinationClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" description="" />
+        </OglClass>
+        <OglLink sourceAnchorX="125" sourceAnchorY="146" destinationAnchorX="553" destinationAnchorY="147" spline="False">
+            <LabelCenter x="-54" y="-33" />
+            <LabelSource x="0" y="0" />
+            <LabelDestination x="0" y="0" />
+            <ControlPoint x="74" y="146" />
+            <ControlPoint x="75" y="299" />
+            <ControlPoint x="657" y="297" />
+            <ControlPoint x="656" y="147" />
+            <PyutLink name="CrazyAssociation" type="ASSOCIATION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="1" destinationId="2" />
+        </OglLink>
+    </PyutDocument>
+</PyutProject>
