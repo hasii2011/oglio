@@ -158,7 +158,7 @@ class PyutToDom(BasePyutToDom):
 
         root.setAttribute(XmlConstants.ATTR_ID, str(textId))
         content: str = pyutText.content
-        content = content.replace('\n', "\\\\\\\\")
+        content = content.replace(osLineSep, PyutToDom.END_OF_LINE_MARKER)
 
         root.setAttribute(XmlConstants.ATTR_CONTENT, content)
 

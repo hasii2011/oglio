@@ -25,6 +25,8 @@ CRAZY_CONTROL_POINTS_V11:    str = 'CrazyControlPointsV11.xml'
 WACKY_SPLINES_V10: str = 'WackySplinesV10.xml'
 WACKY_SPLINES_V11: str = 'WackySplinesV11.xml'
 
+TEXT_AND_LINKED_NOTES_V10: str = 'TextAndLinkedNotesV10.xml'
+
 GENERATED_FILE_NAMES = [EMPTY_DOCUMENT_FILENAME, SINGLE_CLASS_FILENAME_V11, MULTI_LINK_FILE_NAME_V11, CRAZY_CONTROL_POINTS_V11, WACKY_SPLINES_V11]
 
 class TestOglToXmlV11(TestBase):
@@ -173,6 +175,9 @@ class TestOglToXmlV11(TestBase):
         oglToXml.serialize(oglDocument)
 
         self.logger.info(oglToXml.xml)
+
+    def testTextAndLinkedNotes(self):
+        pass
 
 
 
