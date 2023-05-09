@@ -55,17 +55,7 @@ class TestOglToXmlV11(TestBase):
         super().tearDown()
 
     def testProjectWrapper(self):
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, EMPTY_DOCUMENT_FILENAME)
-
-        untangler:  UnTangler = UnTangler()
-
-        untangler.untangleFile(fqFileName=fqFileName)
-
-        singleDocument: Document  = untangler.documents[DocumentTitle('EmptyDiagram')]
-
-        oglDocument: OglDocument = OglDocument()
-        oglDocument.toOglDocument(document=singleDocument)
-
+        oglDocument: OglDocument = self._getOglDocument(baseFileName=EMPTY_DOCUMENT_FILENAME, documentName='EmptyDiagram')
         oglToXml: OglToXml = OglToXml(projectCodePath='')
         oglToXml.serialize(oglDocument)
 
@@ -80,18 +70,7 @@ class TestOglToXmlV11(TestBase):
         self.assertEqual(0, status, 'Diff empty document serialization failed')
 
     def testSingleClassProject(self):
-
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, SINGLE_CLASS_FILENAME_V10)
-
-        untangler:  UnTangler = UnTangler()
-
-        untangler.untangleFile(fqFileName=fqFileName)
-
-        singleDocument: Document  = untangler.documents[DocumentTitle('SingleClassDiagram')]
-
-        oglDocument: OglDocument = OglDocument()
-        oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglClasses = cast(OglClasses, singleDocument.oglClasses)
+        oglDocument: OglDocument = self._getOglDocument(baseFileName=SINGLE_CLASS_FILENAME_V10, documentName='SingleClassDiagram')
 
         oglToXml: OglToXml = OglToXml(projectCodePath='')
         oglToXml.serialize(oglDocument)
@@ -107,20 +86,7 @@ class TestOglToXmlV11(TestBase):
         self.assertEqual(0, status, 'Diff single document serialization failed')
 
     def testMultipleLinks(self):
-
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_FILE_NAME_V10)
-
-        untangler:  UnTangler = UnTangler()
-
-        untangler.untangleFile(fqFileName=fqFileName)
-
-        singleDocument: Document  = untangler.documents[DocumentTitle('MultiLink')]
-
-        oglDocument: OglDocument = OglDocument()
-        oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglClasses = cast(OglClasses, singleDocument.oglClasses)
-        oglDocument.oglLinks   = cast(OglLinks,   singleDocument.oglLinks)
-
+        oglDocument: OglDocument = self._getOglDocument(baseFileName=MULTI_LINK_FILE_NAME_V10, documentName='MultiLink')
         oglToXml: OglToXml = OglToXml(projectCodePath='')
         oglToXml.serialize(oglDocument)
         self.logger.debug(oglToXml.xml)
@@ -134,18 +100,7 @@ class TestOglToXmlV11(TestBase):
         self.assertEqual(0, status, 'Diff multi link document serialization failed')
 
     def testControlPoints(self):
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, CRAZY_CONTROL_POINTS_V10)
-
-        untangler:  UnTangler = UnTangler()
-
-        untangler.untangleFile(fqFileName=fqFileName)
-
-        singleDocument: Document  = untangler.documents[DocumentTitle('CrazyAssociation')]
-
-        oglDocument: OglDocument = OglDocument()
-        oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglClasses = cast(OglClasses, singleDocument.oglClasses)
-        oglDocument.oglLinks   = cast(OglLinks,   singleDocument.oglLinks)
+        oglDocument: OglDocument = self._getOglDocument(baseFileName=CRAZY_CONTROL_POINTS_V10, documentName='CrazyAssociation')
 
         oglToXml: OglToXml = OglToXml(projectCodePath='')
         oglToXml.serialize(oglDocument)

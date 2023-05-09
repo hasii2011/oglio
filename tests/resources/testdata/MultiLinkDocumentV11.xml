@@ -60,5 +60,11 @@
         <OglLink sourceAnchorX="924" sourceAnchorY="350" destinationAnchorX="924" destinationAnchorY="249" spline="False">
             <PyutLink name="" type="INTERFACE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="5" destinationId="6" />
         </OglLink>
+        <OglText width="221" height="73" x="500" y="400">
+            <PyutNote id="7" content="Aggregation associates two objects describes the 'have a' relationship." />
+        </OglText>
+        <OglText width="206" height="74" x="125" y="400">
+            <PyutNote id="8" content="Composition is a specific type of Aggregation which implies ownership." />
+        </OglText>
     </PyutDocument>
 </PyutProject>
