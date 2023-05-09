@@ -7,9 +7,9 @@ class XmlConstants:
     TOP_LEVEL_ELEMENT:           str = 'PyutProject'
     ELEMENT_OGL_CLASS:           str = 'OglClass'
     ELEMENT_GRAPHIC_LINK:        str = 'OglLink'
+    ELEMENT_GRAPHIC_NOTE:        str = 'OglNote'
 
     ELEMENT_GRAPHIC_LOLLIPOP:    str = 'GraphicLollipop'
-    ELEMENT_GRAPHIC_NOTE:        str = 'GraphicNote'
     ELEMENT_GRAPHIC_TEXT:        str = 'GraphicText'
     ELEMENT_GRAPHIC_ACTOR:       str = 'GraphicActor'
     ELEMENT_GRAPHIC_USE_CASE:    str = 'GraphicUseCase'
@@ -22,12 +22,12 @@ class XmlConstants:
     ELEMENT_MODEL_PYUT_PARAMETER: str = 'PyutParameter'
     ELEMENT_MODEL_PYUT_FIELD:     str = 'PyutField'
     ELEMENT_PYUT_LINK:            str = 'PyutLink'
+    ELEMENT_PYUT_NOTE:            str = 'PyutNote'
 
     ELEMENT_MODEL_INTERFACE:      str = 'Interface'
     ELEMENT_IMPLEMENTOR:          str = 'Implementor'
 
 
-    ELEMENT_MODEL_NOTE:        str = 'Note'
     ELEMENT_MODEL_TEXT:        str = 'Text'
     ELEMENT_MODEL_ACTOR:       str = 'Actor'
     ELEMENT_MODEL_USE_CASE:    str = 'UseCase'

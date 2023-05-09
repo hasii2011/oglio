@@ -24,7 +24,7 @@ class IDFactory(Singleton):
         """
         self._classCache: Dict[type, int] = {}
 
-    def getID(self, cls: Union[Any, type]):
+    def getID(self, cls: Union[Any, type]) -> int:
         if cls in self._classCache:
             return self._classCache[cls]
         else:

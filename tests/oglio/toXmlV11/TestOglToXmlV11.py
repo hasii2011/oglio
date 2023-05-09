@@ -9,6 +9,8 @@ from untanglepyut.UnTangler import UnTangler
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
 from oglio.Types import OglLinks
+from oglio.Types import OglNotes
+from oglio.Types import OglTexts
 from oglio.toXmlV11.OglToXml import OglToXml
 from tests.TestBase import TestBase
 
@@ -177,8 +179,32 @@ class TestOglToXmlV11(TestBase):
         self.logger.info(oglToXml.xml)
 
     def testTextAndLinkedNotes(self):
-        pass
+        oglDocument: OglDocument = self._getOglDocument(baseFileName=TEXT_AND_LINKED_NOTES_V10, documentName='TextNotes')
+        oglToXml: OglToXml = OglToXml(projectCodePath='')
+        oglToXml.serialize(oglDocument)
 
+        self.logger.info(oglToXml.xml)
+
+
+    def _getOglDocument(self, baseFileName: str, documentName: str) -> OglDocument:
+
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, baseFileName)
+
+        untangler:  UnTangler = UnTangler()
+
+        untangler.untangleFile(fqFileName=fqFileName)
+
+        singleDocument: Document  = untangler.documents[DocumentTitle(documentName)]
+
+        oglDocument: OglDocument = OglDocument()
+        oglDocument.toOglDocument(document=singleDocument)
+        oglDocument.oglClasses = cast(OglClasses, singleDocument.oglClasses)
+        oglDocument.oglLinks   = cast(OglLinks,   singleDocument.oglLinks)
+        oglDocument.oglNotes   = cast(OglNotes,   singleDocument.oglNotes)
+        oglDocument.oglTexts   = cast(OglTexts,   singleDocument.oglTexts)
+        # TODO Copy the rest
+
+        return oglDocument
 
 
 def suite() -> TestSuite:

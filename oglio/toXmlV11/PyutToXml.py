@@ -1,6 +1,9 @@
 
 from logging import Logger
 from logging import getLogger
+
+from os import linesep as osLineSep
+
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
 
@@ -10,6 +13,7 @@ from pyutmodel.PyutField import PyutField
 from pyutmodel.PyutLink import PyutLink
 from pyutmodel.PyutMethod import PyutMethod
 from pyutmodel.PyutMethod import SourceCode
+from pyutmodel.PyutNote import PyutNote
 from pyutmodel.PyutParameter import PyutParameter
 
 from oglio.toXmlV11.BaseXml import BaseXml
@@ -86,22 +90,25 @@ class PyutToXml(BaseXml):
             XmlConstants.ATTR_DESTINATION_ID:          str(destLinkId),
         })
         pyutLinkElement: Element = SubElement(oglLinkElement, XmlConstants.ELEMENT_PYUT_LINK, attrib=attributes)
-        # root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_LINK)
-        #
-        # root.setAttribute(XmlConstants.ATTR_NAME, pyutLink.name)
-        # root.setAttribute(XmlConstants.ATTR_TYPE, pyutLink.linkType.name)
-        # root.setAttribute(XmlConstants.ATTR_CARDINALITY_SOURCE, pyutLink.sourceCardinality)
-        # root.setAttribute(XmlConstants.ATTR_CARDINALITY_DESTINATION, pyutLink.destinationCardinality)
-        # root.setAttribute(XmlConstants.ATTR_BIDIRECTIONAL, str(pyutLink.getBidir()))
-        #
-        # srcLinkId:  int = self._idFactory.getID(pyutLink.getSource())
-        # destLinkId: int = self._idFactory.getID(pyutLink.getDestination())
-        #
-        # root.setAttribute(XmlConstants.ATTR_SOURCE_ID, str(srcLinkId))
-        # root.setAttribute(XmlConstants.ATTR_DESTINATION_ID, str(destLinkId))
-        #
-        # return root
+
         return pyutLinkElement
+
+    def pyutNoteToXml(self, pyutNote: PyutNote, oglNoteElement: Element) -> Element:
+
+        noteId:       int = self._idFactory.getID(pyutNote)
+        content:      str = pyutNote.content
+        fixedContent: str  = content.replace(osLineSep, PyutToXml.END_OF_LINE_MARKER)
+        if pyutNote.fileName is None:
+            pyutNote.fileName = ''
+
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_ID:       str(noteId),
+            XmlConstants.ATTR_CONTENT:  fixedContent,
+            XmlConstants.ATTR_FILENAME: pyutNote.fileName,
+        })
+        pyutNoteElement: Element = SubElement(oglNoteElement, XmlConstants.ELEMENT_PYUT_NOTE, attrib=attributes)
+
+        return pyutNoteElement
 
     def _pyutMethodToXml(self, pyutMethod: PyutMethod, pyutClassElement: Element) -> Element:
         """
