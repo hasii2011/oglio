@@ -28,8 +28,9 @@ WACKY_SPLINES_V10: str = 'WackySplinesV10.xml'
 WACKY_SPLINES_V11: str = 'WackySplinesV11.xml'
 
 TEXT_AND_LINKED_NOTES_V10: str = 'TextAndLinkedNotesV10.xml'
+TEXT_AND_LINKED_NOTES_V11: str = 'TextAndLinkedNotesV11.xml'
 
-GENERATED_FILE_NAMES = [EMPTY_DOCUMENT_FILENAME, SINGLE_CLASS_FILENAME_V11, MULTI_LINK_FILE_NAME_V11, CRAZY_CONTROL_POINTS_V11, WACKY_SPLINES_V11]
+GENERATED_FILE_NAMES = [EMPTY_DOCUMENT_FILENAME, SINGLE_CLASS_FILENAME_V11, MULTI_LINK_FILE_NAME_V11, CRAZY_CONTROL_POINTS_V11, WACKY_SPLINES_V11, TEXT_AND_LINKED_NOTES_V11]
 
 class TestOglToXmlV11(TestBase):
     """
@@ -160,30 +161,32 @@ class TestOglToXmlV11(TestBase):
         self.assertEqual(0, status, 'Diff multi link document serialization failed')
 
     def testSplines(self):
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, WACKY_SPLINES_V10)
-
-        untangler:  UnTangler = UnTangler()
-
-        untangler.untangleFile(fqFileName=fqFileName)
-
-        singleDocument: Document  = untangler.documents[DocumentTitle('WackySpline')]
-
-        oglDocument: OglDocument = OglDocument()
-        oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglClasses = cast(OglClasses, singleDocument.oglClasses)
-        oglDocument.oglLinks   = cast(OglLinks,   singleDocument.oglLinks)
-
+        oglDocument: OglDocument = self._getOglDocument(baseFileName=WACKY_SPLINES_V10, documentName='WackySpline')
         oglToXml: OglToXml = OglToXml(projectCodePath='')
         oglToXml.serialize(oglDocument)
 
-        self.logger.info(oglToXml.xml)
+        self.logger.debug(oglToXml.xml)
+        generatedFileName: str = TestBase.constructGeneratedName(WACKY_SPLINES_V11)
+
+        oglToXml.writeXml(fqFileName=generatedFileName)
+
+        status: int = self._runDiff(WACKY_SPLINES_V11)
+
+        self.assertEqual(0, status, 'Diff spline serialization failed')
 
     def testTextAndLinkedNotes(self):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=TEXT_AND_LINKED_NOTES_V10, documentName='TextNotes')
         oglToXml: OglToXml = OglToXml(projectCodePath='')
         oglToXml.serialize(oglDocument)
 
-        self.logger.info(oglToXml.xml)
+        self.logger.debug(oglToXml.xml)
+        generatedFileName: str = TestBase.constructGeneratedName(TEXT_AND_LINKED_NOTES_V11)
+
+        oglToXml.writeXml(fqFileName=generatedFileName)
+
+        status: int = self._runDiff(TEXT_AND_LINKED_NOTES_V11)
+
+        self.assertEqual(0, status, 'Diff multi link document serialization failed')
 
 
     def _getOglDocument(self, baseFileName: str, documentName: str) -> OglDocument:

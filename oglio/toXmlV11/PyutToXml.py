@@ -15,6 +15,7 @@ from pyutmodel.PyutMethod import PyutMethod
 from pyutmodel.PyutMethod import SourceCode
 from pyutmodel.PyutNote import PyutNote
 from pyutmodel.PyutParameter import PyutParameter
+from pyutmodel.PyutText import PyutText
 
 from oglio.toXmlV11.BaseXml import BaseXml
 from oglio.toXmlV11.InternalTypes import ElementAttributes
@@ -109,6 +110,20 @@ class PyutToXml(BaseXml):
         pyutNoteElement: Element = SubElement(oglNoteElement, XmlConstants.ELEMENT_PYUT_NOTE, attrib=attributes)
 
         return pyutNoteElement
+
+    def pyutTextToXml(self, pyutText: PyutText, oglTextElement: Element) -> Element:
+
+        textId:       int = self._idFactory.getID(pyutText)
+        content:      str = pyutText.content
+        fixedContent: str  = content.replace(osLineSep, PyutToXml.END_OF_LINE_MARKER)
+
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_ID:       str(textId),
+            XmlConstants.ATTR_CONTENT:  fixedContent,
+        })
+        pyutTextElement: Element = SubElement(oglTextElement, XmlConstants.ELEMENT_PYUT_NOTE, attrib=attributes)
+
+        return pyutTextElement
 
     def _pyutMethodToXml(self, pyutMethod: PyutMethod, pyutClassElement: Element) -> Element:
         """

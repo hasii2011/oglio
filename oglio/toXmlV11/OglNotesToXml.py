@@ -1,7 +1,8 @@
 
+from typing import cast
+
 from logging import Logger
 from logging import getLogger
-from typing import cast
 
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
@@ -9,6 +10,7 @@ from xml.etree.ElementTree import SubElement
 from ogl.OglNote import OglNote
 
 from oglio.Types import OglNotes
+
 from oglio.toXmlV11.PyutToXml import PyutToXml
 from oglio.toXmlV11.XmlConstants import XmlConstants
 from oglio.toXmlV11.BaseOglToXml import BaseOglToXml
@@ -29,9 +31,11 @@ class OglNotesToXml(BaseOglToXml):
             oglNoteElement: Element = self._oglNoteToXml(documentTop=documentTop, oglNote=oglNote)
             self._pyutToXml.pyutNoteToXml(pyutNote=oglNote.pyutObject, oglNoteElement=oglNoteElement)
 
+        return documentTop
+
     def _oglNoteToXml(self, documentTop: Element, oglNote: OglNote) -> Element:
 
         attributes = self._oglBaseAttributes(oglObject=oglNote)
-        oglNoteSubElement: Element = SubElement(documentTop, XmlConstants.ELEMENT_GRAPHIC_NOTE, attrib=attributes)
+        oglNoteSubElement: Element = SubElement(documentTop, XmlConstants.ELEMENT_OGL_NOTE, attrib=attributes)
 
         return oglNoteSubElement

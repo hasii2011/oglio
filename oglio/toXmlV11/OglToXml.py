@@ -13,6 +13,7 @@ from oglio.Types import OglDocument
 from oglio.toXmlV11.OglClassToXml import OglClassToXml
 from oglio.toXmlV11.OglLinksToXml import OglLinksToXml
 from oglio.toXmlV11.OglNotesToXml import OglNotesToXml
+from oglio.toXmlV11.OglTextsToXml import OglTextsToXml
 
 from oglio.toXmlV11.XmlConstants import XmlConstants
 
@@ -53,12 +54,14 @@ class OglToXml:
         oglClassToXml : OglClassToXml = OglClassToXml()
         oglLinksToXml:  OglLinksToXml = OglLinksToXml()
         oglNotesToXml:  OglNotesToXml = OglNotesToXml()
+        oglTextsToXml:  OglTextsToXml = OglTextsToXml()
 
         documentElement: Element = self._oglDocumentToXml(oglDocument=oglDocument)
 
         oglClassToXml.serialize(documentTop=documentElement, oglClasses=oglDocument.oglClasses)
         oglLinksToXml.serialize(documentTop=documentElement, oglLinks=oglDocument.oglLinks)
         oglNotesToXml.serialize(documentTop=documentElement, oglNotes=oglDocument.oglNotes)
+        oglTextsToXml.serialize(documentTop=documentElement, oglTexts=oglDocument.oglTexts)
 
     def writeXml(self, fqFileName):
         """

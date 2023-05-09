@@ -38,7 +38,7 @@ class OglLinksToXml(BaseOglToXml):
     def _oglLinkToXml(self, documentTop: Element, oglLink: OglLink) -> Element:
 
         attributes:        ElementAttributes = self._oglLinkAttributes(oglLink=oglLink)
-        oglLinkSubElement: Element           = SubElement(documentTop, XmlConstants.ELEMENT_GRAPHIC_LINK, attrib=attributes)
+        oglLinkSubElement: Element           = SubElement(documentTop, XmlConstants.ELEMENT_OGL_LINK, attrib=attributes)
 
         if isinstance(oglLink, OglAssociation):
 

@@ -4,13 +4,13 @@ class XmlConstants:
     A `no method` class that just hosts the strings that represent the Pyut XML strings
     """
 
-    TOP_LEVEL_ELEMENT:           str = 'PyutProject'
-    ELEMENT_OGL_CLASS:           str = 'OglClass'
-    ELEMENT_GRAPHIC_LINK:        str = 'OglLink'
-    ELEMENT_GRAPHIC_NOTE:        str = 'OglNote'
+    TOP_LEVEL_ELEMENT: str = 'PyutProject'
+    ELEMENT_OGL_CLASS: str = 'OglClass'
+    ELEMENT_OGL_LINK:  str = 'OglLink'
+    ELEMENT_OGL_NOTE:  str = 'OglNote'
+    ELEMENT_OGL_TEXT:   str = 'OglText'
 
     ELEMENT_GRAPHIC_LOLLIPOP:    str = 'GraphicLollipop'
-    ELEMENT_GRAPHIC_TEXT:        str = 'GraphicText'
     ELEMENT_GRAPHIC_ACTOR:       str = 'GraphicActor'
     ELEMENT_GRAPHIC_USE_CASE:    str = 'GraphicUseCase'
     ELEMENT_GRAPHIC_SD_INSTANCE: str = 'GraphicSDInstance'
