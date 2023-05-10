@@ -35,7 +35,6 @@ GENERATED_FILE_NAMES = [EMPTY_DOCUMENT_FILENAME, SINGLE_CLASS_FILENAME_V11, MULT
 class TestOglToXmlV11(TestBase):
     """
     """
-
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
@@ -56,93 +55,41 @@ class TestOglToXmlV11(TestBase):
 
     def testProjectWrapper(self):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=EMPTY_DOCUMENT_FILENAME, documentName='EmptyDiagram')
-        oglToXml: OglToXml = OglToXml(projectCodePath='')
-        oglToXml.serialize(oglDocument)
-
-        self.logger.debug(oglToXml.xml)
-
-        generatedFileName: str = TestBase.constructGeneratedName(EMPTY_DOCUMENT_FILENAME)
-
-        oglToXml.writeXml(fqFileName=generatedFileName)
-
-        status: int = self._runDiff(EMPTY_DOCUMENT_FILENAME)
-
-        self.assertEqual(0, status, 'Diff empty document serialization failed')
+        self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=EMPTY_DOCUMENT_FILENAME,  assertionMessage='Diff empty document serialization failed')
 
     def testSingleClassProject(self):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=SINGLE_CLASS_FILENAME_V10, documentName='SingleClassDiagram')
-
-        oglToXml: OglToXml = OglToXml(projectCodePath='')
-        oglToXml.serialize(oglDocument)
-
-        self.logger.debug(oglToXml.xml)
-
-        generatedFileName: str = TestBase.constructGeneratedName(SINGLE_CLASS_FILENAME_V11)
-
-        oglToXml.writeXml(fqFileName=generatedFileName)
-
-        status: int = self._runDiff(SINGLE_CLASS_FILENAME_V11)
-
-        self.assertEqual(0, status, 'Diff single document serialization failed')
+        self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=SINGLE_CLASS_FILENAME_V11, assertionMessage='Diff single document serialization failed')
 
     def testMultipleLinks(self):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=MULTI_LINK_FILE_NAME_V10, documentName='MultiLink')
-        oglToXml: OglToXml = OglToXml(projectCodePath='')
-        oglToXml.serialize(oglDocument)
-        self.logger.debug(oglToXml.xml)
-
-        generatedFileName: str = TestBase.constructGeneratedName(MULTI_LINK_FILE_NAME_V11)
-
-        oglToXml.writeXml(fqFileName=generatedFileName)
-
-        status: int = self._runDiff(MULTI_LINK_FILE_NAME_V11)
-
-        self.assertEqual(0, status, 'Diff multi link document serialization failed')
+        self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=MULTI_LINK_FILE_NAME_V11, assertionMessage='Diff multi link document serialization failed')
 
     def testControlPoints(self):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=CRAZY_CONTROL_POINTS_V10, documentName='CrazyAssociation')
-
-        oglToXml: OglToXml = OglToXml(projectCodePath='')
-        oglToXml.serialize(oglDocument)
-
-        self.logger.debug(oglToXml.xml)
-
-        generatedFileName: str = TestBase.constructGeneratedName(CRAZY_CONTROL_POINTS_V11)
-
-        oglToXml.writeXml(fqFileName=generatedFileName)
-
-        status: int = self._runDiff(CRAZY_CONTROL_POINTS_V11)
-
-        self.assertEqual(0, status, 'Diff multi link document serialization failed')
+        self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=CRAZY_CONTROL_POINTS_V11, assertionMessage='Diff multi link document serialization failed')
 
     def testSplines(self):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=WACKY_SPLINES_V10, documentName='WackySpline')
-        oglToXml: OglToXml = OglToXml(projectCodePath='')
-        oglToXml.serialize(oglDocument)
-
-        self.logger.debug(oglToXml.xml)
-        generatedFileName: str = TestBase.constructGeneratedName(WACKY_SPLINES_V11)
-
-        oglToXml.writeXml(fqFileName=generatedFileName)
-
-        status: int = self._runDiff(WACKY_SPLINES_V11)
-
-        self.assertEqual(0, status, 'Diff spline serialization failed')
+        self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=WACKY_SPLINES_V11, assertionMessage='Diff spline serialization failed')
 
     def testTextAndLinkedNotes(self):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=TEXT_AND_LINKED_NOTES_V10, documentName='TextNotes')
+        self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=TEXT_AND_LINKED_NOTES_V11, assertionMessage='Diff multi link document serialization failed')
+
+    def _assertGeneratedFile(self, oglDocument: OglDocument, baseFileNameV11: str, assertionMessage: str):
+
         oglToXml: OglToXml = OglToXml(projectCodePath='')
         oglToXml.serialize(oglDocument)
-
         self.logger.debug(oglToXml.xml)
-        generatedFileName: str = TestBase.constructGeneratedName(TEXT_AND_LINKED_NOTES_V11)
+
+        generatedFileName: str = TestBase.constructGeneratedName(baseFileNameV11)
 
         oglToXml.writeXml(fqFileName=generatedFileName)
 
-        status: int = self._runDiff(TEXT_AND_LINKED_NOTES_V11)
+        status: int = self._runDiff(baseFileNameV11)
 
-        self.assertEqual(0, status, 'Diff multi link document serialization failed')
-
+        self.assertEqual(0, status, assertionMessage)
 
     def _getOglDocument(self, baseFileName: str, documentName: str) -> OglDocument:
 
@@ -163,7 +110,6 @@ class TestOglToXmlV11(TestBase):
         # TODO Copy the rest
 
         return oglDocument
-
 
 def suite() -> TestSuite:
     """You need to change the name of the test class here also."""
