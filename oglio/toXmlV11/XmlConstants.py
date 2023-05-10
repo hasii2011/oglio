@@ -4,15 +4,15 @@ class XmlConstants:
     A `no method` class that just hosts the strings that represent the Pyut XML strings
     """
 
-    TOP_LEVEL_ELEMENT: str = 'PyutProject'
-    ELEMENT_OGL_CLASS: str = 'OglClass'
-    ELEMENT_OGL_LINK:  str = 'OglLink'
-    ELEMENT_OGL_NOTE:  str = 'OglNote'
-    ELEMENT_OGL_TEXT:   str = 'OglText'
+    TOP_LEVEL_ELEMENT:    str = 'PyutProject'
+    ELEMENT_OGL_CLASS:    str = 'OglClass'
+    ELEMENT_OGL_LINK:     str = 'OglLink'
+    ELEMENT_OGL_NOTE:     str = 'OglNote'
+    ELEMENT_OGL_TEXT:     str = 'OglText'
+    ELEMENT_OGL_USE_CASE: str = 'OglUseCase'
 
     ELEMENT_GRAPHIC_LOLLIPOP:    str = 'GraphicLollipop'
     ELEMENT_GRAPHIC_ACTOR:       str = 'GraphicActor'
-    ELEMENT_GRAPHIC_USE_CASE:    str = 'GraphicUseCase'
     ELEMENT_GRAPHIC_SD_INSTANCE: str = 'GraphicSDInstance'
     ELEMENT_GRAPHIC_SD_MESSAGE:  str = 'GraphicSDMessage'
 
@@ -24,13 +24,14 @@ class XmlConstants:
     ELEMENT_PYUT_LINK:            str = 'PyutLink'
     ELEMENT_PYUT_NOTE:            str = 'PyutNote'
 
+    ELEMENT_PYUT_USE_CASE:        str = 'PyutUseCase'
+    ELEMENT_PYUT_TEXT:            str = 'PyutText'
+
     ELEMENT_MODEL_INTERFACE:      str = 'Interface'
     ELEMENT_IMPLEMENTOR:          str = 'Implementor'
 
 
-    ELEMENT_MODEL_TEXT:        str = 'Text'
     ELEMENT_MODEL_ACTOR:       str = 'Actor'
-    ELEMENT_MODEL_USE_CASE:    str = 'UseCase'
     ELEMENT_MODEL_MODIFIER:    str = 'Modifier'
     ELEMENT_MODEL_SOURCE_CODE: str = 'SourceCode'
     ELEMENT_MODEL_CODE:        str = 'Code'

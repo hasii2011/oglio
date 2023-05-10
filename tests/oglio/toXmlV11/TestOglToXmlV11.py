@@ -11,6 +11,7 @@ from oglio.Types import OglDocument
 from oglio.Types import OglLinks
 from oglio.Types import OglNotes
 from oglio.Types import OglTexts
+from oglio.Types import OglUseCases
 from oglio.toXmlV11.OglToXml import OglToXml
 from tests.TestBase import TestBase
 
@@ -30,7 +31,13 @@ WACKY_SPLINES_V11: str = 'WackySplinesV11.xml'
 TEXT_AND_LINKED_NOTES_V10: str = 'TextAndLinkedNotesV10.xml'
 TEXT_AND_LINKED_NOTES_V11: str = 'TextAndLinkedNotesV11.xml'
 
-GENERATED_FILE_NAMES = [EMPTY_DOCUMENT_FILENAME, SINGLE_CLASS_FILENAME_V11, MULTI_LINK_FILE_NAME_V11, CRAZY_CONTROL_POINTS_V11, WACKY_SPLINES_V11, TEXT_AND_LINKED_NOTES_V11]
+USE_CASES_TEXT_NOTES_V10: str = 'UseCasesTextNotesV10.xml'
+USE_CASES_TEXT_NOTES_V11: str = 'UseCasesTextNotesV11.xml'
+
+GENERATED_FILE_NAMES = [EMPTY_DOCUMENT_FILENAME, SINGLE_CLASS_FILENAME_V11, MULTI_LINK_FILE_NAME_V11,
+                        CRAZY_CONTROL_POINTS_V11, WACKY_SPLINES_V11, TEXT_AND_LINKED_NOTES_V11,
+                        USE_CASES_TEXT_NOTES_V11
+                        ]
 
 class TestOglToXmlV11(TestBase):
     """
@@ -77,6 +84,13 @@ class TestOglToXmlV11(TestBase):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=TEXT_AND_LINKED_NOTES_V10, documentName='TextNotes')
         self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=TEXT_AND_LINKED_NOTES_V11, assertionMessage='Diff multi link document serialization failed')
 
+    def testUseCases(self):
+        """
+        Include Text and Notes for completenes
+        """
+        oglDocument: OglDocument = self._getOglDocument(baseFileName=USE_CASES_TEXT_NOTES_V10, documentName='Use-Cases')
+        self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=USE_CASES_TEXT_NOTES_V11, assertionMessage='Diff use case serialization failed')
+
     def _assertGeneratedFile(self, oglDocument: OglDocument, baseFileNameV11: str, assertionMessage: str):
 
         oglToXml: OglToXml = OglToXml(projectCodePath='')
@@ -86,7 +100,7 @@ class TestOglToXmlV11(TestBase):
         generatedFileName: str = TestBase.constructGeneratedName(baseFileNameV11)
 
         oglToXml.writeXml(fqFileName=generatedFileName)
-
+        #
         status: int = self._runDiff(baseFileNameV11)
 
         self.assertEqual(0, status, assertionMessage)
@@ -103,10 +117,11 @@ class TestOglToXmlV11(TestBase):
 
         oglDocument: OglDocument = OglDocument()
         oglDocument.toOglDocument(document=singleDocument)
-        oglDocument.oglClasses = cast(OglClasses, singleDocument.oglClasses)
-        oglDocument.oglLinks   = cast(OglLinks,   singleDocument.oglLinks)
-        oglDocument.oglNotes   = cast(OglNotes,   singleDocument.oglNotes)
-        oglDocument.oglTexts   = cast(OglTexts,   singleDocument.oglTexts)
+        oglDocument.oglClasses  = cast(OglClasses,  singleDocument.oglClasses)
+        oglDocument.oglLinks    = cast(OglLinks,    singleDocument.oglLinks)
+        oglDocument.oglNotes    = cast(OglNotes,    singleDocument.oglNotes)
+        oglDocument.oglTexts    = cast(OglTexts,    singleDocument.oglTexts)
+        oglDocument.oglUseCases = cast(OglUseCases, singleDocument.oglUseCases)
         # TODO Copy the rest
 
         return oglDocument

@@ -10,10 +10,12 @@ from xml.etree.ElementTree import tostring
 from xml.etree.ElementTree import fromstring
 
 from oglio.Types import OglDocument
+
 from oglio.toXmlV11.OglClassToXml import OglClassToXml
 from oglio.toXmlV11.OglLinksToXml import OglLinksToXml
 from oglio.toXmlV11.OglNotesToXml import OglNotesToXml
 from oglio.toXmlV11.OglTextsToXml import OglTextsToXml
+from oglio.toXmlV11.OglUseCasesToXml import OglUseCasesToXml
 
 from oglio.toXmlV11.XmlConstants import XmlConstants
 
@@ -51,10 +53,11 @@ class OglToXml:
 
     def serialize(self, oglDocument: OglDocument):
 
-        oglClassToXml : OglClassToXml = OglClassToXml()
-        oglLinksToXml:  OglLinksToXml = OglLinksToXml()
-        oglNotesToXml:  OglNotesToXml = OglNotesToXml()
-        oglTextsToXml:  OglTextsToXml = OglTextsToXml()
+        oglClassToXml :   OglClassToXml    = OglClassToXml()
+        oglLinksToXml:    OglLinksToXml    = OglLinksToXml()
+        oglNotesToXml:    OglNotesToXml    = OglNotesToXml()
+        oglTextsToXml:    OglTextsToXml    = OglTextsToXml()
+        oglUseCasesToXml: OglUseCasesToXml = OglUseCasesToXml()
 
         documentElement: Element = self._oglDocumentToXml(oglDocument=oglDocument)
 
@@ -62,6 +65,9 @@ class OglToXml:
         oglLinksToXml.serialize(documentTop=documentElement, oglLinks=oglDocument.oglLinks)
         oglNotesToXml.serialize(documentTop=documentElement, oglNotes=oglDocument.oglNotes)
         oglTextsToXml.serialize(documentTop=documentElement, oglTexts=oglDocument.oglTexts)
+
+        oglUseCasesToXml.serialize(documentTop=documentElement, oglUseCases=oglDocument.oglUseCases)
+
 
     def writeXml(self, fqFileName):
         """

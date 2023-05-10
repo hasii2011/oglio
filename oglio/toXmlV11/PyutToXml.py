@@ -16,6 +16,7 @@ from pyutmodel.PyutMethod import SourceCode
 from pyutmodel.PyutNote import PyutNote
 from pyutmodel.PyutParameter import PyutParameter
 from pyutmodel.PyutText import PyutText
+from pyutmodel.PyutUseCase import PyutUseCase
 
 from oglio.toXmlV11.BaseXml import BaseXml
 from oglio.toXmlV11.InternalTypes import ElementAttributes
@@ -124,6 +125,22 @@ class PyutToXml(BaseXml):
         pyutTextElement: Element = SubElement(oglTextElement, XmlConstants.ELEMENT_PYUT_NOTE, attrib=attributes)
 
         return pyutTextElement
+
+    def pyutUseCaseToXml(self, pyutUseCase: PyutUseCase, oglUseCaseElement: Element) -> Element:
+
+        useCaseId: int = self._idFactory.getID(pyutUseCase)
+        fileName:  str = pyutUseCase.fileName
+        if fileName is None:
+            fileName = ''
+
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_ID:       str(useCaseId),
+            XmlConstants.ATTR_NAME:     pyutUseCase.name,
+            XmlConstants.ATTR_FILENAME: fileName
+        })
+        pyutUseCaseElement: Element = SubElement(oglUseCaseElement, XmlConstants.ELEMENT_PYUT_USE_CASE, attributes)
+
+        return pyutUseCaseElement
 
     def _pyutMethodToXml(self, pyutMethod: PyutMethod, pyutClassElement: Element) -> Element:
         """
