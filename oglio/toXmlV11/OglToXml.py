@@ -14,6 +14,7 @@ from oglio.Types import OglDocument
 from oglio.toXmlV11.OglClassToXml import OglClassToXml
 from oglio.toXmlV11.OglLinksToXml import OglLinksToXml
 from oglio.toXmlV11.OglNotesToXml import OglNotesToXml
+from oglio.toXmlV11.OglSequenceToXml import OglSequenceToXml
 from oglio.toXmlV11.OglTextsToXml import OglTextsToXml
 from oglio.toXmlV11.OglUseCasesToXml import OglUseCasesToXml
 
@@ -58,6 +59,7 @@ class OglToXml:
         oglNotesToXml:    OglNotesToXml    = OglNotesToXml()
         oglTextsToXml:    OglTextsToXml    = OglTextsToXml()
         oglUseCasesToXml: OglUseCasesToXml = OglUseCasesToXml()
+        oglSequenceToXml: OglSequenceToXml = OglSequenceToXml()
 
         documentElement: Element = self._oglDocumentToXml(oglDocument=oglDocument)
 
@@ -67,6 +69,7 @@ class OglToXml:
         oglTextsToXml.serialize(documentTop=documentElement, oglTexts=oglDocument.oglTexts)
 
         oglUseCasesToXml.serialize(documentTop=documentElement, oglUseCases=oglDocument.oglUseCases)
+        oglSequenceToXml.serialize(documentTop=documentElement, oglSDInstances=oglDocument.oglSDInstances, oglSDMessages=oglDocument.oglSDMessages)
 
 
     def writeXml(self, fqFileName):

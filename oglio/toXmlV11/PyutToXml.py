@@ -15,6 +15,8 @@ from pyutmodel.PyutMethod import PyutMethod
 from pyutmodel.PyutMethod import SourceCode
 from pyutmodel.PyutNote import PyutNote
 from pyutmodel.PyutParameter import PyutParameter
+from pyutmodel.PyutSDInstance import PyutSDInstance
+from pyutmodel.PyutSDMessage import PyutSDMessage
 from pyutmodel.PyutText import PyutText
 from pyutmodel.PyutUseCase import PyutUseCase
 
@@ -141,6 +143,42 @@ class PyutToXml(BaseXml):
         pyutUseCaseElement: Element = SubElement(oglUseCaseElement, XmlConstants.ELEMENT_PYUT_USE_CASE, attributes)
 
         return pyutUseCaseElement
+
+    def pyutSDInstanceToXml(self, pyutSDInstance: PyutSDInstance, oglSDInstanceElement: Element) -> Element:
+
+        sdInstanceId: int     = self._idFactory.getID(pyutSDInstance)
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_ID:               str(sdInstanceId),
+            XmlConstants.ATTR_INSTANCE_NAME:    pyutSDInstance.instanceName,
+            XmlConstants.ATTR_LIFE_LINE_LENGTH: str(pyutSDInstance.instanceLifeLineLength),
+        })
+
+        pyutSDInstanceElement: Element = SubElement(oglSDInstanceElement, XmlConstants.ELEMENT_PYUT_SD_INSTANCE, attrib=attributes)
+
+        return pyutSDInstanceElement
+
+    def pyutSDMessageToXml(self, pyutSDMessage: PyutSDMessage, oglSDMessageElement: Element) -> Element:
+
+        sdMessageId: int = self._idFactory.getID(pyutSDMessage)
+
+        srcInstance: PyutSDInstance = pyutSDMessage.getSource()
+        dstInstance: PyutSDInstance = pyutSDMessage.getDestination()
+
+        idSrc: int = self._idFactory.getID(srcInstance)
+        idDst: int = self._idFactory.getID(dstInstance)
+
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_ID:                        str(sdMessageId),
+            XmlConstants.ATTR_MESSAGE:                   pyutSDMessage.message,
+            XmlConstants.ATTR_SOURCE_X:                  str(pyutSDMessage.sourceY),
+            XmlConstants.ATTR_DESTINATION_Y:             str(pyutSDMessage.destinationY),
+            XmlConstants.ATTR_SD_MESSAGE_SOURCE_ID:      str(idSrc),
+            XmlConstants.ATTR_SD_MESSAGE_DESTINATION_ID: str(idDst),
+        })
+
+        pyutSDMessageElement: Element = SubElement(oglSDMessageElement, XmlConstants.ELEMENT_PYUT_SD_MESSAGE, attrib=attributes)
+
+        return pyutSDMessageElement
 
     def _pyutMethodToXml(self, pyutMethod: PyutMethod, pyutClassElement: Element) -> Element:
         """

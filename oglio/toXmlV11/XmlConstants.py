@@ -10,11 +10,12 @@ class XmlConstants:
     ELEMENT_OGL_NOTE:     str = 'OglNote'
     ELEMENT_OGL_TEXT:     str = 'OglText'
     ELEMENT_OGL_USE_CASE: str = 'OglUseCase'
+    ELEMENT_OGL_ACTOR:    str = 'OglActor'
+
+    ELEMENT_OGL_SD_INSTANCE: str = 'OglSDInstance'
+    ELEMENT_OGL_SD_MESSAGE:  str = 'OglSDMessage'
 
     ELEMENT_GRAPHIC_LOLLIPOP:    str = 'GraphicLollipop'
-    ELEMENT_GRAPHIC_ACTOR:       str = 'GraphicActor'
-    ELEMENT_GRAPHIC_SD_INSTANCE: str = 'GraphicSDInstance'
-    ELEMENT_GRAPHIC_SD_MESSAGE:  str = 'GraphicSDMessage'
 
     ELEMENT_DOCUMENT:             str = 'PyutDocument'
     ELEMENT_PYUT_CLASS:           str = 'PyutClass'
@@ -26,18 +27,19 @@ class XmlConstants:
 
     ELEMENT_PYUT_USE_CASE:        str = 'PyutUseCase'
     ELEMENT_PYUT_TEXT:            str = 'PyutText'
+    ELEMENT_PYUT_ACTOR:           str = 'PyutActor'
+
+    ELEMENT_PYUT_SD_INSTANCE:   str = 'PyutSDInstance'
+    ELEMENT_PYUT_SD_MESSAGE:    str = 'PyutSDMessage'
 
     ELEMENT_MODEL_INTERFACE:      str = 'Interface'
     ELEMENT_IMPLEMENTOR:          str = 'Implementor'
 
 
-    ELEMENT_MODEL_ACTOR:       str = 'Actor'
     ELEMENT_MODEL_MODIFIER:    str = 'Modifier'
     ELEMENT_MODEL_SOURCE_CODE: str = 'SourceCode'
     ELEMENT_MODEL_CODE:        str = 'Code'
 
-    ELEMENT_MODEL_SD_INSTANCE:   str = 'SDInstance'
-    ELEMENT_MODEL_SD_MESSAGE:    str = 'SDMessage'
     ELEMENT_MODEL_CONTROL_POINT: str = 'ControlPoint'
 
     ELEMENT_ASSOCIATION_CENTER_LABEL:      str = 'LabelCenter'
@@ -90,14 +92,12 @@ class XmlConstants:
     ATTR_INSTANCE_NAME:    str = 'instanceName'
     ATTR_LIFE_LINE_LENGTH: str = 'lifeLineLength'
 
-    ATTR_MESSAGE:               str = 'message'
-    ATTR_SOURCE_TIME_LINE:      str = 'srcTime'
-    ATTR_DESTINATION_TIME_LINE: str = 'dstTime'
+    ATTR_MESSAGE:       str = 'message'
+    ATTR_SOURCE_X:      str = 'sourceX'
+    ATTR_DESTINATION_Y: str = 'destinationY'
 
-    ATTR_SD_MESSAGE_SOURCE_ID:      str = 'srcID'
-    ATTR_SD_MESSAGE_DESTINATION_ID: str = 'dstID'
-
-    V9_LINK_PREFIX: str = 'OGL_'
+    ATTR_SD_MESSAGE_SOURCE_ID:      str = 'sourceID'
+    ATTR_SD_MESSAGE_DESTINATION_ID: str = 'destinationID'
 
     ATTR_CODE_PATH: str = 'CodePath'
 

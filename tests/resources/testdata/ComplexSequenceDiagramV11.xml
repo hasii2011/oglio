@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='iso-8859-1'?>
+<PyutProject version="11" CodePath="">
+    <PyutDocument type="SEQUENCE_DIAGRAM" title="SequenceDiagram" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+        <OglSDInstance width="100" height="400" x="129" y="50">
+            <PyutSDInstance id="1" instanceName="hasiiInstance" lifeLineLength="200" />
+        </OglSDInstance>
+        <OglSDInstance width="100" height="400" x="418" y="50">
+            <PyutSDInstance id="2" instanceName="franInstance" lifeLineLength="200" />
+        </OglSDInstance>
+        <OglSDInstance width="100" height="400" x="803" y="50">
+            <PyutSDInstance id="3" instanceName="OzzeeInstance" lifeLineLength="200" />
+        </OglSDInstance>
+        <OglSDMessage>
+            <PyutSDMessage id="4" message="calls()" sourceX="148" destinationY="150" sourceID="1" destinationID="2" />
+        </OglSDMessage>
+        <OglSDMessage>
+            <PyutSDMessage id="5" message="spanks()" sourceX="201" destinationY="194" sourceID="2" destinationID="3" />
+        </OglSDMessage>
+        <OglSDMessage>
+            <PyutSDMessage id="6" message="bites()" sourceX="328" destinationY="338" sourceID="3" destinationID="2" />
+        </OglSDMessage>
+    </PyutDocument>
+</PyutProject>

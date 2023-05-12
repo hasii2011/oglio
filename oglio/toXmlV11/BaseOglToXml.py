@@ -4,8 +4,6 @@ from logging import getLogger
 
 from ogl.OglObject import OglObject
 
-from oglio.IDFactory import IDFactory
-
 from oglio.toXmlV10.XmlConstants import XmlConstants
 
 

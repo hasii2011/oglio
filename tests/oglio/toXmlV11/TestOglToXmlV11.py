@@ -10,6 +10,8 @@ from oglio.Types import OglClasses
 from oglio.Types import OglDocument
 from oglio.Types import OglLinks
 from oglio.Types import OglNotes
+from oglio.Types import OglSDInstances
+from oglio.Types import OglSDMessages
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
 from oglio.toXmlV11.OglToXml import OglToXml
@@ -34,9 +36,12 @@ TEXT_AND_LINKED_NOTES_V11: str = 'TextAndLinkedNotesV11.xml'
 USE_CASES_TEXT_NOTES_V10: str = 'UseCasesTextNotesV10.xml'
 USE_CASES_TEXT_NOTES_V11: str = 'UseCasesTextNotesV11.xml'
 
+COMPLEX_SEQUENCE_DIAGRAM_V10: str = 'ComplexSequenceDiagramV10.xml'
+COMPLEX_SEQUENCE_DIAGRAM_V11: str = 'ComplexSequenceDiagramV11.xml'
+
 GENERATED_FILE_NAMES = [EMPTY_DOCUMENT_FILENAME, SINGLE_CLASS_FILENAME_V11, MULTI_LINK_FILE_NAME_V11,
                         CRAZY_CONTROL_POINTS_V11, WACKY_SPLINES_V11, TEXT_AND_LINKED_NOTES_V11,
-                        USE_CASES_TEXT_NOTES_V11
+                        USE_CASES_TEXT_NOTES_V11, COMPLEX_SEQUENCE_DIAGRAM_V11,
                         ]
 
 class TestOglToXmlV11(TestBase):
@@ -91,6 +96,10 @@ class TestOglToXmlV11(TestBase):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=USE_CASES_TEXT_NOTES_V10, documentName='Use-Cases')
         self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=USE_CASES_TEXT_NOTES_V11, assertionMessage='Diff use case serialization failed')
 
+    def testOglSequenceDiagram(self):
+        oglDocument: OglDocument = self._getOglDocument(baseFileName=COMPLEX_SEQUENCE_DIAGRAM_V10, documentName='SequenceDiagram')
+        self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=COMPLEX_SEQUENCE_DIAGRAM_V11, assertionMessage='Diff sequence diagram serialization failed')
+
     def _assertGeneratedFile(self, oglDocument: OglDocument, baseFileNameV11: str, assertionMessage: str):
 
         oglToXml: OglToXml = OglToXml(projectCodePath='')
@@ -122,7 +131,9 @@ class TestOglToXmlV11(TestBase):
         oglDocument.oglNotes    = cast(OglNotes,    singleDocument.oglNotes)
         oglDocument.oglTexts    = cast(OglTexts,    singleDocument.oglTexts)
         oglDocument.oglUseCases = cast(OglUseCases, singleDocument.oglUseCases)
-        # TODO Copy the rest
+
+        oglDocument.oglSDInstances = cast(OglSDInstances, singleDocument.oglSDInstances)
+        oglDocument.oglSDMessages  = cast(OglSDMessages,  singleDocument.oglSDMessages)
 
         return oglDocument
 
