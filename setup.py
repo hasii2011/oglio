@@ -1,5 +1,6 @@
 import pathlib
 from setuptools import setup
+from oglio import __version__ as oglioVersion
 
 # The directory containing this file
 HERE = pathlib.Path(__file__).parent
@@ -10,7 +11,7 @@ LICENSE = (HERE / 'LICENSE').read_text()
 
 setup(
     name="oglio",
-    version="0.7.4",
+    version=oglioVersion,
     author_email='Humberto.A.Sanchez.II@gmail.com',
     maintainer='Humberto A. Sanchez II',
     maintainer_email='humberto.a.sanchez.ii@gmail.com',
