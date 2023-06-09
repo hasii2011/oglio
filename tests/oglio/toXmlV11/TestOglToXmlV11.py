@@ -44,6 +44,7 @@ GENERATED_FILE_NAMES = [EMPTY_DOCUMENT_FILENAME, SINGLE_CLASS_FILENAME_V11, MULT
                         USE_CASES_TEXT_NOTES_V11, COMPLEX_SEQUENCE_DIAGRAM_V11,
                         ]
 
+
 class TestOglToXmlV11(TestBase):
     """
     """
@@ -91,7 +92,7 @@ class TestOglToXmlV11(TestBase):
 
     def testUseCases(self):
         """
-        Include Text and Notes for completenes
+        Include Text and Notes for completeness
         """
         oglDocument: OglDocument = self._getOglDocument(baseFileName=USE_CASES_TEXT_NOTES_V10, documentName='Use-Cases')
         self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=USE_CASES_TEXT_NOTES_V11, assertionMessage='Diff use case serialization failed')
@@ -137,13 +138,13 @@ class TestOglToXmlV11(TestBase):
 
         return oglDocument
 
+
 def suite() -> TestSuite:
-    """You need to change the name of the test class here also."""
     import unittest
 
     testSuite: TestSuite = TestSuite()
-    # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestOglToXmlV11))
+
+    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestOglToXmlV11))
 
     return testSuite
 

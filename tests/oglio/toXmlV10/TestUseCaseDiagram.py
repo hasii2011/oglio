@@ -65,12 +65,11 @@ class TestUseCaseDiagram(TestBase):
 
 
 def suite() -> TestSuite:
-    """You need to change the name of the test class here also."""
     import unittest
 
     testSuite: TestSuite = TestSuite()
-    # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestUseCaseDiagram))
+
+    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestUseCaseDiagram))
 
     return testSuite
 

@@ -4,9 +4,8 @@ from unittest import main as unitTestMain
 
 from tests.TestBase import TestBase
 
-"""
-import the class you want to test here
-"""
+# import the class you want to test here
+# from org.pyut.template import template
 
 
 class TestTemplate(TestBase):
@@ -20,7 +19,7 @@ class TestTemplate(TestBase):
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        
+
     def setUp(self):
         super().setUp()
         
@@ -40,8 +39,8 @@ def suite() -> TestSuite:
     import unittest
 
     testSuite: TestSuite = TestSuite()
-    # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestTemplate))
+
+    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestTemplate))
 
     return testSuite
 

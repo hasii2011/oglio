@@ -63,7 +63,6 @@ class TestWriter(TestBase):
 
         TestBase.cleanupGenerated(TestWriter.TEST_COMPRESSED_PROJECT)
 
-
     def _getTestOglProject(self) -> OglProject:
         """
         I need 2 documents with Ogl Objects
@@ -82,6 +81,7 @@ class TestWriter(TestBase):
         oglProject: OglProject = OglProject()
         oglProject.version  = OglToDom.VERSION
         oglProject.codePath = '/tmp/bogus/Ozzee.py'
+        # noinspection PyUnusedLocal
         generatedFileName: str = TestBase.constructGeneratedName(TestWriter.MULTI_DOCUMENT_FILENAME)
 
         oglDocuments: OglDocuments = createOglDocumentsFactory()
@@ -111,13 +111,11 @@ class TestWriter(TestBase):
 
 
 def suite() -> TestSuite:
-    """
-    """
     import unittest
 
     testSuite: TestSuite = TestSuite()
-    # noinspection PyUnresolvedReferences
-    testSuite.addTest(unittest.makeSuite(TestWriter))
+
+    testSuite.addTest(unittest.defaultTestLoader.loadTestsFromTestCase(testCaseClass=TestWriter))
 
     return testSuite
 

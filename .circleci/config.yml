@@ -33,11 +33,11 @@ jobs:
             pip install html-testRunner~=1.2.1
             pip install attrdict3~=2.0.2
             pip install -U -f https://extras.wxpython.org/wxPython4/extras/linux/gtk3/ubuntu-22.04  wxPython
-            pip install hasiihelper~=0.2.0
-            pip install hasiicommon~=0.2.2
-            pip install pyutmodel~=1.4.3
-            pip install ogl~=0.70.40
-            pip install untanglepyut==0.6.62
+            pip install hasiihelper~=0.2.1
+            pip install hasiicommon~=0.3.1
+            pip install pyutmodel~=1.4.4
+            pip install ogl~=0.70.52
+            pip install untanglepyut==0.7.0
             pip install buildlackey~=0.8.1
       - run:
             name: run tests
