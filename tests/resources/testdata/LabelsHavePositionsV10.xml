@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PyutProject version="10" CodePath="">
+	<PyutDocument type="CLASS_DIAGRAM" title="Labels" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+		<GraphicClass width="150" height="75" x="125" y="100">
+			<Class id="1" name="Composer" stereotype="noStereotype" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
+		</GraphicClass>
+		<GraphicClass width="150" height="75" x="125" y="350">
+			<Class id="2" name="Composed" stereotype="noStereotype" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
+		</GraphicClass>
+		<GraphicClass width="150" height="75" x="550" y="75">
+			<Class id="3" name="Aggregator" stereotype="noStereotype" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
+		</GraphicClass>
+		<GraphicClass width="150" height="75" x="550" y="325">
+			<Class id="4" name="Aggregated" stereotype="noStereotype" filename="" description="" showMethods="True" showFields="True" showStereotype="True" displayParameters="Unspecified"/>
+		</GraphicClass>
+		<GraphicLink srcX="200" srcY="175" dstX="200" dstY="350" spline="False">
+			<LabelCenter x="6" y="-16"/>
+			<LabelSrc x="13" y="-77"/>
+			<LabelDst x="13" y="-77"/>
+			<Link name="Composition" type="COMPOSITION" cardSrc="1" cardDestination="*" bidir="False" sourceId="1" destId="2"/>
+		</GraphicLink>
+		<GraphicLink srcX="625" srcY="150" dstX="625" dstY="325" spline="False">
+			<LabelCenter x="10" y="-12"/>
+			<LabelSrc x="7" y="-79"/>
+			<LabelDst x="7" y="-79"/>
+			<Link name="Aggregation" type="AGGREGATION" cardSrc="1" cardDestination="0..*" bidir="False" sourceId="3" destId="4"/>
+		</GraphicLink>
+	</PyutDocument>
+</PyutProject>

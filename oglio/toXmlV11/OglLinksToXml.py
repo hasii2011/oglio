@@ -88,3 +88,4 @@ class OglLinksToXml(BaseOglToXml):
         })
 
         return attributes
+    
