@@ -3,6 +3,7 @@ from typing import cast
 
 from unittest import TestSuite
 from unittest import main as unitTestMain
+from unittest.mock import MagicMock
 
 from untanglepyut.UnTangler import Document
 from untanglepyut.UnTangler import DocumentTitle
@@ -28,6 +29,7 @@ class TestNotesDiagram(TestBase):
 
     def setUp(self):
         super().setUp()
+        self._mockDC: MagicMock = MagicMock()
 
     def tearDown(self):
         super().tearDown()

@@ -82,8 +82,23 @@ class OglToDom(BaseOglToDom):
 
         Returns:  The serialized XML in pretty print format
         """
-        xmlText:    str = self._xmlDocument.toprettyxml()
-        updatedXml: str = OglToDom.setAsISOLatin(xmlText)
+        updatedXml: str = ''
+        try:
+            xmlText:    str = self._xmlDocument.toxml()
+            updatedXml = OglToDom.setAsISOLatin(xmlText)
+        except (ValueError, Exception) as e:
+            self.logger.error(f'{e=}')
+
+        return updatedXml
+
+    @property
+    def prettyXml(self) -> str:
+        updatedXml: str = ''
+        try:
+            xmlText:    str = self._xmlDocument.toprettyxml()
+            updatedXml = OglToDom.setAsISOLatin(xmlText)
+        except (ValueError, Exception) as e:
+            self.logger.error(f'{e=}')
 
         return updatedXml
 
@@ -111,17 +126,18 @@ class OglToDom(BaseOglToDom):
         # noinspection PyUnusedLocal
         documentNode = self._oglSequenceToDom.serialize(documentNode=documentNode, oglSDMessages=oglSDMessages, oglSDInstances=oglSDInstances)
 
-    def writeXml(self, fqFileName):
+    def writeXml(self, fqFileName: str, prettyXml: bool = True):
         """
         Persist the XML
 
         Args:
             fqFileName:  The fully qualified file name
+            prettyXml:   Do you Barbie XML?
         """
-
-        # xmlText:    str = self._xmlDocument.toprettyxml()
-        # updatedXml: str = OglToDom.setAsISOLatin(xmlText)
-        updatedXml: str = self.xml
+        if prettyXml is True:
+            updatedXml: str = self.prettyXml
+        else:
+            updatedXml = self.xml
 
         with open(fqFileName, 'w') as fd:
             fd.write(updatedXml)

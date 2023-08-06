@@ -28,7 +28,6 @@ class Writer:
         Args:
             oglProject:     The project we have to serialize
             fqFileName:     Where to write the XML;  Should be a full qualified file name
-
         """
         if fqFileName.endswith('.put') is False:
             fqFileName = f'{fqFileName}.put'
@@ -47,12 +46,13 @@ class Writer:
         with open(fqFileName, "wb") as binaryIO:
             binaryIO.write(compressedBytes)
 
-    def writeXmlFile(self, oglProject: OglProject, fqFileName: str):
+    def writeXmlFile(self, oglProject: OglProject, fqFileName: str, prettyXml: bool = True):
         """
         Writes to an XML file
         Args:
             oglProject:     The project we have to serialize
             fqFileName:     Where to write the XML;  Should be a full qualified file name
+            prettyXml:      Format it or not?
         """
         if fqFileName.endswith('.xml') is False:
             fqFileName = f'{fqFileName}.xml'
@@ -62,5 +62,4 @@ class Writer:
         for oglDocument in oglProject.oglDocuments.values():
             oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        oglToMiniDom.writeXml(fqFileName=fqFileName)
-
+        oglToMiniDom.writeXml(fqFileName=fqFileName, prettyXml=prettyXml)

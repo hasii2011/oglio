@@ -1,6 +1,7 @@
 
 from logging import Logger
 from logging import getLogger
+from typing import Tuple
 
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
@@ -51,9 +52,11 @@ class OglLinksToXml(BaseOglToXml):
                 XmlConstants.ELEMENT_ASSOCIATION_DESTINATION_LABEL: dst
             }
             for eltName in associationLabels:
-                oglLabel: OglAssociationLabel = associationLabels[eltName]
-                x: int = oglLabel.oglPosition.x
-                y: int = oglLabel.oglPosition.y
+                oglAssociationLabel: OglAssociationLabel = associationLabels[eltName]
+
+                relativePosition: Tuple[int, int] = oglAssociationLabel.GetRelativePosition()
+                x: int = relativePosition[0]
+                y: int = relativePosition[1]
 
                 labelAttributes: ElementAttributes = ElementAttributes({
                     XmlConstants.ATTR_X: str(x),

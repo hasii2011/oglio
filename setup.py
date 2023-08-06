@@ -26,6 +26,6 @@ setup(
         'oglio':          ['py.typed'],
         'oglio.toXmlV10': ['py.typed']
     },
-    install_requires=['wxPython==4.2.1', 'hasiihelper~=0.2.1', 'hasiicommon~=0.3.1', 'pyutmodel~=1.4.4', 'ogl==0.70.52', 'untanglepyut==0.7.0',
+    install_requires=['wxPython==4.2.1', 'hasiihelper~=0.2.1', 'hasiicommon~=0.3.1', 'pyutmodel~=1.4.4', 'ogl==0.85.0', 'untanglepyut==1.1.0',
     ],
 )

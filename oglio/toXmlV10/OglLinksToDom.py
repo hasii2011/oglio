@@ -107,7 +107,7 @@ class OglLinksToDom(BaseOglToDom):
                 XmlConstants.ELEMENT_ASSOC_DESTINATION_LABEL: dst
             }
             for eltName in assocLabels:
-                elt: Element = self.__createAssocLabelElement(eltName, xmlDoc, assocLabels[eltName])
+                elt: Element = self._createAssocLabelElement(eltName, xmlDoc, assocLabels[eltName])
                 root.appendChild(elt)
 
         # save control points (not anchors!)
@@ -124,12 +124,12 @@ class OglLinksToDom(BaseOglToDom):
         return root
 
     # noinspection SpellCheckingInspection
-    def __createAssocLabelElement(self, eltText: str, xmlDoc: Document, oglLabel: OglAssociationLabel) -> Element:
+    def _createAssocLabelElement(self, eltText: str, xmlDoc: Document, oglLabel: OglAssociationLabel) -> Element:
         """
         Creates an element of the form:
 
         ```html
-        `<eltText x="nnnn.n" y="nnnn.n"/>`
+        `<eltText x="nnnn" y="nnnn"/>`
         ```
 
         e.g.
@@ -148,12 +148,11 @@ class OglLinksToDom(BaseOglToDom):
         """
         label: Element = xmlDoc.createElement(eltText)
 
-        x: int = oglLabel.oglPosition.x
-        y: int = oglLabel.oglPosition.y
+        x, y = oglLabel.GetPosition()
 
-        simpleX, simpleY = self._getSimpleCoordinates(x, y)
-        self.linksLogger.debug(f'x,y = ({x},{y})   simpleX,simpleY = ({simpleX},{simpleY})')
-        label.setAttribute(XmlConstants.ATTR_X, simpleX)
-        label.setAttribute(XmlConstants.ATTR_Y, simpleY)
+        relativeX, relativeY = oglLabel.ConvertCoordToRelative(x=x, y=y)
+        self.linksLogger.warning(f'x,y = ({x},{y})   relativeX,relativeY = ({relativeX},{relativeY})')
+        label.setAttribute(XmlConstants.ATTR_X, str(relativeX))
+        label.setAttribute(XmlConstants.ATTR_Y, str(relativeY))
 
         return label
