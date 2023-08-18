@@ -16,8 +16,8 @@ from ogl.OglUseCase import OglUseCase
 from ogl.sd.OglSDInstance import OglSDInstance
 from ogl.sd.OglSDMessage import OglSDMessage
 
-from untanglepyut.UnTangler import Document
-from untanglepyut.UnTangler import ProjectInformation
+from untanglepyut.Types import Document
+from untanglepyut.Types import ProjectInformation
 
 OglClasses  = NewType('OglClasses',  List[OglClass])
 OglLinks    = NewType('OglLinks',    List[OglLink])

@@ -6,9 +6,10 @@ from unittest import main as unitTestMain
 
 from pyutmodel.PyutObject import PyutObject
 
-from untanglepyut.UnTangler import Document
-from untanglepyut.UnTangler import DocumentTitle
-from untanglepyut.UnTangler import UnTangler
+from untanglepyut.v10.UnTangler import UnTangler
+
+from untanglepyut.Types import DocumentTitle
+from untanglepyut.Types import Document
 
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument

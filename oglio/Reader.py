@@ -7,8 +7,10 @@ from logging import getLogger
 from zlib import decompress
 from zlib import ZLIB_VERSION
 
-from untanglepyut.UnTangler import Documents
-from untanglepyut.UnTangler import UnTangler
+from untanglepyut.Types import Documents
+from untanglepyut.Types import ProjectInformation
+from untanglepyut.UnTangleProjectInformation import UnTangleProjectInformation
+from untanglepyut.v10.UnTangler import UnTangler
 
 from oglio import OglVersion
 from oglio.Types import OglActors
@@ -23,6 +25,7 @@ from oglio.Types import OglSDInstances
 from oglio.Types import OglSDMessages
 
 from oglio.UnsupportedFileTypeException import UnsupportedFileTypeException
+from oglio.UnsupportedVersion import UnsupportedVersion
 
 
 class Reader:
@@ -49,9 +52,11 @@ class Reader:
 
         rawXmlString: str = self._decompressFile(fqFileName=fqFileName)
 
+        from untanglepyut.v10.UnTangler import UnTangler
+
         untangler: UnTangler = UnTangler()
 
-        untangler.untangleXml(xmlString=rawXmlString)
+        untangler.untangleXml(xmlString=rawXmlString, fqFileName=fqFileName)
 
         oglProject: OglProject = self._makeOglProject(untangler=untangler)
 
@@ -68,11 +73,17 @@ class Reader:
         if fqFileName.endswith('.xml') is False:
             raise UnsupportedFileTypeException(message=f'File does not end with .xml suffix')
 
-        untangler: UnTangler = UnTangler()
+        projectInformation: ProjectInformation = self._extractProjectInformation(fqFileName)
+        oglProject: OglProject = cast(OglProject, None)
+        if projectInformation.version == '10':
+            from untanglepyut.v10.UnTangler import UnTangler
+            untangler: UnTangler = UnTangler()
 
-        untangler.untangleFile(fqFileName=fqFileName)
+            untangler.untangleFile(fqFileName=fqFileName)
 
-        oglProject: OglProject = self._makeOglProject(untangler=untangler)
+            oglProject = self._makeOglProject(untangler=untangler)
+        elif projectInformation.version == '11':
+            raise UnsupportedVersion('11')
 
         return oglProject
 
@@ -133,3 +144,9 @@ class Reader:
             oglProject.oglDocuments[oglDocument.documentTitle] = oglDocument
 
         return oglProject
+
+    def _extractProjectInformation(self, fqFileName: str) -> ProjectInformation:
+
+        unTangleProjectInformation: UnTangleProjectInformation = UnTangleProjectInformation(fqFileName=fqFileName)
+
+        return unTangleProjectInformation.projectInformation

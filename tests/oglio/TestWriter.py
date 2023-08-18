@@ -4,9 +4,9 @@ from typing import cast
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
+from untanglepyut.Types import Documents
 
-from untanglepyut.UnTangler import Documents
-from untanglepyut.UnTangler import UnTangler
+from untanglepyut.v10.UnTangler import UnTangler
 
 from oglio.Types import OglActors
 from oglio.Types import OglClasses

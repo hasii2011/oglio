@@ -25,6 +25,7 @@ XML_VERSION: str = '11'
 INDENT_SPACES: str = '    '     # TODO: Make this configurable
 PRETTY_PRINT:  bool = True      # TODO: Make this configurable
 
+
 class OglToXml:
     def __init__(self, projectCodePath: str):
 
@@ -54,7 +55,7 @@ class OglToXml:
 
     def serialize(self, oglDocument: OglDocument):
 
-        oglClassToXml :   OglClassToXml    = OglClassToXml()
+        oglClassToXml:    OglClassToXml    = OglClassToXml()
         oglLinksToXml:    OglLinksToXml    = OglLinksToXml()
         oglNotesToXml:    OglNotesToXml    = OglNotesToXml()
         oglTextsToXml:    OglTextsToXml    = OglTextsToXml()
@@ -70,7 +71,6 @@ class OglToXml:
 
         oglUseCasesToXml.serialize(documentTop=documentElement, oglUseCases=oglDocument.oglUseCases)
         oglSequenceToXml.serialize(documentTop=documentElement, oglSDInstances=oglDocument.oglSDInstances, oglSDMessages=oglDocument.oglSDMessages)
-
 
     def writeXml(self, fqFileName):
         """
