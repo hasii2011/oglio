@@ -6,8 +6,10 @@ from typing import cast
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
 
+from ogl.OglActor import OglActor
 from ogl.OglUseCase import OglUseCase
 
+from oglio.Types import OglActors
 from oglio.Types import OglUseCases
 from oglio.toXmlV11.XmlConstants import XmlConstants
 
@@ -26,7 +28,12 @@ class OglUseCasesToXml(BaseOglToXml):
 
         self._pyutToXml: PyutToXml = PyutToXml()
 
-    def serialize(self, documentTop: Element, oglUseCases: OglUseCases) -> Element:
+    def serialize(self, documentTop: Element, oglUseCases: OglUseCases, oglActors: OglActors) -> Element:
+
+        for actor in oglActors:
+            oglActor:        OglActor = cast(OglActor, actor)
+            oglActorElement: Element  = self._oglActorToXml(documentTop=documentTop, oglActor=oglActor)
+            self._pyutToXml.pyutActorToXml(pyutActor=oglActor.pyutObject, oglActorElement=oglActorElement)
 
         for useCase in oglUseCases:
             oglUseCase:        OglUseCase = cast(OglUseCase, useCase)
@@ -42,3 +49,9 @@ class OglUseCasesToXml(BaseOglToXml):
 
         return oglTextSubElement
 
+    def _oglActorToXml(self, documentTop: Element, oglActor: OglActor) -> Element:
+
+        attributes = self._oglBaseAttributes(oglObject=oglActor)
+        pyutActorSubElement: Element = SubElement(documentTop, XmlConstants.ELEMENT_OGL_ACTOR, attrib=attributes)
+
+        return pyutActorSubElement

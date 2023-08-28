@@ -85,4 +85,3 @@ class OglUseCasesToDom(BaseOglToDom):
         pyutActorElement.appendChild(self._pyutToMiniDom.pyutActorToDom(cast(PyutActor, oglActor.pyutObject), xmlDoc))
 
         return pyutActorElement
-

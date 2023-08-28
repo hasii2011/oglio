@@ -7,6 +7,7 @@ from os import linesep as osLineSep
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
 
+from pyutmodel.PyutActor import PyutActor
 from pyutmodel.PyutClass import PyutClass
 from pyutmodel.PyutClassCommon import PyutClassCommon
 from pyutmodel.PyutField import PyutField
@@ -30,7 +31,7 @@ class PyutToXml(BaseXml):
     Serializes Pyut Models classes to DOM
     """
     # https://www.codetable.net/hex/a
-    END_OF_LINE_MARKER: str ='&#xA;'
+    END_OF_LINE_MARKER: str = '&#xA;'
 
     def __init__(self):
         super().__init__()
@@ -127,6 +128,22 @@ class PyutToXml(BaseXml):
         pyutTextElement: Element = SubElement(oglTextElement, XmlConstants.ELEMENT_PYUT_NOTE, attrib=attributes)
 
         return pyutTextElement
+
+    def pyutActorToXml(self, pyutActor: PyutActor, oglActorElement: Element) -> Element:
+
+        actorId:  int = self._idFactory.getID(pyutActor)
+        fileName: str = pyutActor.fileName
+        if fileName is None:
+            fileName = ''
+
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_ID:       str(actorId),
+            XmlConstants.ATTR_NAME:     pyutActor.name,
+            XmlConstants.ATTR_FILENAME: fileName,
+        })
+        pyutActorElement: Element = SubElement(oglActorElement, XmlConstants.ELEMENT_PYUT_ACTOR, attributes)
+
+        return pyutActorElement
 
     def pyutUseCaseToXml(self, pyutUseCase: PyutUseCase, oglUseCaseElement: Element) -> Element:
 

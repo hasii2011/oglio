@@ -5,6 +5,7 @@ from unittest import main as unitTestMain
 from untanglepyut.Types import Document
 from untanglepyut.Types import DocumentTitle
 
+from oglio.Types import OglActors
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
 from oglio.Types import OglLinks
@@ -136,6 +137,7 @@ class TestOglToXmlV11(TestBase):
         oglDocument.oglNotes    = cast(OglNotes,    singleDocument.oglNotes)
         oglDocument.oglTexts    = cast(OglTexts,    singleDocument.oglTexts)
         oglDocument.oglUseCases = cast(OglUseCases, singleDocument.oglUseCases)
+        oglDocument.oglActors   = cast(OglActors,   singleDocument.oglActors)
 
         oglDocument.oglSDInstances = cast(OglSDInstances, singleDocument.oglSDInstances)
         oglDocument.oglSDMessages  = cast(OglSDMessages,  singleDocument.oglSDMessages)

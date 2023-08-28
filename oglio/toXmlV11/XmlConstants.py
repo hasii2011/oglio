@@ -35,7 +35,6 @@ class XmlConstants:
     ELEMENT_MODEL_INTERFACE:      str = 'Interface'
     ELEMENT_IMPLEMENTOR:          str = 'Implementor'
 
-
     ELEMENT_MODEL_MODIFIER:    str = 'Modifier'
     ELEMENT_MODEL_SOURCE_CODE: str = 'SourceCode'
     ELEMENT_MODEL_CODE:        str = 'Code'

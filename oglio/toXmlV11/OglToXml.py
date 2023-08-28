@@ -69,7 +69,7 @@ class OglToXml:
         oglNotesToXml.serialize(documentTop=documentElement, oglNotes=oglDocument.oglNotes)
         oglTextsToXml.serialize(documentTop=documentElement, oglTexts=oglDocument.oglTexts)
 
-        oglUseCasesToXml.serialize(documentTop=documentElement, oglUseCases=oglDocument.oglUseCases)
+        oglUseCasesToXml.serialize(documentTop=documentElement, oglUseCases=oglDocument.oglUseCases, oglActors=oglDocument.oglActors)
         oglSequenceToXml.serialize(documentTop=documentElement, oglSDInstances=oglDocument.oglSDInstances, oglSDMessages=oglDocument.oglSDMessages)
 
     def writeXml(self, fqFileName):

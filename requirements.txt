@@ -10,7 +10,7 @@ mypy-extensions==1.0.0
 typing_extensions==4.7.1
 types-setuptools==68.1.0.0
 
-wxpython~=4.2.1
+wxPython~=4.2.1
 
 hasiihelper==0.2.1
 hasiicommon==0.3.1
