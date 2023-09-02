@@ -61,7 +61,7 @@
             <PyutLink name="" type="INTERFACE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="5" destinationId="6" />
         </OglLink>
         <OglInterface2 attachmentPoint="EAST" x="465" y="649">
-            <Interface id="7" name="IClassInterface" description="" />
+            <PyutInterface id="7" name="IClassInterface" description="" />
             <PyutMethod name="methodWithParameters" visibility="PUBLIC" returnType="">
                 <SourceCode />
                 <PyutParameter name="strParam" type="str" defaultValue="''" />

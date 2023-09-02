@@ -32,7 +32,7 @@ class XmlConstants:
     ELEMENT_PYUT_SD_INSTANCE:   str = 'PyutSDInstance'
     ELEMENT_PYUT_SD_MESSAGE:    str = 'PyutSDMessage'
 
-    ELEMENT_MODEL_INTERFACE:      str = 'Interface'
+    ELEMENT_MODEL_INTERFACE:      str = 'PyutInterface'
     ELEMENT_IMPLEMENTOR:          str = 'Implementor'
 
     ELEMENT_MODEL_MODIFIER:    str = 'Modifier'
