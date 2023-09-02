@@ -15,7 +15,7 @@ class XmlConstants:
     ELEMENT_OGL_SD_INSTANCE: str = 'OglSDInstance'
     ELEMENT_OGL_SD_MESSAGE:  str = 'OglSDMessage'
 
-    ELEMENT_GRAPHIC_LOLLIPOP:    str = 'GraphicLollipop'
+    ELEMENT_OGL_INTERFACE2:    str = 'OglInterface2'
 
     ELEMENT_DOCUMENT:             str = 'PyutDocument'
     ELEMENT_PYUT_CLASS:           str = 'PyutClass'

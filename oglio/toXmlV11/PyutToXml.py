@@ -7,10 +7,12 @@ from os import linesep as osLineSep
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
 
+from pyutmodel.ModelTypes import ClassName
 from pyutmodel.PyutActor import PyutActor
 from pyutmodel.PyutClass import PyutClass
 from pyutmodel.PyutClassCommon import PyutClassCommon
 from pyutmodel.PyutField import PyutField
+from pyutmodel.PyutInterface import PyutInterface
 from pyutmodel.PyutLink import PyutLink
 from pyutmodel.PyutMethod import PyutMethod
 from pyutmodel.PyutMethod import SourceCode
@@ -97,6 +99,25 @@ class PyutToXml(BaseXml):
         pyutLinkElement: Element = SubElement(oglLinkElement, XmlConstants.ELEMENT_PYUT_LINK, attrib=attributes)
 
         return pyutLinkElement
+
+    def pyutInterfaceToXml(self, pyutInterface: PyutInterface, interface2Element: Element) -> Element:
+
+        classId: int = self._idFactory.getID(pyutInterface)
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_ID:          str(classId),
+            XmlConstants.ATTR_NAME:        pyutInterface.name,
+            XmlConstants.ATTR_DESCRIPTION: pyutInterface.description
+        })
+        SubElement(interface2Element, XmlConstants.ELEMENT_MODEL_INTERFACE, attrib=attributes)
+
+        for method in pyutInterface.methods:
+            self._pyutMethodToXml(pyutMethod=method, pyutClassElement=interface2Element)
+
+        for className in pyutInterface.implementors:
+            self.logger.debug(f'implementing className: {className}')
+            self._pyutImplementorToXml(className, interface2Element)
+
+        return interface2Element
 
     def pyutNoteToXml(self, pyutNote: PyutNote, oglNoteElement: Element) -> Element:
 
@@ -299,3 +320,13 @@ class PyutToXml(BaseXml):
         pyutFieldElement: Element = SubElement(pyutClassElement, XmlConstants.ELEMENT_MODEL_PYUT_FIELD, attrib=attributes)
 
         return pyutFieldElement
+
+    def _pyutImplementorToXml(self, className: ClassName, xmlDoc: Element) -> Element:
+
+        # root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_IMPLEMENTOR)
+        # root.setAttribute()
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_IMPLEMENTING_CLASS_NAME: className,
+        })
+        implementorElement: Element = SubElement(xmlDoc, XmlConstants.ELEMENT_IMPLEMENTOR, attrib=attributes)
+        return implementorElement

@@ -60,11 +60,21 @@
         <OglLink sourceAnchorX="924" sourceAnchorY="350" destinationAnchorX="924" destinationAnchorY="249" spline="False">
             <PyutLink name="" type="INTERFACE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="5" destinationId="6" />
         </OglLink>
+        <OglInterface2 attachmentPoint="EAST" x="465" y="649">
+            <Interface id="7" name="IClassInterface" description="" />
+            <PyutMethod name="methodWithParameters" visibility="PUBLIC" returnType="">
+                <SourceCode />
+                <PyutParameter name="strParam" type="str" defaultValue="''" />
+                <PyutParameter name="intParam" type="int" defaultValue="1" />
+                <PyutParameter name="floatParam" type="float" defaultValue="1.0" />
+            </PyutMethod>
+            <Implementor implementingClassName="LollipopImplementor" />
+        </OglInterface2>
         <OglText width="221" height="73" x="500" y="400">
-            <PyutNote id="7" content="Aggregation associates two objects describes the 'have a' relationship." />
+            <PyutNote id="8" content="Aggregation associates two objects describes the 'have a' relationship." />
         </OglText>
         <OglText width="206" height="74" x="125" y="400">
-            <PyutNote id="8" content="Composition is a specific type of Aggregation which implies ownership." />
+            <PyutNote id="9" content="Composition is a specific type of Aggregation which implies ownership." />
         </OglText>
     </PyutDocument>
 </PyutProject>

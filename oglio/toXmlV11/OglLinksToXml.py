@@ -6,6 +6,8 @@ from typing import Tuple
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
 
+from miniogl.AttachmentSide import AttachmentSide
+from miniogl.SelectAnchorPoint import SelectAnchorPoint
 from ogl.OglAssociation import OglAssociation
 from ogl.OglAssociationLabel import OglAssociationLabel
 from ogl.OglInterface2 import OglInterface2
@@ -30,16 +32,16 @@ class OglLinksToXml(BaseOglToXml):
 
         for oglLink in oglLinks:
             if isinstance(oglLink, OglInterface2):
-                pass        # TODO
+                self._oglInterface2ToXml(documentElement=documentTop, oglInterface=oglLink)
             else:
-                self._oglLinkToXml(documentTop=documentTop, oglLink=oglLink)
+                self._oglLinkToXml(documentElement=documentTop, oglLink=oglLink)
 
         return documentTop
 
-    def _oglLinkToXml(self, documentTop: Element, oglLink: OglLink) -> Element:
+    def _oglLinkToXml(self, documentElement: Element, oglLink: OglLink) -> Element:
 
         attributes:        ElementAttributes = self._oglLinkAttributes(oglLink=oglLink)
-        oglLinkSubElement: Element           = SubElement(documentTop, XmlConstants.ELEMENT_OGL_LINK, attrib=attributes)
+        oglLinkSubElement: Element           = SubElement(documentElement, XmlConstants.ELEMENT_OGL_LINK, attrib=attributes)
 
         if isinstance(oglLink, OglAssociation):
 
@@ -76,6 +78,29 @@ class OglLinksToXml(BaseOglToXml):
         self._pyutToXml.pyutLinkToXml(pyutLink=oglLink.pyutObject, oglLinkElement=oglLinkSubElement)
 
         return oglLinkSubElement
+
+    def _oglInterface2ToXml(self, documentElement: Element, oglInterface: OglInterface2) -> Element:
+        """
+
+        Args:
+            documentElement:  untangler element for document
+            oglInterface:     Lollipop to serialize
+        Returns:
+            New untangle element
+        """
+        destAnchor:      SelectAnchorPoint = oglInterface.destinationAnchor
+        attachmentPoint: AttachmentSide    = destAnchor.attachmentPoint
+        x, y = destAnchor.GetPosition()
+
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_LOLLIPOP_ATTACHMENT_POINT: attachmentPoint.__str__(),
+            XmlConstants.ATTR_X:                         str(x),
+            XmlConstants.ATTR_Y:                         str(y),
+        })
+        oglInterface2: Element = SubElement(documentElement, XmlConstants.ELEMENT_OGL_INTERFACE2, attrib=attributes)
+
+        self._pyutToXml.pyutInterfaceToXml(oglInterface.pyutInterface, oglInterface2)
+        return oglInterface2
 
     def _oglLinkAttributes(self, oglLink: OglLink) -> ElementAttributes:
 
