@@ -108,16 +108,16 @@ class PyutToXml(BaseXml):
             XmlConstants.ATTR_NAME:        pyutInterface.name,
             XmlConstants.ATTR_DESCRIPTION: pyutInterface.description
         })
-        SubElement(interface2Element, XmlConstants.ELEMENT_MODEL_INTERFACE, attrib=attributes)
+        pyutInterfaceElement: Element = SubElement(interface2Element, XmlConstants.ELEMENT_MODEL_INTERFACE, attrib=attributes)
 
         for method in pyutInterface.methods:
-            self._pyutMethodToXml(pyutMethod=method, pyutClassElement=interface2Element)
+            self._pyutMethodToXml(pyutMethod=method, pyutClassElement=pyutInterfaceElement)
 
         for className in pyutInterface.implementors:
             self.logger.debug(f'implementing className: {className}')
-            self._pyutImplementorToXml(className, interface2Element)
+            self._pyutImplementorToXml(className, pyutInterfaceElement)
 
-        return interface2Element
+        return pyutInterfaceElement
 
     def pyutNoteToXml(self, pyutNote: PyutNote, oglNoteElement: Element) -> Element:
 
