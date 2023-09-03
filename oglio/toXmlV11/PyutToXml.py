@@ -208,8 +208,8 @@ class PyutToXml(BaseXml):
         attributes: ElementAttributes = ElementAttributes({
             XmlConstants.ATTR_ID:                        str(sdMessageId),
             XmlConstants.ATTR_MESSAGE:                   pyutSDMessage.message,
-            XmlConstants.ATTR_SOURCE_X:                  str(pyutSDMessage.sourceY),
-            XmlConstants.ATTR_DESTINATION_Y:             str(pyutSDMessage.destinationY),
+            XmlConstants.ATTR_SOURCE_TIME:               str(pyutSDMessage.sourceY),
+            XmlConstants.ATTR_DESTINATION_TIME:          str(pyutSDMessage.destinationY),
             XmlConstants.ATTR_SD_MESSAGE_SOURCE_ID:      str(idSrc),
             XmlConstants.ATTR_SD_MESSAGE_DESTINATION_ID: str(idDst),
         })

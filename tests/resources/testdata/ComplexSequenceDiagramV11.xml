@@ -11,13 +11,13 @@
             <PyutSDInstance id="3" instanceName="OzzeeInstance" lifeLineLength="200" />
         </OglSDInstance>
         <OglSDMessage>
-            <PyutSDMessage id="4" message="calls()" sourceX="148" destinationY="150" sourceID="1" destinationID="2" />
+            <PyutSDMessage id="4" message="calls()" sourceTime="148" destinationY="150" sourceID="1" destinationID="2" />
         </OglSDMessage>
         <OglSDMessage>
-            <PyutSDMessage id="5" message="spanks()" sourceX="201" destinationY="194" sourceID="2" destinationID="3" />
+            <PyutSDMessage id="5" message="spanks()" sourceTime="201" destinationY="194" sourceID="2" destinationID="3" />
         </OglSDMessage>
         <OglSDMessage>
-            <PyutSDMessage id="6" message="bites()" sourceX="328" destinationY="338" sourceID="3" destinationID="2" />
+            <PyutSDMessage id="6" message="bites()" sourceTime="328" destinationY="338" sourceID="3" destinationID="2" />
         </OglSDMessage>
     </PyutDocument>
 </PyutProject>

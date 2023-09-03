@@ -55,7 +55,7 @@ class TestOglToXmlV11(TestBase):
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
-        cls.clsLogger.warning(f'tearDownClass {cls.keep=}')
+        cls.clsLogger.debug(f'tearDownClass {cls.keep=}')
         if cls.keep is False:
             for fileName in GENERATED_FILE_NAMES:
                 cls.cleanupGenerated(fileName=fileName)

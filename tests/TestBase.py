@@ -32,7 +32,7 @@ class TestBase(UnitTestBaseW):
             else:
                 cls.keep = False
         else:
-            cls.clsLogger.info(f'No need to keep data files')
+            cls.clsLogger.debug(f'No need to keep data files')
             cls.keep = False
 
     def setUp(self):

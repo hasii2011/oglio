@@ -91,9 +91,9 @@ class XmlConstants:
     ATTR_INSTANCE_NAME:    str = 'instanceName'
     ATTR_LIFE_LINE_LENGTH: str = 'lifeLineLength'
 
-    ATTR_MESSAGE:       str = 'message'
-    ATTR_SOURCE_X:      str = 'sourceX'
-    ATTR_DESTINATION_Y: str = 'destinationY'
+    ATTR_MESSAGE:          str = 'message'
+    ATTR_SOURCE_TIME:      str = 'sourceTime'
+    ATTR_DESTINATION_TIME: str = 'destinationY'
 
     ATTR_SD_MESSAGE_SOURCE_ID:      str = 'sourceID'
     ATTR_SD_MESSAGE_DESTINATION_ID: str = 'destinationID'

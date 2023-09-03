@@ -151,7 +151,7 @@ class OglLinksToDom(BaseOglToDom):
         x, y = oglLabel.GetPosition()
 
         relativeX, relativeY = oglLabel.ConvertCoordToRelative(x=x, y=y)
-        self.linksLogger.warning(f'x,y = ({x},{y})   relativeX,relativeY = ({relativeX},{relativeY})')
+        self.linksLogger.debug(f'x,y = ({x},{y})   relativeX,relativeY = ({relativeX},{relativeY})')
         label.setAttribute(XmlConstants.ATTR_X, str(relativeX))
         label.setAttribute(XmlConstants.ATTR_Y, str(relativeY))
 
