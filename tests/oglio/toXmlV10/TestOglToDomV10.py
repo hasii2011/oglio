@@ -6,10 +6,12 @@ from unittest import main as unitTestMain
 
 from pyutmodel.PyutObject import PyutObject
 
-from untanglepyut.v10.UnTangler import UnTangler
+from untanglepyut.UnTangler import UnTangler
 
 from untanglepyut.Types import DocumentTitle
 from untanglepyut.Types import Document
+
+from untanglepyut.XmlVersion import XmlVersion
 
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
@@ -50,7 +52,7 @@ class TestOglToDomV10(TestBase):
         """
         fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_DOCUMENT_FILENAME)
 
-        untangler:  UnTangler = UnTangler()
+        untangler:  UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
         untangler.untangleFile(fqFileName=fqFileName)
 

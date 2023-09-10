@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<PyutProject version="11" CodePath="">
+	<PyutDocument type="CLASS_DIAGRAM" title="Simple Interface Diagram" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
+		<OglClass width="150" height="75" x="100" y="75">
+			<PyutClass id="1" name="Implementor" stereotype="noStereotype" filename="" description="" displayMethods="True" displayStereotype="True" displayFields="True" displayParameters="Unspecified"/>
+		</OglClass>
+		<OglInterface2 attachmentPoint="EAST" x="250" y="112">
+			<PyutInterface id="2" name="IClassInterface" description="">
+				<PyutMethod name="MethodWithParameters" visibility="PUBLIC" returnType="">
+					<PyutParameter name="strParam"  type="str"  defaultValue=""/>
+					<PyutParameter name="intParam"  type="int"  defaultValue="1"/>
+					<PyutParameter name="floatParam" type="float" defaultValue="1.0"/>
+					<SourceCode/>
+				</PyutMethod>
+				<Implementor implementingClassName="Implementor"/>
+			</PyutInterface>
+		</OglInterface2>
+	</PyutDocument>
+</PyutProject>

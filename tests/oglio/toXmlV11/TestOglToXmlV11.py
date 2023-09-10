@@ -1,9 +1,13 @@
+
 from typing import cast
+
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
 from untanglepyut.Types import Document
 from untanglepyut.Types import DocumentTitle
+from untanglepyut.UnTangler import UnTangler
+from untanglepyut.XmlVersion import XmlVersion
 
 from oglio.Types import OglActors
 from oglio.Types import OglClasses
@@ -118,13 +122,9 @@ class TestOglToXmlV11(TestBase):
     def _getOglDocument(self, baseFileName: str, documentName: str) -> OglDocument:
 
         fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, baseFileName)
-        #
-        #
-        # TODO:  Do not have the V11 version ready yet
-        #       FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME FIXME
-        #
-        from untanglepyut.v10.UnTangler import UnTangler
-        untangler:  UnTangler = UnTangler()
+
+        # I have V10 XML; Will write out V11 XML
+        untangler:  UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
         untangler.untangleFile(fqFileName=fqFileName)
 

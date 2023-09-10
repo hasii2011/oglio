@@ -5,10 +5,12 @@ from unittest import TestSuite
 from unittest import main as unitTestMain
 from unittest.mock import MagicMock
 
-from untanglepyut.v10.UnTangler import UnTangler
+from untanglepyut.UnTangler import UnTangler
 
 from untanglepyut.Types import Document
 from untanglepyut.Types import DocumentTitle
+
+from untanglepyut.XmlVersion import XmlVersion
 
 from oglio.Types import OglActors
 from oglio.Types import OglClasses
@@ -41,7 +43,7 @@ class TestNotesDiagram(TestBase):
         #
         fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
 
-        untangler:  UnTangler = UnTangler()
+        untangler:  UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
         untangler.untangleFile(fqFileName=fqFileName)
 

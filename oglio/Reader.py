@@ -9,8 +9,11 @@ from zlib import ZLIB_VERSION
 
 from untanglepyut.Types import Documents
 from untanglepyut.Types import ProjectInformation
+
 from untanglepyut.UnTangleProjectInformation import UnTangleProjectInformation
-from untanglepyut.v10.UnTangler import UnTangler
+
+from untanglepyut.UnTangler import UnTangler
+from untanglepyut.XmlVersion import XmlVersion
 
 from oglio import OglVersion
 from oglio.Types import OglActors
@@ -52,9 +55,7 @@ class Reader:
 
         rawXmlString: str = self._decompressFile(fqFileName=fqFileName)
 
-        from untanglepyut.v10.UnTangler import UnTangler
-
-        untangler: UnTangler = UnTangler()
+        untangler: UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
         untangler.untangleXml(xmlString=rawXmlString, fqFileName=fqFileName)
 
@@ -76,8 +77,7 @@ class Reader:
         projectInformation: ProjectInformation = self._extractProjectInformation(fqFileName)
         oglProject: OglProject = cast(OglProject, None)
         if projectInformation.version == '10':
-            from untanglepyut.v10.UnTangler import UnTangler
-            untangler: UnTangler = UnTangler()
+            untangler: UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
             untangler.untangleFile(fqFileName=fqFileName)
 

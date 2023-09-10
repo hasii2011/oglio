@@ -93,7 +93,7 @@ class XmlConstants:
 
     ATTR_MESSAGE:          str = 'message'
     ATTR_SOURCE_TIME:      str = 'sourceTime'
-    ATTR_DESTINATION_TIME: str = 'destinationY'
+    ATTR_DESTINATION_TIME: str = 'destinationTime'
 
     ATTR_SD_MESSAGE_SOURCE_ID:      str = 'sourceID'
     ATTR_SD_MESSAGE_DESTINATION_ID: str = 'destinationID'

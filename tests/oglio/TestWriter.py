@@ -6,7 +6,8 @@ from unittest import main as unitTestMain
 
 from untanglepyut.Types import Documents
 
-from untanglepyut.v10.UnTangler import UnTangler
+from untanglepyut.UnTangler import UnTangler
+from untanglepyut.XmlVersion import XmlVersion
 
 from oglio.Types import OglActors
 from oglio.Types import OglClasses
@@ -72,7 +73,7 @@ class TestWriter(TestBase):
         """
         fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestWriter.MULTI_DOCUMENT_FILENAME)
 
-        untangler:  UnTangler = UnTangler()
+        untangler:  UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
         untangler.untangleFile(fqFileName=fqFileName)
         #
