@@ -3,8 +3,8 @@ from os import system as osSystem
 from os import sep as osSep
 from os import environ as osEnviron
 
-from hasiihelper.UnitTestBase import UnitTestBase
-from hasiicommon.ui.UnitTestBaseW import UnitTestBaseW
+from codeallybasic.UnitTestBase import UnitTestBase
+from codeallyadvanced.ui.UnitTestBaseW import UnitTestBaseW
 
 from pyutmodel.PyutObject import PyutObject
 

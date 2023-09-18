@@ -1,8 +1,8 @@
-<img src="./docs/agpl-license-web-badge-version-2-256x48.png"/> 
+![](https://github.com/hasii2011/code-ally-basic/blob/master/developer/agpl-license-web-badge-version-2-256x48.png "AGPL")
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 [![CircleCI](https://dl.circleci.com/status-badge/img/gh/hasii2011/oglio/tree/master.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/hasii2011/oglio/tree/master)
-
+[![PyPI version](https://badge.fury.io/py/oglio.svg)](https://badge.fury.io/py/oglio)
 
 # Introduction
 Provides a common way to parse and write Pyut XML files.  Additionally, removes this code from 
@@ -18,19 +18,16 @@ This project uses [buildlackey](https://github.com/hasii2011/buildlackey) for da
 
 ___
 
-Written by <a href="mailto:email@humberto.a.sanchez.ii@gmail.com?subject=Hello Humberto">Humberto A. Sanchez II</a>  (C) 2023
-
 ## Note
 For all kind of problems, requests, enhancements, bug reports, etc.,
 please drop me an e-mail.
+Written by <a href="mailto:email@humberto.a.sanchez.ii@gmail.com?subject=Hello Humberto">Humberto A. Sanchez II</a>  (C) 2023
 
-___
 
-![Humberto's Modified Logo](https://raw.githubusercontent.com/wiki/hasii2011/gittodoistclone/images/SillyGitHub.png)
-
+---
 I am concerned about GitHub's Copilot project
 
-
+![](https://github.com/hasii2011/code-ally-basic/blob/master/developer/SillyGitHub.png)
 
 I urge you to read about the
 [Give up GitHub](https://GiveUpGitHub.org) campaign from

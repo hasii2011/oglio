@@ -15,7 +15,6 @@ from untanglepyut.UnTangleProjectInformation import UnTangleProjectInformation
 from untanglepyut.UnTangler import UnTangler
 from untanglepyut.XmlVersion import XmlVersion
 
-from oglio import OglVersion
 from oglio.Types import OglActors
 from oglio.Types import OglClasses
 from oglio.Types import OglDocument
@@ -64,7 +63,6 @@ class Reader:
         return oglProject
 
     def readXmlFile(self, fqFileName: str) -> OglProject:
-
         """
         Parse the input XML file;
 
@@ -75,15 +73,17 @@ class Reader:
             raise UnsupportedFileTypeException(message=f'File does not end with .xml suffix')
 
         projectInformation: ProjectInformation = self._extractProjectInformation(fqFileName)
-        oglProject: OglProject = cast(OglProject, None)
+
         if projectInformation.version == '10':
             untangler: UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
-
-            untangler.untangleFile(fqFileName=fqFileName)
-
-            oglProject = self._makeOglProject(untangler=untangler)
         elif projectInformation.version == '11':
-            raise UnsupportedVersion('11')
+            untangler = UnTangler(xmlVersion=XmlVersion.V11)
+        else:
+            raise UnsupportedVersion(message=f'Unsupported version: {projectInformation.version}')
+
+        untangler.untangleFile(fqFileName=fqFileName)
+
+        oglProject: OglProject = self._makeOglProject(untangler=untangler)
 
         return oglProject
 
@@ -122,7 +122,7 @@ class Reader:
 
         oglProject.toOglProject(untangler.projectInformation)
 
-        assert oglProject.version == OglVersion.version, 'We have mismatched XML versions'
+        assert oglProject.version == XmlVersion.V10.value or oglProject.version == XmlVersion.V11.value, 'We have mismatched XML versions'
         documents: Documents = untangler.documents
         for document in documents.values():
             self.logger.debug(f'Untangled - {document.documentTitle}')

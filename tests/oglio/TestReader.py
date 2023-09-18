@@ -1,6 +1,15 @@
 
+from typing import Dict
+from typing import cast
 from unittest import TestSuite
 from unittest import main as unitTestMain
+
+from pyutmodel.PyutClass import PyutClass
+from pyutmodel.PyutMethod import PyutMethod
+from pyutmodel.PyutMethod import PyutMethods
+from pyutmodel.PyutMethod import PyutModifiers
+
+from ogl.OglClass import OglClass
 
 from oglio import OglVersion
 from oglio.Reader import Reader
@@ -93,6 +102,39 @@ class TestReader(TestBase):
             self._testDocumentContents(oglDocument=oglDocument, expectedClassCount=1, expectedLinkCount=0)
         except KeyError:
             self.assertTrue(False, f'Could not find Diagram 1')
+
+    def testReadV11File(self):
+
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'SingleClassDocumentV11.xml')
+
+        oglProject:   OglProject   = self._reader.readXmlFile(fqFileName=fqFileName)
+        oglDocuments: OglDocuments = oglProject.oglDocuments
+        oglDocument:  OglDocument  = oglDocuments[OglDocumentTitle('SingleClassDiagram')]
+
+        oglClasses: OglClasses = oglDocument.oglClasses
+
+        self.assertEqual(1, len(oglClasses), '')
+
+        oglClass:    OglClass   = oglClasses[0]
+        pyutClass:   PyutClass  = oglClass.pyutObject
+        pyutMethods: PyutMethods = pyutClass.methods
+
+        self.assertEqual(7, len(pyutMethods), '')
+
+        methodDict: Dict[str, PyutMethod] = {}
+        for method in pyutMethods:
+            pyutMethod: PyutMethod = cast(PyutMethod, method)
+            methodDict[pyutMethod.name] = pyutMethod
+
+        methodWithParameters: PyutMethod = methodDict['methodWithParameters']
+
+        self.assertEqual(3, len(methodWithParameters.parameters), '')
+
+        methodWithModifiers: PyutMethod = methodDict['methodWithModifiers']
+
+        modifiers: PyutModifiers = methodWithModifiers.modifiers
+
+        self.assertEqual(2, len(modifiers), '')
 
     def _testDocumentContents(self, oglDocument: OglDocument, expectedClassCount: int, expectedLinkCount: int):
 
