@@ -7,14 +7,17 @@ from zlib import ZLIB_VERSION
 
 from oglio.Types import OglProject
 
-from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
+from oglio.toXmlV11.OglToXml import OglToXml
 
 
 class Writer:
     """
-    A shim on top of the OGL serialization layer;  Allows me to one day replace
+    A shim on top of the OGL serialization layer;
+    Allowed me to replace
     the heavy-duty Python core xml minidom implementation
-    Or even replace XML with JSON
+    with Python Xml Elment Tree
+
+    The write only writes the latest XML version
     """
 
     def __init__(self):
@@ -32,12 +35,12 @@ class Writer:
         if fqFileName.endswith('.put') is False:
             fqFileName = f'{fqFileName}.put'
 
-        oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=oglProject.version, projectCodePath=oglProject.codePath)
+        oglToXml: OglToXml = OglToXml(projectCodePath=oglProject.codePath)
 
         for oglDocument in oglProject.oglDocuments.values():
-            oglToMiniDom.serialize(oglDocument=oglDocument)
+            oglToXml.serialize(oglDocument=oglDocument)
 
-        rawXml: str = oglToMiniDom.xml
+        rawXml: str = oglToXml.xml
 
         self.logger.info(f'{ZLIB_VERSION=}')
         byteText:        bytes  = rawXml.encode()
@@ -57,9 +60,9 @@ class Writer:
         if fqFileName.endswith('.xml') is False:
             fqFileName = f'{fqFileName}.xml'
 
-        oglToMiniDom: OglToMiniDomV10 = OglToMiniDomV10(projectVersion=oglProject.version, projectCodePath=oglProject.codePath)
+        oglToXml: OglToXml = OglToXml(projectCodePath=oglProject.codePath)
 
         for oglDocument in oglProject.oglDocuments.values():
-            oglToMiniDom.serialize(oglDocument=oglDocument)
+            oglToXml.serialize(oglDocument=oglDocument)
 
-        oglToMiniDom.writeXml(fqFileName=fqFileName, prettyXml=prettyXml)
+        oglToXml.writeXml(fqFileName=fqFileName)

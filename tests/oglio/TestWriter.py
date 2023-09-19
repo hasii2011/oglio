@@ -35,6 +35,8 @@ class TestWriter(TestBase):
     MULTI_DOCUMENT_FILENAME:  str = 'SimpleMultipleDocument.xml'
     TEST_COMPRESSED_PROJECT:  str = 'TestCompressedProject.put'
 
+    EXPECTED_MULTI_DOCUMENT_FILENAME: str = 'SimpleMultipleDocumentV11.xml'
+
     def setUp(self):
         super().setUp()
 
@@ -44,18 +46,21 @@ class TestWriter(TestBase):
     def testSimpleWrite(self):
 
         oglProject:        OglProject = self._getTestOglProject()
-        generatedFileName: str        = TestBase.constructGeneratedName(TestWriter.MULTI_DOCUMENT_FILENAME)
+        generatedFileName: str        = TestBase.constructGeneratedName(TestWriter.EXPECTED_MULTI_DOCUMENT_FILENAME)
 
         writer: Writer = Writer()
 
         writer.writeXmlFile(oglProject=oglProject, fqFileName=generatedFileName)
 
-        TestBase.cleanupGenerated(TestWriter.MULTI_DOCUMENT_FILENAME)
+        self._runDiff(TestWriter.EXPECTED_MULTI_DOCUMENT_FILENAME)
+
+        TestBase.cleanupGenerated(TestWriter.EXPECTED_MULTI_DOCUMENT_FILENAME)
 
     def testWriteCompressedFile(self):
         """
         Manually run pyut2xml and manually diff the files
         """
+        TestBase.keep = True
         oglProject:        OglProject = self._getTestOglProject()
         generatedFileName: str        = TestWriter.constructGeneratedName(TestWriter.TEST_COMPRESSED_PROJECT)
         writer:            Writer     = Writer()

@@ -16,4 +16,4 @@ codeallybasic==0.5.2
 codeallyadvanced==0.5.1
 pyutmodel==1.5.0
 ogl==0.90.0
-untanglepyut==1.2.8
+untanglepyut==1.2.9

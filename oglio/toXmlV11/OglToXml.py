@@ -23,7 +23,7 @@ from oglio.toXmlV11.XmlConstants import XmlConstants
 XML_VERSION: str = '11'
 
 INDENT_SPACES: str = '    '     # TODO: Make this configurable
-PRETTY_PRINT:  bool = True      # TODO: Make this configurable
+PRETTY_PRINT:  bool = True
 
 
 class OglToXml:
@@ -31,16 +31,26 @@ class OglToXml:
 
         self.logger: Logger = getLogger(__name__)
 
-        self._projectCodePath: str = projectCodePath
+        self._projectCodePath: str     = projectCodePath
+        topElement:            Element = Element(XmlConstants.TOP_LEVEL_ELEMENT)
 
-        topElement: Element = Element(XmlConstants.TOP_LEVEL_ELEMENT)
         topElement.set(XmlConstants.ATTR_VERSION, XML_VERSION)
         topElement.set(XmlConstants.ATTR_CODE_PATH, projectCodePath)
 
         tree: ElementTree = ElementTree(topElement)
         indent(tree, space='    ')
-        self._topElement: Element     = topElement
-        self._tree:       ElementTree = tree
+
+        self._topElement:  Element     = topElement
+        self._tree:        ElementTree = tree
+        self._prettyPrint: bool        = PRETTY_PRINT
+
+    @property
+    def prettyPrint(self) -> bool:
+        return self._prettyPrint
+
+    @prettyPrint.setter
+    def prettyPrint(self, newValue: bool):
+        self._prettyPrint = newValue
 
     @property
     def xml(self) -> str:
@@ -48,8 +58,8 @@ class OglToXml:
 
         Returns:  The serialized XML in pretty print format
         """
-        if PRETTY_PRINT is True:
-            return self._prettyPrint(self._topElement)
+        if self.prettyPrint is True:
+            return self._toPrettyString(self._topElement)
         else:
             return self._toString(self._topElement)
 
@@ -96,7 +106,7 @@ class OglToXml:
 
         return documentTop
 
-    def _prettyPrint(self, originalElement: Element):
+    def _toPrettyString(self, originalElement: Element):
         """
         Create a copy of the input originalElement
         Convert to string, then parse again
