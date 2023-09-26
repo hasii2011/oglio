@@ -20,11 +20,12 @@ setup(
     long_description_content_type="text/markdown",
     url="https://github.com/hasii2011/oglio",
     packages=[
-        'oglio', 'oglio.toXmlV10'
+        'oglio', 'oglio.toXmlV10', 'oglio.toXmlV11'
     ],
     package_data={
         'oglio':          ['py.typed'],
-        'oglio.toXmlV10': ['py.typed']
+        'oglio.toXmlV10': ['py.typed'],
+        'oglio.toXmlV11': ['py.typed'],
     },
-    install_requires=['wxPython==4.2.1', 'codeallybasic==0.5.2', 'codeallyadvanced==0.5.2', 'pyutmodel==1.5.0', 'ogl==0.90.3', 'untanglepyut==1.2.11', ],
+    install_requires=['wxPython==4.2.1', 'codeallybasic==0.5.2', 'codeallyadvanced==0.5.2', 'pyutmodel==1.5.0', 'ogl==0.90.3', 'untanglepyut==1.2.11',],
 )
