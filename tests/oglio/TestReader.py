@@ -103,7 +103,7 @@ class TestReader(TestBase):
         except KeyError:
             self.assertTrue(False, f'Could not find Diagram 1')
 
-    def testReadV11File(self):
+    def testReadV11XmlFile(self):
 
         fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'SingleClassDocumentV11.xml')
 
@@ -135,6 +135,21 @@ class TestReader(TestBase):
         modifiers: PyutModifiers = methodWithModifiers.modifiers
 
         self.assertEqual(2, len(modifiers), '')
+
+    def testReadV11PutFile(self):
+        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'InheritanceV11.put')
+
+        oglProject:   OglProject = self._reader.readFile(fqFileName=fqFileName)
+
+        oglDocuments: OglDocuments = oglProject.oglDocuments
+        oglDocument:  OglDocument  = oglDocuments[OglDocumentTitle('Class Diagram')]
+        oglClasses:   OglClasses   = oglDocument.oglClasses
+
+        self.assertEqual(2, len(oglClasses), '')
+
+        oglLinks: OglLinks = oglDocument.oglLinks
+
+        self.assertEqual(1, len(oglLinks), '')
 
     def _testDocumentContents(self, oglDocument: OglDocument, expectedClassCount: int, expectedLinkCount: int):
 

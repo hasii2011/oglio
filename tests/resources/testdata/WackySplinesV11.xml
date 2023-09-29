@@ -9,7 +9,7 @@
         </OglClass>
         <OglLink sourceAnchorX="625" sourceAnchorY="428" destinationAnchorX="132" destinationAnchorY="203" spline="True">
             <ControlPoint x="229" y="511" />
-            <PyutLink name="" type="INHERITANCE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="1" destinationId="2" />
+            <PyutLink name="" type="INHERITANCE" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="2" destinationId="1" />
         </OglLink>
         <OglLink sourceAnchorX="204" sourceAnchorY="177" destinationAnchorX="625" destinationAnchorY="428" spline="True">
             <LabelCenter x="0" y="0" />
@@ -17,7 +17,7 @@
             <LabelDestination x="0" y="0" />
             <ControlPoint x="454" y="399" />
             <ControlPoint x="536" y="151" />
-            <PyutLink name="WackySplineAssociation" type="ASSOCIATION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="2" destinationId="1" />
+            <PyutLink name="WackySplineAssociation" type="ASSOCIATION" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="1" destinationId="2" />
         </OglLink>
     </PyutDocument>
 </PyutProject>

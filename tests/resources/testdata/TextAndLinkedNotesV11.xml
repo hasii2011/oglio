@@ -5,13 +5,13 @@
             <PyutClass id="3" name="LinkedToClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" description="" />
         </OglClass>
         <OglLink sourceAnchorX="239" sourceAnchorY="300" destinationAnchorX="156" destinationAnchorY="184" spline="False">
-            <PyutLink name="Notelink-6" type="NOTELINK" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="1" destinationId="2" />
+            <PyutLink name="Notelink-6" type="NOTELINK" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="4" destinationId="3" />
         </OglLink>
         <OglNote width="128" height="49" x="175" y="300">
             <PyutNote id="1" content="I am a note linked to&amp;#xA;the LinkedToClass" filename="" />
         </OglNote>
         <OglText width="150" height="81" x="425" y="125">
-            <PyutNote id="3" content="I am standalone text&amp;#xwith line breaks;&amp;#xTest that baby" />
+            <PyutText id="2" content="I am standalone text&amp;#xwith line breaks;&amp;#xTest that baby" />
         </OglText>
     </PyutDocument>
 </PyutProject>

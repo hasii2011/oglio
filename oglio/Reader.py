@@ -52,9 +52,13 @@ class Reader:
         if fqFileName.endswith('.put') is False:
             raise UnsupportedFileTypeException(message=f'File does not end with .put suffix')
 
-        rawXmlString: str = self._decompressFile(fqFileName=fqFileName)
+        rawXmlString:       str                = self._decompressFile(fqFileName=fqFileName)
+        projectInformation: ProjectInformation = self._extractProjectInformation(fqFileName)
 
-        untangler: UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
+        if projectInformation.version == XmlVersion.V10.value:
+            untangler: UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
+        else:
+            untangler = UnTangler(xmlVersion=XmlVersion.V11)
 
         untangler.untangleXml(xmlString=rawXmlString, fqFileName=fqFileName)
 

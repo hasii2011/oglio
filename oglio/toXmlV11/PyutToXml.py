@@ -84,8 +84,11 @@ class PyutToXml(BaseXml):
         Returns:
             A new minidom element
         """
-        srcLinkId:  int = self._idFactory.getID(pyutLink.getSource())
-        destLinkId: int = self._idFactory.getID(pyutLink.getDestination())
+        src   = pyutLink.getSource()
+        dst   = pyutLink.getDestination()
+
+        srcLinkId:  int = src.id
+        destLinkId: int = dst.id
 
         attributes: ElementAttributes = ElementAttributes({
             XmlConstants.ATTR_NAME:                    pyutLink.name,
@@ -146,7 +149,7 @@ class PyutToXml(BaseXml):
             XmlConstants.ATTR_ID:       str(textId),
             XmlConstants.ATTR_CONTENT:  fixedContent,
         })
-        pyutTextElement: Element = SubElement(oglTextElement, XmlConstants.ELEMENT_PYUT_NOTE, attrib=attributes)
+        pyutTextElement: Element = SubElement(oglTextElement, XmlConstants.ELEMENT_PYUT_TEXT, attrib=attributes)
 
         return pyutTextElement
 
