@@ -60,6 +60,7 @@ class PyutToXml(BaseXml):
             XmlConstants.ATTR_DISPLAY_PARAMETERS: str(pyutClass.displayParameters),
             XmlConstants.ATTR_DISPLAY_FIELDS:     str(pyutClass.showFields),
             XmlConstants.ATTR_DISPLAY_STEREOTYPE: str(pyutClass.displayStereoType),
+            XmlConstants.ATTR_FILENAME:           pyutClass.fileName,
         }
 
         attributes = attributes | commonAttributes

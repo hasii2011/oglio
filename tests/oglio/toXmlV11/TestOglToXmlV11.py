@@ -74,7 +74,7 @@ class TestOglToXmlV11(TestBase):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=EMPTY_DOCUMENT_FILENAME, documentName='EmptyDiagram')
         self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=EMPTY_DOCUMENT_FILENAME,  assertionMessage='Diff empty document serialization failed')
 
-    def testSingleClassProject(self):
+    def testSingleClassDocument(self):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=SINGLE_CLASS_FILENAME_V10, documentName='SingleClassDiagram')
         self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=SINGLE_CLASS_FILENAME_V11, assertionMessage='Diff single document serialization failed')
 

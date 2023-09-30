@@ -52,7 +52,9 @@ class TestWriter(TestBase):
 
         writer.writeXmlFile(oglProject=oglProject, fqFileName=generatedFileName)
 
-        self._runDiff(TestWriter.EXPECTED_MULTI_DOCUMENT_FILENAME)
+        status: int = self._runDiff(TestWriter.EXPECTED_MULTI_DOCUMENT_FILENAME)
+
+        self.assertEqual(0, status, 'Simple Write Failed')
 
         TestBase.cleanupGenerated(TestWriter.EXPECTED_MULTI_DOCUMENT_FILENAME)
 

@@ -59,7 +59,7 @@ class XmlConstants:
     ATTR_DESCRIPTION: str = 'description'
     ATTR_VISIBILITY:  str = 'visibility'
 
-    ATTR_FILENAME: str = 'filename'
+    ATTR_FILENAME: str = 'fileName'
     ATTR_NAME:     str = 'name'
     ATTR_CONTENT:  str = 'content'
     ATTR_TYPE:     str = 'type'
@@ -70,6 +70,7 @@ class XmlConstants:
     ATTR_DISPLAY_METHODS:    str = 'displayMethods'
     ATTR_DISPLAY_FIELDS:     str = 'displayFields'
     ATTR_DISPLAY_PARAMETERS: str = 'displayParameters'
+    ATTR_FILE_NAME:          str = 'fileName'
 
     ATTR_METHOD_RETURN_TYPE: str = 'returnType'
 
