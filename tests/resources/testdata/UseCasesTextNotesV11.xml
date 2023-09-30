@@ -11,13 +11,13 @@
             <PyutNote id="1" content="This is the note text&amp;#xA;With Line feeds&amp;#xA;Maybe more coming" fileName="" />
         </OglNote>
         <OglText width="138" height="88" x="100" y="325">
-            <PyutText id="2" content="This plain text&amp;#xA;With line breaks&amp;#xA;At least a few" />
+            <PyutText id="4" content="This plain text&amp;#xA;With line breaks&amp;#xA;At least a few" />
         </OglText>
         <OglActor width="87" height="114" x="50" y="100">
-            <PyutActor id="3" name="BasicActor" fileName="" />
+            <PyutActor id="2" name="BasicActor" fileName="" />
         </OglActor>
         <OglUseCase width="100" height="60" x="475" y="275">
-            <PyutUseCase id="4" name="Basic Use Case" fileName="" />
+            <PyutUseCase id="3" name="Basic Use Case" fileName="" />
         </OglUseCase>
     </PyutDocument>
 </PyutProject>

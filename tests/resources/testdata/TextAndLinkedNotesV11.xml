@@ -8,10 +8,10 @@
             <PyutLink name="Notelink-6" type="NOTELINK" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="4" destinationId="3" />
         </OglLink>
         <OglNote width="128" height="49" x="175" y="300">
-            <PyutNote id="1" content="I am a note linked to&amp;#xA;the LinkedToClass" fileName="" />
+            <PyutNote id="4" content="I am a note linked to&amp;#xA;the LinkedToClass" fileName="" />
         </OglNote>
         <OglText width="150" height="81" x="425" y="125">
-            <PyutText id="2" content="I am standalone text&amp;#xwith line breaks;&amp;#xTest that baby" />
+            <PyutText id="5" content="I am standalone text&amp;#xwith line breaks;&amp;#xTest that baby" />
         </OglText>
     </PyutDocument>
 </PyutProject>

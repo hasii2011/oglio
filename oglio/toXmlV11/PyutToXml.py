@@ -23,12 +23,11 @@ from pyutmodel.PyutSDMessage import PyutSDMessage
 from pyutmodel.PyutText import PyutText
 from pyutmodel.PyutUseCase import PyutUseCase
 
-from oglio.toXmlV11.BaseXml import BaseXml
 from oglio.toXmlV11.InternalTypes import ElementAttributes
 from oglio.toXmlV11.XmlConstants import XmlConstants
 
 
-class PyutToXml(BaseXml):
+class PyutToXml:
     """
     Serializes Pyut Models classes to DOM
     """
@@ -106,7 +105,8 @@ class PyutToXml(BaseXml):
 
     def pyutInterfaceToXml(self, pyutInterface: PyutInterface, interface2Element: Element) -> Element:
 
-        classId: int = self._idFactory.getID(pyutInterface)
+        classId: int = pyutInterface.id
+
         attributes: ElementAttributes = ElementAttributes({
             XmlConstants.ATTR_ID:          str(classId),
             XmlConstants.ATTR_NAME:        pyutInterface.name,
@@ -125,7 +125,7 @@ class PyutToXml(BaseXml):
 
     def pyutNoteToXml(self, pyutNote: PyutNote, oglNoteElement: Element) -> Element:
 
-        noteId:       int = self._idFactory.getID(pyutNote)
+        noteId:       int = pyutNote.id
         content:      str = pyutNote.content
         fixedContent: str  = content.replace(osLineSep, PyutToXml.END_OF_LINE_MARKER)
         if pyutNote.fileName is None:
@@ -142,7 +142,7 @@ class PyutToXml(BaseXml):
 
     def pyutTextToXml(self, pyutText: PyutText, oglTextElement: Element) -> Element:
 
-        textId:       int = self._idFactory.getID(pyutText)
+        textId:       int = pyutText.id
         content:      str = pyutText.content
         fixedContent: str  = content.replace(osLineSep, PyutToXml.END_OF_LINE_MARKER)
 
@@ -156,7 +156,7 @@ class PyutToXml(BaseXml):
 
     def pyutActorToXml(self, pyutActor: PyutActor, oglActorElement: Element) -> Element:
 
-        actorId:  int = self._idFactory.getID(pyutActor)
+        actorId:  int = pyutActor.id
         fileName: str = pyutActor.fileName
         if fileName is None:
             fileName = ''
@@ -172,7 +172,7 @@ class PyutToXml(BaseXml):
 
     def pyutUseCaseToXml(self, pyutUseCase: PyutUseCase, oglUseCaseElement: Element) -> Element:
 
-        useCaseId: int = self._idFactory.getID(pyutUseCase)
+        useCaseId: int = pyutUseCase.id
         fileName:  str = pyutUseCase.fileName
         if fileName is None:
             fileName = ''
@@ -188,7 +188,8 @@ class PyutToXml(BaseXml):
 
     def pyutSDInstanceToXml(self, pyutSDInstance: PyutSDInstance, oglSDInstanceElement: Element) -> Element:
 
-        sdInstanceId: int     = self._idFactory.getID(pyutSDInstance)
+        sdInstanceId: int = pyutSDInstance.id
+
         attributes: ElementAttributes = ElementAttributes({
             XmlConstants.ATTR_ID:               str(sdInstanceId),
             XmlConstants.ATTR_INSTANCE_NAME:    pyutSDInstance.instanceName,
@@ -201,13 +202,13 @@ class PyutToXml(BaseXml):
 
     def pyutSDMessageToXml(self, pyutSDMessage: PyutSDMessage, oglSDMessageElement: Element) -> Element:
 
-        sdMessageId: int = self._idFactory.getID(pyutSDMessage)
+        sdMessageId: int = pyutSDMessage.id
 
         srcInstance: PyutSDInstance = pyutSDMessage.getSource()
         dstInstance: PyutSDInstance = pyutSDMessage.getDestination()
 
-        idSrc: int = self._idFactory.getID(srcInstance)
-        idDst: int = self._idFactory.getID(dstInstance)
+        idSrc: int = srcInstance.id
+        idDst: int = dstInstance.id
 
         attributes: ElementAttributes = ElementAttributes({
             XmlConstants.ATTR_ID:                        str(sdMessageId),

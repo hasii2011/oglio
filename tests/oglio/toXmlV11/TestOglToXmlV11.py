@@ -92,7 +92,7 @@ class TestOglToXmlV11(TestBase):
 
     def testTextAndLinkedNotes(self):
         oglDocument: OglDocument = self._getOglDocument(baseFileName=TEXT_AND_LINKED_NOTES_V10, documentName='TextNotes')
-        self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=TEXT_AND_LINKED_NOTES_V11, assertionMessage='Diff multi link document serialization failed')
+        self._assertGeneratedFile(oglDocument=oglDocument, baseFileNameV11=TEXT_AND_LINKED_NOTES_V11, assertionMessage='Diff text & linked notes serialization failed')
 
     def testUseCases(self):
         """
