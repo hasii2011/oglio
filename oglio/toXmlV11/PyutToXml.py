@@ -299,8 +299,13 @@ class PyutToXml:
         attributes = {
             XmlConstants.ATTR_NAME:          pyutParameter.name,
             XmlConstants.ATTR_TYPE:          pyutParameter.type.value,
-            XmlConstants.ATTR_DEFAULT_VALUE: pyutParameter.defaultValue,
+            # XmlConstants.ATTR_DEFAULT_VALUE: pyutParameter.defaultValue,
         }
+
+        defaultValue = pyutParameter.defaultValue
+        if defaultValue is not None:
+            attributes[XmlConstants.ATTR_DEFAULT_VALUE] = pyutParameter.defaultValue
+
         pyutParameterElement: Element = SubElement(pyutMethodElement, XmlConstants.ELEMENT_MODEL_PYUT_PARAMETER, attrib=attributes)
 
         return pyutParameterElement
