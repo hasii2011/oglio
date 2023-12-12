@@ -1,7 +1,7 @@
 
 from xml.dom.minidom import Element
 
-from pyutmodel.PyutClassCommon import PyutClassCommon
+from pyutmodelv2.PyutClassCommon import PyutClassCommon
 
 from oglio.toXmlV10.BaseToDom import BaseToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants

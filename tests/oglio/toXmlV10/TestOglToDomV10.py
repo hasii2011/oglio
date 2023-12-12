@@ -4,7 +4,8 @@ from typing import cast
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pyutmodel.PyutObject import PyutObject
+from pyutmodelv2.PyutObject import PyutObject
+from pyutmodelv2.PyutObject import infiniteSequence
 
 from untanglepyut.UnTangler import UnTangler
 
@@ -18,16 +19,15 @@ from oglio.Types import OglDocument
 from oglio.Types import OglLinks
 from oglio.Types import OglTexts
 
-from oglio.toXmlV10.BaseToDom import IDFactory
 
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
-from tests.TestBase import TestBase
+from tests.ProjectTestBase import ProjectTestBase
 
 MULTI_LINK_DOCUMENT_FILENAME: str = 'MultiLinkDocumentV10.xml'
 
 
-class TestOglToDomV10(TestBase):
+class TestOglToDomV10(ProjectTestBase):
     """
     The serialization code needs pre-made OGL Objects.  So we will untangle
     XML documents and feed them to the serializer;  It should return identical XML
@@ -35,8 +35,8 @@ class TestOglToDomV10(TestBase):
     def setUp(self):
         super().setUp()
 
-        PyutObject.nextId = 0   # reset to match sequence diagram
-        IDFactory.nextID = 1
+        PyutObject.idGenerator = infiniteSequence()
+        next(PyutObject.idGenerator)
 
     def tearDown(self):
         super().tearDown()
@@ -50,7 +50,7 @@ class TestOglToDomV10(TestBase):
             text_font_size = 14
         Save the current preferences;  Set these;  then at test conclusion restore them
         """
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_DOCUMENT_FILENAME)
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, MULTI_LINK_DOCUMENT_FILENAME)
 
         untangler:  UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
@@ -69,14 +69,14 @@ class TestOglToDomV10(TestBase):
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        generatedFileName: str = TestBase.constructGeneratedName(MULTI_LINK_DOCUMENT_FILENAME)
+        generatedFileName: str = ProjectTestBase.constructGeneratedName(MULTI_LINK_DOCUMENT_FILENAME)
         oglToMiniDom.writeXml(fqFileName=generatedFileName)
 
         status: int = self._runDiff(MULTI_LINK_DOCUMENT_FILENAME)
 
         self.assertEqual(0, status, 'Diff simple class serialization failed')
 
-        TestBase.cleanupGenerated(MULTI_LINK_DOCUMENT_FILENAME)
+        ProjectTestBase.cleanupGenerated(MULTI_LINK_DOCUMENT_FILENAME)
 
 
 def suite() -> TestSuite:

@@ -10,21 +10,24 @@ from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 from xml.dom.minidom import Text
 
-from pyutmodel.ModelTypes import ClassName
-from pyutmodel.PyutActor import PyutActor
-from pyutmodel.PyutClass import PyutClass
-from pyutmodel.PyutField import PyutField
-from pyutmodel.PyutInterface import PyutInterface
-from pyutmodel.PyutLink import PyutLink
-from pyutmodel.PyutMethod import SourceCode
-from pyutmodel.PyutNote import PyutNote
-from pyutmodel.PyutParameter import PyutParameter
-from pyutmodel.PyutSDInstance import PyutSDInstance
-from pyutmodel.PyutSDMessage import PyutSDMessage
-from pyutmodel.PyutStereotype import PyutStereotype
-from pyutmodel.PyutText import PyutText
-from pyutmodel.PyutUseCase import PyutUseCase
-from pyutmodel.PyutVisibilityEnum import PyutVisibilityEnum
+from pyutmodelv2.enumerations.PyutStereotype import PyutStereotype
+from pyutmodelv2.enumerations.PyutVisibility import PyutVisibility
+
+from pyutmodelv2.PyutLink import LinkDestination
+from pyutmodelv2.PyutLink import LinkSource
+from pyutmodelv2.PyutModelTypes import ClassName
+from pyutmodelv2.PyutActor import PyutActor
+from pyutmodelv2.PyutClass import PyutClass
+from pyutmodelv2.PyutField import PyutField
+from pyutmodelv2.PyutInterface import PyutInterface
+from pyutmodelv2.PyutLink import PyutLink
+from pyutmodelv2.PyutMethod import SourceCode
+from pyutmodelv2.PyutNote import PyutNote
+from pyutmodelv2.PyutParameter import PyutParameter
+from pyutmodelv2.PyutSDInstance import PyutSDInstance
+from pyutmodelv2.PyutSDMessage import PyutSDMessage
+from pyutmodelv2.PyutText import PyutText
+from pyutmodelv2.PyutUseCase import PyutUseCase
 
 from oglio.toXmlV10.BasePyutToDom import BasePyutToDom
 from oglio.toXmlV10.XmlConstants import XmlConstants
@@ -35,7 +38,7 @@ class PyutToDom(BasePyutToDom):
     Serializes Pyut Models classes to DOM
     """
     # https://www.codetable.net/hex/a
-    END_OF_LINE_MARKER: str ='&#xA;'
+    END_OF_LINE_MARKER: str = '&#xA;'
 
     def __init__(self):
 
@@ -55,7 +58,7 @@ class PyutToDom(BasePyutToDom):
         """
         pyutClassElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_CLASS)
 
-        classId: int = self._idFactory.getID(pyutClass)
+        classId: int = pyutClass.id
         pyutClassElement.setAttribute(XmlConstants.ATTR_ID, str(classId))
         pyutClassElement.setAttribute(XmlConstants.ATTR_NAME, pyutClass.name)
 
@@ -85,7 +88,7 @@ class PyutToDom(BasePyutToDom):
 
         pyutInterfaceElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_INTERFACE)
 
-        classId: int = self._idFactory.getID(pyutInterface)
+        classId: int = pyutInterface.id
         pyutInterfaceElement.setAttribute(XmlConstants.ATTR_ID, str(classId))
         pyutInterfaceElement.setAttribute(XmlConstants.ATTR_NAME, pyutInterface.name)
 
@@ -117,10 +120,10 @@ class PyutToDom(BasePyutToDom):
         root.setAttribute(XmlConstants.ATTR_TYPE, pyutLink.linkType.name)
         root.setAttribute(XmlConstants.ATTR_CARDINALITY_SOURCE, pyutLink.sourceCardinality)
         root.setAttribute(XmlConstants.ATTR_CARDINALITY_DESTINATION, pyutLink.destinationCardinality)
-        root.setAttribute(XmlConstants.ATTR_BIDIRECTIONAL, str(pyutLink.getBidir()))
+        root.setAttribute(XmlConstants.ATTR_BIDIRECTIONAL, str(pyutLink.bidirectional))
 
-        srcLinkId:  int = self._idFactory.getID(pyutLink.getSource())
-        destLinkId: int = self._idFactory.getID(pyutLink.getDestination())
+        srcLinkId:  int = pyutLink.source.id
+        destLinkId: int = pyutLink.destination.id
 
         root.setAttribute(XmlConstants.ATTR_SOURCE_ID, str(srcLinkId))
         root.setAttribute(XmlConstants.ATTR_DESTINATION_ID, str(destLinkId))
@@ -140,7 +143,7 @@ class PyutToDom(BasePyutToDom):
         """
         pyutNoteElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_NOTE)
 
-        noteId: int = self._idFactory.getID(pyutNote)
+        noteId: int = pyutNote.id
         pyutNoteElement.setAttribute(XmlConstants.ATTR_ID, str(noteId))
 
         content: str = pyutNote.content
@@ -153,8 +156,8 @@ class PyutToDom(BasePyutToDom):
 
     def pyutTextToDom(self, pyutText: PyutText, xmlDoc: Document) -> Element:
 
-        root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_TEXT)
-        textId: int = self._idFactory.getID(pyutText)
+        root:   Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_TEXT)
+        textId: int     = pyutText.id
 
         root.setAttribute(XmlConstants.ATTR_ID, str(textId))
         content: str = pyutText.content
@@ -177,7 +180,7 @@ class PyutToDom(BasePyutToDom):
         """
         pyutUseCaseElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_USE_CASE)
 
-        useCaseId = self._idFactory.getID(pyutUseCase)
+        useCaseId = pyutUseCase.id
         pyutUseCaseElement.setAttribute(XmlConstants.ATTR_ID, str(useCaseId))
         pyutUseCaseElement.setAttribute(XmlConstants.ATTR_NAME, pyutUseCase.name)
         pyutUseCaseElement.setAttribute(XmlConstants.ATTR_FILENAME, pyutUseCase.fileName)
@@ -196,7 +199,7 @@ class PyutToDom(BasePyutToDom):
         """
         pyutActorElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_ACTOR)
 
-        actorId = self._idFactory.getID(pyutActor)
+        actorId = pyutActor.id
         pyutActorElement.setAttribute(XmlConstants.ATTR_ID, str(actorId))
         pyutActorElement.setAttribute(XmlConstants.ATTR_NAME, pyutActor.name)
         pyutActorElement.setAttribute(XmlConstants.ATTR_FILENAME, pyutActor.fileName)
@@ -215,7 +218,7 @@ class PyutToDom(BasePyutToDom):
             A new minidom element
         """
         root:  Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SD_INSTANCE)
-        eltId: int     = self._idFactory.getID(pyutSDInstance)
+        eltId: int     = pyutSDInstance.id
         # eltId: int = pyutSDInstance.id
         root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
         root.setAttribute(XmlConstants.ATTR_INSTANCE_NAME, pyutSDInstance.instanceName)
@@ -235,7 +238,7 @@ class PyutToDom(BasePyutToDom):
         """
         root: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_SD_MESSAGE)
 
-        eltId: int = self._idFactory.getID(pyutSDMessage)
+        eltId: int = pyutSDMessage.id
         # eltId: int = pyutSDMessage.id
         root.setAttribute(XmlConstants.ATTR_ID, str(eltId))
 
@@ -243,11 +246,11 @@ class PyutToDom(BasePyutToDom):
         root.setAttribute(XmlConstants.ATTR_MESSAGE, pyutSDMessage.message)
 
         # time
-        srcInstance: PyutSDInstance = pyutSDMessage.getSource()
-        dstInstance: PyutSDInstance = pyutSDMessage.getDestination()
+        srcInstance: LinkSource      = pyutSDMessage.source
+        dstInstance: LinkDestination = pyutSDMessage.destination
 
-        idSrc: int = self._idFactory.getID(srcInstance)
-        idDst: int = self._idFactory.getID(dstInstance)
+        idSrc: int = srcInstance.id
+        idDst: int = dstInstance.id
 
         root.setAttribute(XmlConstants.ATTR_SOURCE_TIME_LINE, str(pyutSDMessage.sourceY))
         root.setAttribute(XmlConstants.ATTR_DESTINATION_TIME_LINE, str(pyutSDMessage.destinationY))
@@ -271,8 +274,8 @@ class PyutToDom(BasePyutToDom):
 
         pyutMethodElement.setAttribute(XmlConstants.ATTR_NAME, pyutMethod.name)
 
-        visibility: PyutVisibilityEnum = pyutMethod.getVisibility()
-        visName:    str                = self.__safeVisibilityToName(visibility)
+        visibility: PyutVisibility = pyutMethod.visibility
+        visName:    str            = self.__safeVisibilityToName(visibility)
 
         if visibility is not None:
             pyutMethodElement.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
@@ -307,8 +310,8 @@ class PyutToDom(BasePyutToDom):
         pyutFieldElement: Element = xmlDoc.createElement(XmlConstants.ELEMENT_MODEL_FIELD)
 
         pyutFieldElement.appendChild(self._pyutParamToDom(pyutField, xmlDoc))
-        visibility: PyutVisibilityEnum = pyutField.visibility
-        visName:    str                = self.__safeVisibilityToName(visibility)
+        visibility: PyutVisibility = pyutField.visibility
+        visName:    str            = self.__safeVisibilityToName(visibility)
         pyutFieldElement.setAttribute(XmlConstants.ATTR_VISIBILITY, visName)
 
         return pyutFieldElement
@@ -354,7 +357,7 @@ class PyutToDom(BasePyutToDom):
 
         return root
 
-    def __safeVisibilityToName(self, visibility: Union[str, PyutVisibilityEnum]) -> str:
+    def __safeVisibilityToName(self, visibility: Union[str, PyutVisibility]) -> str:
         """
         Account for old pre V10 code
         Args:
@@ -365,7 +368,7 @@ class PyutToDom(BasePyutToDom):
         """
 
         if isinstance(visibility, str):
-            visStr: str = PyutVisibilityEnum.toEnum(visibility).name
+            visStr: str = PyutVisibility.toEnum(visibility).name
         else:
             visStr = visibility.name
 

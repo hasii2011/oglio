@@ -112,8 +112,7 @@ class OglLinksToXml(BaseOglToXml):
             XmlConstants.ATTR_LINK_SOURCE_ANCHOR_Y:      str(srcY),
             XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_X: str(destX),
             XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_Y: str(destY),
-            XmlConstants.ATTR_SPLINE:                    str(oglLink.GetSpline())   # piecewise polynomial function
+            XmlConstants.ATTR_SPLINE:                    str(oglLink.spline)   # piecewise polynomial function
         })
 
         return attributes
-    

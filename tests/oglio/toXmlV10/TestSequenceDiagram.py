@@ -15,10 +15,10 @@ from oglio.Types import OglSDMessages
 
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
-from tests.TestBase import TestBase
+from tests.ProjectTestBase import ProjectTestBase
 
 
-class TestSequenceDiagram(TestBase):
+class TestSequenceDiagram(ProjectTestBase):
     """
     """
     SEQUENCE_DIAGRAM_FILENAME: str = 'SimpleSequenceDiagram.xml'
@@ -31,7 +31,7 @@ class TestSequenceDiagram(TestBase):
 
     def testSequenceDiagramSerialization(self):
 
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
 
         untangler:  UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
@@ -50,14 +50,14 @@ class TestSequenceDiagram(TestBase):
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        generatedFileName: str = TestBase.constructGeneratedName(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
+        generatedFileName: str = ProjectTestBase.constructGeneratedName(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
         oglToMiniDom.writeXml(fqFileName=generatedFileName)
 
         status: int = self._runDiff(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
 
         self.assertEqual(0, status, 'Diff of sequence diagram serialization failed')
 
-        TestBase.cleanupGenerated(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
+        ProjectTestBase.cleanupGenerated(TestSequenceDiagram.SEQUENCE_DIAGRAM_FILENAME)
 
 
 def suite() -> TestSuite:

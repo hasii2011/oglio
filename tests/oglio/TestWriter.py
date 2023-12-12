@@ -25,10 +25,10 @@ from oglio.Types import createOglDocumentsFactory
 from oglio.Writer import Writer
 from oglio.toXmlV10.OglToDom import OglToDom
 
-from tests.TestBase import TestBase
+from tests.ProjectTestBase import ProjectTestBase
 
 
-class TestWriter(TestBase):
+class TestWriter(ProjectTestBase):
     """
     Test the simplified writer interface for Pyut
     """
@@ -46,7 +46,7 @@ class TestWriter(TestBase):
     def testSimpleWrite(self):
 
         oglProject:        OglProject = self._getTestOglProject()
-        generatedFileName: str        = TestBase.constructGeneratedName(TestWriter.EXPECTED_MULTI_DOCUMENT_FILENAME)
+        generatedFileName: str        = ProjectTestBase.constructGeneratedName(TestWriter.EXPECTED_MULTI_DOCUMENT_FILENAME)
 
         writer: Writer = Writer()
 
@@ -56,20 +56,20 @@ class TestWriter(TestBase):
 
         self.assertEqual(0, status, 'Simple Write Failed')
 
-        TestBase.cleanupGenerated(TestWriter.EXPECTED_MULTI_DOCUMENT_FILENAME)
+        ProjectTestBase.cleanupGenerated(TestWriter.EXPECTED_MULTI_DOCUMENT_FILENAME)
 
     def testWriteCompressedFile(self):
         """
         Manually run pyut2xml and manually diff the files
         """
-        TestBase.keep = True
+        ProjectTestBase.keep = True
         oglProject:        OglProject = self._getTestOglProject()
         generatedFileName: str        = TestWriter.constructGeneratedName(TestWriter.TEST_COMPRESSED_PROJECT)
         writer:            Writer     = Writer()
 
         writer.writeFile(oglProject=oglProject, fqFileName=generatedFileName)
 
-        TestBase.cleanupGenerated(TestWriter.TEST_COMPRESSED_PROJECT)
+        ProjectTestBase.cleanupGenerated(TestWriter.TEST_COMPRESSED_PROJECT)
 
     def _getTestOglProject(self) -> OglProject:
         """
@@ -78,7 +78,7 @@ class TestWriter(TestBase):
 
         Returns:  An OglProject
         """
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestWriter.MULTI_DOCUMENT_FILENAME)
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestWriter.MULTI_DOCUMENT_FILENAME)
 
         untangler:  UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
@@ -90,7 +90,7 @@ class TestWriter(TestBase):
         oglProject.version  = OglToDom.VERSION
         oglProject.codePath = '/tmp/bogus/Ozzee.py'
         # noinspection PyUnusedLocal
-        generatedFileName: str = TestBase.constructGeneratedName(TestWriter.MULTI_DOCUMENT_FILENAME)
+        generatedFileName: str = ProjectTestBase.constructGeneratedName(TestWriter.MULTI_DOCUMENT_FILENAME)
 
         oglDocuments: OglDocuments = createOglDocumentsFactory()
         untangledDocuments: Documents = untangler.documents

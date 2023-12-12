@@ -19,7 +19,7 @@ from oglio.Types import OglSDMessages
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
 from oglio.toXmlV11.OglToXml import OglToXml
-from tests.TestBase import TestBase
+from tests.ProjectTestBase import ProjectTestBase
 
 EMPTY_DOCUMENT_FILENAME:     str = 'EmptyDocument.xml'
 SINGLE_CLASS_FILENAME_V10:   str = 'SingleClassDocumentV10.xml'
@@ -49,13 +49,13 @@ GENERATED_FILE_NAMES = [EMPTY_DOCUMENT_FILENAME, SINGLE_CLASS_FILENAME_V11, MULT
                         ]
 
 
-class TestOglToXmlV11(TestBase):
+class TestOglToXmlV11(ProjectTestBase):
     """
     """
     @classmethod
     def setUpClass(cls):
         super().setUpClass()
-        
+
     @classmethod
     def tearDownClass(cls):
         super().tearDownClass()
@@ -66,7 +66,7 @@ class TestOglToXmlV11(TestBase):
 
     def setUp(self):
         super().setUp()
-        
+
     def tearDown(self):
         super().tearDown()
 
@@ -111,7 +111,7 @@ class TestOglToXmlV11(TestBase):
         oglToXml.serialize(oglDocument)
         self.logger.debug(oglToXml.xml)
 
-        generatedFileName: str = TestBase.constructGeneratedName(baseFileNameV11)
+        generatedFileName: str = ProjectTestBase.constructGeneratedName(baseFileNameV11)
 
         oglToXml.writeXml(fqFileName=generatedFileName)
         #
@@ -121,7 +121,7 @@ class TestOglToXmlV11(TestBase):
 
     def _getOglDocument(self, baseFileName: str, documentName: str) -> OglDocument:
 
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, baseFileName)
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, baseFileName)
 
         # I have V10 XML; Will write out V11 XML
         untangler:  UnTangler = UnTangler(xmlVersion=XmlVersion.V10)

@@ -6,12 +6,13 @@ from os import environ as osEnviron
 from codeallybasic.UnitTestBase import UnitTestBase
 from codeallyadvanced.ui.UnitTestBaseW import UnitTestBaseW
 
-from pyutmodel.PyutObject import PyutObject
+from pyutmodelv2.PyutObject import PyutObject
+from pyutmodelv2.PyutObject import infiniteSequence
 
 from oglio.toXmlV10.BaseToDom import IDFactory
 
 
-class TestBase(UnitTestBaseW):
+class ProjectTestBase(UnitTestBaseW):
 
     RESOURCES_TEST_CLASSES_PACKAGE_NAME:         str = f'{UnitTestBase.RESOURCES_PACKAGE_NAME}.testclasses'
     RESOURCES_TEST_DATA_PACKAGE_NAME:            str = f'{UnitTestBase.RESOURCES_PACKAGE_NAME}.testdata'
@@ -37,18 +38,18 @@ class TestBase(UnitTestBaseW):
 
     def setUp(self):
         super().setUp()
-        PyutObject.nextId = 0   # reset to match sequence diagram
-        IDFactory.nextID  = 1
+        PyutObject.idGenerator = infiniteSequence()
+        next(PyutObject.idGenerator)
 
     def tearDown(self):
         super().tearDown()
 
     def _runDiff(self, fileName: str) -> int:
 
-        baseFileName:      str = TestBase.getFullyQualifiedResourceFileName(package=TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, fileName=fileName)
-        generatedFileName: str = TestBase.constructGeneratedName(fileName=fileName)
+        baseFileName:      str = ProjectTestBase.getFullyQualifiedResourceFileName(package=ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, fileName=fileName)
+        generatedFileName: str = ProjectTestBase.constructGeneratedName(fileName=fileName)
 
-        status: int = osSystem(f'{TestBase.EXTERNAL_DIFF} {baseFileName} {generatedFileName}')
+        status: int = osSystem(f'{ProjectTestBase.EXTERNAL_DIFF} {baseFileName} {generatedFileName}')
 
         return status
 
@@ -57,8 +58,8 @@ class TestBase(UnitTestBaseW):
 
         generatedFileName: str = cls.constructGeneratedName(fileName=fileName)
 
-        if TestBase.keep is False:
-            osSystem(f'{TestBase.EXTERNAL_CLEAN_UP_TMP} {generatedFileName}')
+        if ProjectTestBase.keep is False:
+            osSystem(f'{ProjectTestBase.EXTERNAL_CLEAN_UP_TMP} {generatedFileName}')
 
     @classmethod
     def constructGeneratedName(cls, fileName: str) -> str:

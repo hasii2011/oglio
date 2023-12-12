@@ -20,10 +20,10 @@ from oglio.Types import OglUseCases
 
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
-from tests.TestBase import TestBase
+from tests.ProjectTestBase import ProjectTestBase
 
 
-class TestUseCaseDiagram(TestBase):
+class TestUseCaseDiagram(ProjectTestBase):
     """
     """
     USE_CASE_DIAGRAM_FILENAME: str = 'UseCaseDiagram.xml'
@@ -36,7 +36,7 @@ class TestUseCaseDiagram(TestBase):
 
     def testUseCaseSerialization(self):
 
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
         untangler:  UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
@@ -57,14 +57,14 @@ class TestUseCaseDiagram(TestBase):
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        generatedFileName: str = TestBase.constructGeneratedName(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
+        generatedFileName: str = ProjectTestBase.constructGeneratedName(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
         oglToMiniDom.writeXml(fqFileName=generatedFileName)
 
         status: int = self._runDiff(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
         self.assertEqual(0, status, 'Diff use case diagram serialization failed')
 
-        TestBase.cleanupGenerated(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
+        ProjectTestBase.cleanupGenerated(TestUseCaseDiagram.USE_CASE_DIAGRAM_FILENAME)
 
 
 def suite() -> TestSuite:

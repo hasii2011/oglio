@@ -7,21 +7,24 @@ from os import linesep as osLineSep
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
 
-from pyutmodel.ModelTypes import ClassName
-from pyutmodel.PyutActor import PyutActor
-from pyutmodel.PyutClass import PyutClass
-from pyutmodel.PyutClassCommon import PyutClassCommon
-from pyutmodel.PyutField import PyutField
-from pyutmodel.PyutInterface import PyutInterface
-from pyutmodel.PyutLink import PyutLink
-from pyutmodel.PyutMethod import PyutMethod
-from pyutmodel.PyutMethod import SourceCode
-from pyutmodel.PyutNote import PyutNote
-from pyutmodel.PyutParameter import PyutParameter
-from pyutmodel.PyutSDInstance import PyutSDInstance
-from pyutmodel.PyutSDMessage import PyutSDMessage
-from pyutmodel.PyutText import PyutText
-from pyutmodel.PyutUseCase import PyutUseCase
+from pyutmodelv2.PyutLink import LinkDestination
+from pyutmodelv2.PyutLink import LinkSource
+from pyutmodelv2.PyutLink import PyutLink
+
+from pyutmodelv2.PyutModelTypes import ClassName
+from pyutmodelv2.PyutActor import PyutActor
+from pyutmodelv2.PyutClass import PyutClass
+from pyutmodelv2.PyutClassCommon import PyutClassCommon
+from pyutmodelv2.PyutField import PyutField
+from pyutmodelv2.PyutInterface import PyutInterface
+from pyutmodelv2.PyutMethod import PyutMethod
+from pyutmodelv2.PyutMethod import SourceCode
+from pyutmodelv2.PyutNote import PyutNote
+from pyutmodelv2.PyutParameter import PyutParameter
+from pyutmodelv2.PyutSDInstance import PyutSDInstance
+from pyutmodelv2.PyutSDMessage import PyutSDMessage
+from pyutmodelv2.PyutText import PyutText
+from pyutmodelv2.PyutUseCase import PyutUseCase
 
 from oglio.toXmlV11.InternalTypes import ElementAttributes
 from oglio.toXmlV11.XmlConstants import XmlConstants
@@ -56,7 +59,7 @@ class PyutToXml:
             XmlConstants.ATTR_NAME:               pyutClass.name,
             XmlConstants.ATTR_STEREOTYPE:         pyutClass.stereotype.value,
             XmlConstants.ATTR_DISPLAY_METHODS:    str(pyutClass.showMethods),
-            XmlConstants.ATTR_DISPLAY_PARAMETERS: str(pyutClass.displayParameters),
+            XmlConstants.ATTR_DISPLAY_PARAMETERS: str(pyutClass.displayParameters.value),
             XmlConstants.ATTR_DISPLAY_FIELDS:     str(pyutClass.showFields),
             XmlConstants.ATTR_DISPLAY_STEREOTYPE: str(pyutClass.displayStereoType),
             XmlConstants.ATTR_FILENAME:           pyutClass.fileName,
@@ -84,8 +87,10 @@ class PyutToXml:
         Returns:
             A new minidom element
         """
-        src   = pyutLink.getSource()
-        dst   = pyutLink.getDestination()
+        # src   = pyutLink.getSource()
+        # dst   = pyutLink.getDestination()
+        src: LinkSource      = pyutLink.source
+        dst: LinkDestination = pyutLink.destination
 
         srcLinkId:  int = src.id
         destLinkId: int = dst.id
@@ -95,7 +100,8 @@ class PyutToXml:
             XmlConstants.ATTR_TYPE:                    pyutLink.linkType.name,
             XmlConstants.ATTR_CARDINALITY_SOURCE:      pyutLink.sourceCardinality,
             XmlConstants.ATTR_CARDINALITY_DESTINATION: pyutLink.destinationCardinality,
-            XmlConstants.ATTR_BIDIRECTIONAL:           str(pyutLink.getBidir()),
+            # XmlConstants.ATTR_BIDIRECTIONAL:           str(pyutLink.getBidir()),
+            XmlConstants.ATTR_BIDIRECTIONAL:           str(pyutLink.bidirectional),
             XmlConstants.ATTR_SOURCE_ID:               str(srcLinkId),
             XmlConstants.ATTR_DESTINATION_ID:          str(destLinkId),
         })
@@ -204,8 +210,10 @@ class PyutToXml:
 
         sdMessageId: int = pyutSDMessage.id
 
-        srcInstance: PyutSDInstance = pyutSDMessage.getSource()
-        dstInstance: PyutSDInstance = pyutSDMessage.getDestination()
+        # srcInstance: PyutSDInstance = pyutSDMessage.getSource()
+        # dstInstance: PyutSDInstance = pyutSDMessage.getDestination()
+        srcInstance: LinkSource      = pyutSDMessage.source
+        dstInstance: LinkDestination = pyutSDMessage.destination
 
         idSrc: int = srcInstance.id
         idDst: int = dstInstance.id

@@ -27,5 +27,12 @@ setup(
         'oglio.toXmlV10': ['py.typed'],
         'oglio.toXmlV11': ['py.typed'],
     },
-    install_requires=['wxPython==4.2.1', 'codeallybasic==0.5.2', 'codeallyadvanced==0.5.2', 'pyutmodel==1.5.1', 'ogl==1.0.0', 'untanglepyut==1.3.2'],
+    install_requires=[
+        'wxPython==4.2.1',
+        'codeallybasic==0.5.2',
+        'codeallyadvanced==0.5.2',
+        'pyutmodel==2.0.0a5',
+        'ogl==2.0.0a5',
+        'untanglepyut==2.0.0a5'
+    ],
 )

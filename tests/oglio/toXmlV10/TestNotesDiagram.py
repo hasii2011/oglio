@@ -22,10 +22,10 @@ from oglio.Types import OglUseCases
 
 from oglio.toXmlV10.OglToDom import OglToDom as OglToMiniDomV10
 
-from tests.TestBase import TestBase
+from tests.ProjectTestBase import ProjectTestBase
 
 
-class TestNotesDiagram(TestBase):
+class TestNotesDiagram(ProjectTestBase):
     """
     """
     NOTES_DIAGRAM_FILENAME: str    = 'ManyNotes.xml'
@@ -41,7 +41,7 @@ class TestNotesDiagram(TestBase):
         #
         # Get some OglNotes
         #
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
 
         untangler:  UnTangler = UnTangler(xmlVersion=XmlVersion.V10)
 
@@ -65,14 +65,14 @@ class TestNotesDiagram(TestBase):
 
         oglToMiniDom.serialize(oglDocument=oglDocument)
 
-        generatedFileName: str = TestBase.constructGeneratedName(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
+        generatedFileName: str = ProjectTestBase.constructGeneratedName(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
         oglToMiniDom.writeXml(fqFileName=generatedFileName)
 
         status: int = self._runDiff(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
 
         self.assertEqual(0, status, 'Diff notes diagram serialization failed')
 
-        TestBase.cleanupGenerated(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
+        ProjectTestBase.cleanupGenerated(TestNotesDiagram.NOTES_DIAGRAM_FILENAME)
 
 
 def suite() -> TestSuite:

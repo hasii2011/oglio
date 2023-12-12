@@ -5,9 +5,10 @@ from logging import getLogger
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
 
+from pyutmodelv2.PyutSDMessage import PyutSDMessage
+
 from ogl.sd.OglSDInstance import OglSDInstance
 from ogl.sd.OglSDMessage import OglSDMessage
-from pyutmodel.PyutSDMessage import PyutSDMessage
 
 from oglio.Types import OglSDInstances
 from oglio.Types import OglSDMessages

@@ -1,14 +1,17 @@
 
+from typing import cast
+
 from logging import Logger
 from logging import getLogger
-from typing import cast
+
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
+from pyutmodelv2.PyutActor import PyutActor
+from pyutmodelv2.PyutUseCase import PyutUseCase
+
 from ogl.OglActor import OglActor
 from ogl.OglUseCase import OglUseCase
-from pyutmodel.PyutActor import PyutActor
-from pyutmodel.PyutUseCase import PyutUseCase
 
 from oglio.Types import OglActors
 from oglio.Types import OglUseCases

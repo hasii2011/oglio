@@ -9,7 +9,7 @@ from xml.dom.minidom import Element
 
 from ogl.OglClass import OglClass
 
-from pyutmodel.PyutClass import PyutClass
+from pyutmodelv2.PyutClass import PyutClass
 
 from oglio.Types import OglClasses
 

@@ -4,10 +4,10 @@ from typing import cast
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from pyutmodel.PyutClass import PyutClass
-from pyutmodel.PyutMethod import PyutMethod
-from pyutmodel.PyutMethod import PyutMethods
-from pyutmodel.PyutMethod import PyutModifiers
+from pyutmodelv2.PyutClass import PyutClass
+from pyutmodelv2.PyutMethod import PyutMethod
+from pyutmodelv2.PyutMethod import PyutMethods
+from pyutmodelv2.PyutMethod import PyutModifiers
 
 from ogl.OglClass import OglClass
 
@@ -22,10 +22,10 @@ from oglio.Types import OglLinks
 from oglio.Types import OglProject
 from oglio.UnsupportedFileTypeException import UnsupportedFileTypeException
 
-from tests.TestBase import TestBase
+from tests.ProjectTestBase import ProjectTestBase
 
 
-class TestReader(TestBase):
+class TestReader(ProjectTestBase):
     """
     """
     TEST_FILE_NAME:       str = 'MultiDocumentProject.xml'
@@ -41,7 +41,7 @@ class TestReader(TestBase):
 
     def testProjectInformation(self):
 
-        fqFileName: str        = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
+        fqFileName: str        = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
         oglProject: OglProject = self._reader.readXmlFile(fqFileName=fqFileName)
 
         self.assertEqual(fqFileName, oglProject.fileName, 'Where is my file name')
@@ -51,7 +51,7 @@ class TestReader(TestBase):
 
     def testMultiDocumentRead(self):
 
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
 
         oglProject:   OglProject   = self._reader.readXmlFile(fqFileName=fqFileName)
         oglDocuments: OglDocuments = oglProject.oglDocuments
@@ -60,7 +60,7 @@ class TestReader(TestBase):
 
     def testCorrectNumberOfOglObjectsDocumentOne(self):
 
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
 
         oglProject:   OglProject   = self._reader.readXmlFile(fqFileName=fqFileName)
         oglDocuments: OglDocuments = oglProject.oglDocuments
@@ -73,7 +73,7 @@ class TestReader(TestBase):
 
     def testCorrectNumberOfOglObjectsDocumentTwo(self):
 
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, TestReader.TEST_FILE_NAME)
 
         oglProject: OglProject = self._reader.readXmlFile(fqFileName=fqFileName)
 
@@ -92,7 +92,7 @@ class TestReader(TestBase):
         self.assertRaises(UnsupportedFileTypeException, self._reader.readXmlFile, 'HokeyPutFileName.ozzee')
 
     def testReadCompressedFile(self):
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'SimpleMultipleDocument.put')
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'SimpleMultipleDocument.put')
 
         oglProject:   OglProject   = self._reader.readFile(fqFileName=fqFileName)
         oglDocuments: OglDocuments = oglProject.oglDocuments
@@ -105,7 +105,7 @@ class TestReader(TestBase):
 
     def testReadV11XmlFile(self):
 
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'SingleClassDocumentV11.xml')
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'SingleClassDocumentV11.xml')
 
         oglProject:   OglProject   = self._reader.readXmlFile(fqFileName=fqFileName)
         oglDocuments: OglDocuments = oglProject.oglDocuments
@@ -137,7 +137,7 @@ class TestReader(TestBase):
         self.assertEqual(2, len(modifiers), '')
 
     def testReadV11PutFile(self):
-        fqFileName: str = TestBase.getFullyQualifiedResourceFileName(TestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'InheritanceV11.put')
+        fqFileName: str = ProjectTestBase.getFullyQualifiedResourceFileName(ProjectTestBase.RESOURCES_TEST_DATA_PACKAGE_NAME, 'InheritanceV11.put')
 
         oglProject:   OglProject = self._reader.readFile(fqFileName=fqFileName)
 

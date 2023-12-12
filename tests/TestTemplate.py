@@ -2,13 +2,13 @@
 from unittest import TestSuite
 from unittest import main as unitTestMain
 
-from tests.TestBase import TestBase
+from tests.ProjectTestBase import ProjectTestBase
 
 # import the class you want to test here
 # from org.pyut.template import template
 
 
-class TestTemplate(TestBase):
+class TestTemplate(ProjectTestBase):
     """
     You need to change the name of this class to Test`xxxx`
     Where `xxxx` is the name of the class that you want to test.
@@ -22,7 +22,7 @@ class TestTemplate(TestBase):
 
     def setUp(self):
         super().setUp()
-        
+
     def tearDown(self):
         super().tearDown()
 

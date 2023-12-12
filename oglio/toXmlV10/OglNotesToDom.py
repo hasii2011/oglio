@@ -7,7 +7,7 @@ from logging import getLogger
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
-from pyutmodel.PyutNote import PyutNote
+from pyutmodelv2.PyutNote import PyutNote
 
 from ogl.OglNote import OglNote
 
