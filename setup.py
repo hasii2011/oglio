@@ -31,8 +31,8 @@ setup(
         'wxPython==4.2.1',
         'codeallybasic==0.5.2',
         'codeallyadvanced==0.5.2',
-        'pyutmodelv2==2.0.0a5',
-        'ogl==2.0.0a5',
-        'untanglepyut==2.0.0a5'
+        'pyutmodelv2==2.0.0a6',
+        'ogl==2.0.0a6',
+        'untanglepyut==2.0.0a6'
     ],
 )
