@@ -6,8 +6,10 @@ from typing import Tuple
 from xml.etree.ElementTree import Element
 from xml.etree.ElementTree import SubElement
 
-from miniogl.AttachmentSide import AttachmentSide
+from codeallyadvanced.ui.AttachmentSide import AttachmentSide
+
 from miniogl.SelectAnchorPoint import SelectAnchorPoint
+
 from ogl.OglAssociation import OglAssociation
 from ogl.OglAssociationLabel import OglAssociationLabel
 from ogl.OglInterface2 import OglInterface2

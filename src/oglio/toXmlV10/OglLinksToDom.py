@@ -5,7 +5,8 @@ from logging import getLogger
 from xml.dom.minidom import Document
 from xml.dom.minidom import Element
 
-from miniogl.AttachmentSide import AttachmentSide
+from codeallyadvanced.ui.AttachmentSide import AttachmentSide
+
 from miniogl.SelectAnchorPoint import SelectAnchorPoint
 
 from ogl.OglAssociation import OglAssociation

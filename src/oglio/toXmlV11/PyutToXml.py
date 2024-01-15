@@ -55,14 +55,16 @@ class PyutToXml:
 
         commonAttributes = self._pyutClassCommonAttributes(pyutClass)
         attributes = {
-            XmlConstants.ATTR_ID:                 str(pyutClass.id),
-            XmlConstants.ATTR_NAME:               pyutClass.name,
-            XmlConstants.ATTR_STEREOTYPE:         pyutClass.stereotype.value,
-            XmlConstants.ATTR_DISPLAY_METHODS:    str(pyutClass.showMethods),
-            XmlConstants.ATTR_DISPLAY_PARAMETERS: str(pyutClass.displayParameters.value),
-            XmlConstants.ATTR_DISPLAY_FIELDS:     str(pyutClass.showFields),
-            XmlConstants.ATTR_DISPLAY_STEREOTYPE: str(pyutClass.displayStereoType),
-            XmlConstants.ATTR_FILENAME:           pyutClass.fileName,
+            XmlConstants.ATTR_ID:                     str(pyutClass.id),
+            XmlConstants.ATTR_NAME:                   pyutClass.name,
+            XmlConstants.ATTR_STEREOTYPE:             pyutClass.stereotype.value,
+            XmlConstants.ATTR_DISPLAY_METHODS:        str(pyutClass.showMethods),
+            XmlConstants.ATTR_DISPLAY_PARAMETERS:     pyutClass.displayParameters.value,
+            XmlConstants.ATTR_DISPLAY_CONSTRUCTOR:    pyutClass.displayConstructor.value,
+            XmlConstants.ATTR_DISPLAY_DUNDER_METHODS: pyutClass.displayDunderMethods.value,
+            XmlConstants.ATTR_DISPLAY_FIELDS:         str(pyutClass.showFields),
+            XmlConstants.ATTR_DISPLAY_STEREOTYPE:     str(pyutClass.displayStereoType),
+            XmlConstants.ATTR_FILENAME:               pyutClass.fileName,
         }
 
         attributes = attributes | commonAttributes

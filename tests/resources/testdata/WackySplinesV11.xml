@@ -2,10 +2,10 @@
 <PyutProject version="11" CodePath="">
     <PyutDocument type="CLASS_DIAGRAM" title="WackySpline" scrollPositionX="0" scrollPositionY="1" pixelsPerUnitX="20" pixelsPerUnitY="20">
         <OglClass width="104" height="54" x="100" y="150">
-            <PyutClass id="1" name="WackyClass2" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+            <PyutClass id="1" name="WackyClass2" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayConstructor="Unspecified" displayDunderMethods="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
         <OglClass width="117" height="56" x="625" y="400">
-            <PyutClass id="2" name="WackyClass2" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+            <PyutClass id="2" name="WackyClass2" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayConstructor="Unspecified" displayDunderMethods="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
         <OglLink sourceAnchorX="625" sourceAnchorY="428" destinationAnchorX="132" destinationAnchorY="203" spline="True">
             <ControlPoint x="229" y="511" />

@@ -2,7 +2,7 @@
 <PyutProject version="11" CodePath="">
     <PyutDocument type="CLASS_DIAGRAM" title="TextNotes" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
         <OglClass width="112" height="59" x="100" y="125">
-            <PyutClass id="3" name="LinkedToClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+            <PyutClass id="3" name="LinkedToClass" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayConstructor="Unspecified" displayDunderMethods="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
         <OglLink sourceAnchorX="239" sourceAnchorY="300" destinationAnchorX="156" destinationAnchorY="184" spline="False">
             <PyutLink name="Notelink-6" type="NOTELINK" cardinalitySource="" cardinalityDestination="" bidirectional="False" sourceId="4" destinationId="3" />

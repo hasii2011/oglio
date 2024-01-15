@@ -2,18 +2,18 @@
 <PyutProject version="11" CodePath="">
     <PyutDocument type="CLASS_DIAGRAM" title="MultiLink" scrollPositionX="0" scrollPositionY="0" pixelsPerUnitX="20" pixelsPerUnitY="20">
         <OglClass width="78" height="44" x="150" y="150">
-            <PyutClass id="1" name="Folder" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
+            <PyutClass id="1" name="Folder" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayConstructor="Unspecified" displayDunderMethods="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
                 <PyutField name="permissions" visibility="PRIVATE" type="" defaultValue="" />
             </PyutClass>
         </OglClass>
         <OglClass width="88" height="50" x="151" y="302">
-            <PyutClass id="2" name="File" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
+            <PyutClass id="2" name="File" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayConstructor="Unspecified" displayDunderMethods="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
                 <PyutField name="size" visibility="PRIVATE" type="" defaultValue="" />
                 <PyutField name="name" visibility="PRIVATE" type="" defaultValue="" />
             </PyutClass>
         </OglClass>
         <OglClass width="129" height="70" x="517" y="125">
-            <PyutClass id="3" name="Car" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
+            <PyutClass id="3" name="Car" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayConstructor="Unspecified" displayDunderMethods="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
                 <PyutField name="make" visibility="PRIVATE" type="" defaultValue="" />
                 <PyutField name="model" visibility="PRIVATE" type="" defaultValue="" />
                 <PyutField name="vin" visibility="PRIVATE" type="" defaultValue="" />
@@ -21,13 +21,13 @@
             </PyutClass>
         </OglClass>
         <OglClass width="81" height="50" x="525" y="300">
-            <PyutClass id="4" name="Wheel" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
+            <PyutClass id="4" name="Wheel" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayConstructor="Unspecified" displayDunderMethods="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
                 <PyutField name="size" visibility="PRIVATE" type="" defaultValue="" />
                 <PyutField name="width" visibility="PRIVATE" type="" defaultValue="" />
             </PyutClass>
         </OglClass>
         <OglClass width="172" height="75" x="850" y="175">
-            <PyutClass id="5" name="Interface" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
+            <PyutClass id="5" name="Interface" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayConstructor="Unspecified" displayDunderMethods="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="">
                 <PyutMethod name="floatMethod" visibility="PUBLIC" returnType="float">
                     <SourceCode />
                 </PyutMethod>
@@ -40,10 +40,10 @@
             </PyutClass>
         </OglClass>
         <OglClass width="99" height="44" x="875" y="350">
-            <PyutClass id="6" name="Implementor" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+            <PyutClass id="6" name="Implementor" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayConstructor="Unspecified" displayDunderMethods="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
         <OglClass width="140" height="48" x="325" y="625">
-            <PyutClass id="7" name="LollipopImplementor" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
+            <PyutClass id="7" name="LollipopImplementor" stereotype="noStereotype" displayMethods="True" displayParameters="Unspecified" displayConstructor="Unspecified" displayDunderMethods="Unspecified" displayFields="True" displayStereotype="True" fileName="" description="" />
         </OglClass>
         <OglLink sourceAnchorX="186" sourceAnchorY="193" destinationAnchorX="187" destinationAnchorY="302" spline="False">
             <LabelCenter x="401" y="-8" />

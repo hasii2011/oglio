@@ -65,12 +65,14 @@ class XmlConstants:
     ATTR_TYPE:     str = 'type'
     ATTR_TITLE:    str = 'title'
 
-    ATTR_DEFAULT_VALUE:      str = 'defaultValue'
-    ATTR_DISPLAY_STEREOTYPE: str = 'displayStereotype'
-    ATTR_DISPLAY_METHODS:    str = 'displayMethods'
-    ATTR_DISPLAY_FIELDS:     str = 'displayFields'
-    ATTR_DISPLAY_PARAMETERS: str = 'displayParameters'
-    ATTR_FILE_NAME:          str = 'fileName'
+    ATTR_DEFAULT_VALUE:          str = 'defaultValue'
+    ATTR_DISPLAY_STEREOTYPE:     str = 'displayStereotype'
+    ATTR_DISPLAY_METHODS:        str = 'displayMethods'
+    ATTR_DISPLAY_FIELDS:         str = 'displayFields'
+    ATTR_DISPLAY_PARAMETERS:     str = 'displayParameters'
+    ATTR_DISPLAY_CONSTRUCTOR:    str = 'displayConstructor'
+    ATTR_DISPLAY_DUNDER_METHODS: str = 'displayDunderMethods'
+    ATTR_FILE_NAME:              str = 'fileName'
 
     ATTR_METHOD_RETURN_TYPE: str = 'returnType'
 
