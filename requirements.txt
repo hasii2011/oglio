@@ -8,7 +8,7 @@ buildlackey==1.6.3
 mypy==1.8.0
 mypy-extensions==1.0.0
 typing_extensions==4.9.0
-types-setuptools==69.0.0.20240106
+types-setuptools==69.0.0.20240115
 
 wxPython~=4.2.1
 
@@ -16,4 +16,4 @@ codeallybasic==1.0.0
 codeallyadvanced==1.0.0
 pyutmodelv2==2.1.0
 ogl==2.1.0
-untanglepyut==2.0.5
+untanglepyut==2.1.0

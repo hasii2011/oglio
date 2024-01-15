@@ -18,7 +18,7 @@ dependencies = [
         'codeallyadvanced==1.0.0',
         'pyutmodelv2==2.1.0',
         'ogl==2.1.0',
-        'untanglepyut==2.0.5',
+        'untanglepyut==2.1.0',
 ]
 
 [project.urls]
