@@ -13,7 +13,7 @@ class IDFactory(Singleton):
     A user-defined class or class object is an instance of the object named `type`, which is itself a `class`. Classes
     are created from `type`, or in other words:
 
-    >   A class is an instance of the class `type`.  In Python 3 there is no difference between `classes` and `types`
+    A class is an instance of the class `type`.  In Python 3, there is no difference between `classes` and `types`.
     """
     nextID: int = 1
 

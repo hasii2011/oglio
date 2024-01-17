@@ -9,8 +9,6 @@ from codeallyadvanced.ui.UnitTestBaseW import UnitTestBaseW
 from pyutmodelv2.PyutObject import PyutObject
 from pyutmodelv2.PyutObject import infiniteSequence
 
-from oglio.toXmlV10.BaseToDom import IDFactory
-
 
 class ProjectTestBase(UnitTestBaseW):
 
