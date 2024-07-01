@@ -23,7 +23,6 @@ class OglNotesToXml(BaseOglToXml):
 
         self._pyutToXml: PyutToXml = PyutToXml()
 
-
     def serialize(self, documentTop: Element, oglNotes: OglNotes) -> Element:
 
         for note in oglNotes:

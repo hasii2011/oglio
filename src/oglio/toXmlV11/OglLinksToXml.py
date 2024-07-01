@@ -106,8 +106,8 @@ class OglLinksToXml(BaseOglToXml):
 
     def _oglLinkAttributes(self, oglLink: OglLink) -> ElementAttributes:
 
-        srcX, srcY   = oglLink.sourceAnchor.GetModel().GetPosition()
-        destX, destY = oglLink.destinationAnchor.GetModel().GetPosition()
+        srcX, srcY   = oglLink.sourceAnchor.model.GetPosition()
+        destX, destY = oglLink.destinationAnchor.model.GetPosition()
 
         attributes: ElementAttributes = ElementAttributes({
             XmlConstants.ATTR_LINK_SOURCE_ANCHOR_X:      str(srcX),

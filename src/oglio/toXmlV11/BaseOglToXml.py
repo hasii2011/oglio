@@ -21,8 +21,8 @@ class BaseOglToXml:
         Returns:
             The updated originalElement
         """
-        w, h = oglObject.GetModel().GetSize()
-        x, y = oglObject.GetModel().GetPosition()
+        w, h = oglObject.model.GetSize()
+        x, y = oglObject.model.GetPosition()
 
         attributes = {
             XmlConstants.ATTR_WIDTH:  str(w),

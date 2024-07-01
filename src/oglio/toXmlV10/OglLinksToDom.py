@@ -83,18 +83,18 @@ class OglLinksToDom(BaseOglToDom):
         root = xmlDoc.createElement(XmlConstants.ELEMENT_GRAPHIC_LINK)
 
         # save source and destination anchor points
-        x, y = oglLink.sourceAnchor.GetModel().GetPosition()
+        x, y = oglLink.sourceAnchor.model.GetPosition()
         simpleX, simpleY = self._getSimpleCoordinates(x, y)
         root.setAttribute(XmlConstants.ATTR_LINK_SOURCE_ANCHOR_X, simpleX)
         root.setAttribute(XmlConstants.ATTR_LINK_SOURCE_ANCHOR_Y, simpleY)
 
-        x, y = oglLink.destinationAnchor.GetModel().GetPosition()
+        x, y = oglLink.destinationAnchor.model.GetPosition()
         simpleX, simpleY = self._getSimpleCoordinates(x, y)
 
         root.setAttribute(XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_X, simpleX)
         root.setAttribute(XmlConstants.ATTR_LINK_DESTINATION_ANCHOR_Y, simpleY)
 
-        root.setAttribute(XmlConstants.ATTR_SPLINE, str(oglLink.GetSpline()))
+        root.setAttribute(XmlConstants.ATTR_SPLINE, str(oglLink.spline))
 
         if isinstance(oglLink, OglAssociation):
 
