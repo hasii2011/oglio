@@ -54,9 +54,10 @@ class OglSequenceToDom(BaseOglToDom):
         """
         root: Element = self._xmlDocument.createElement(XmlConstants.ELEMENT_GRAPHIC_SD_INSTANCE)
 
-        self._appendOglBase(oglSDInstance, root)
+        # noinspection PyTypeChecker
+        self._appendOglBase(oglSDInstance, root)    # type: ignore
 
-        root.appendChild(self._pyutToMiniDom.pyutSDInstanceToDom(cast(PyutSDInstance, oglSDInstance.pyutObject), xmlDoc))
+        root.appendChild(self._pyutToMiniDom.pyutSDInstanceToDom(cast(PyutSDInstance, oglSDInstance.pyutSDInstance), xmlDoc))
 
         return root
 

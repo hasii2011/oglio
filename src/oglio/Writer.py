@@ -15,7 +15,7 @@ class Writer:
     A shim on top of the OGL serialization layer;
     Allowed me to replace
     the heavy-duty Python core xml minidom implementation
-    with Python Xml Elment Tree
+    with Python Xml Element Tree
 
     The write only writes the latest XML version
     """

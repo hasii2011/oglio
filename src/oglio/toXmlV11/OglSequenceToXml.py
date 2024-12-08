@@ -12,8 +12,8 @@ from ogl.sd.OglSDMessage import OglSDMessage
 
 from oglio.Types import OglSDInstances
 from oglio.Types import OglSDMessages
-from oglio.toXmlV11.InternalTypes import ElementAttributes
 
+from oglio.toXmlV11.InternalTypes import ElementAttributes
 from oglio.toXmlV11.XmlConstants import XmlConstants
 from oglio.toXmlV11.BaseOglToXml import BaseOglToXml
 from oglio.toXmlV11.PyutToXml import PyutToXml
@@ -36,7 +36,7 @@ class OglSequenceToXml(BaseOglToXml):
 
         return documentTop
 
-    def _oglSDInstanceToXml(self,  documentTop: Element, oglSDInstance: OglSDInstance,) -> Element:
+    def _oglSDInstanceToXml(self, documentTop: Element, oglSDInstance: OglSDInstance, ) -> Element:
         """
         Export an OglSDInstance to a minidom Element
 
@@ -47,10 +47,19 @@ class OglSequenceToXml(BaseOglToXml):
         Returns:
             An element
         """
-        attributes: ElementAttributes = self._oglBaseAttributes(oglObject=oglSDInstance)
+        w, h = oglSDInstance.GetSize()
+        x, y = oglSDInstance.GetPosition()
+
+        attributes: ElementAttributes = ElementAttributes({
+            XmlConstants.ATTR_WIDTH:  str(w),
+            XmlConstants.ATTR_HEIGHT: str(h),
+            XmlConstants.ATTR_X:      str(x),
+            XmlConstants.ATTR_Y:      str(y),
+        })
+
         oglSDInstanceElement: Element = SubElement(documentTop, XmlConstants.ELEMENT_OGL_SD_INSTANCE, attrib=attributes)
 
-        self._pyutToXml.pyutSDInstanceToXml(pyutSDInstance=oglSDInstance.pyutObject, oglSDInstanceElement=oglSDInstanceElement)
+        self._pyutToXml.pyutSDInstanceToXml(pyutSDInstance=oglSDInstance.pyutSDInstance, oglSDInstanceElement=oglSDInstanceElement)
 
         return oglSDInstanceElement
 

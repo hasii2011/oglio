@@ -19,6 +19,7 @@ from oglio.Types import OglSDMessages
 from oglio.Types import OglTexts
 from oglio.Types import OglUseCases
 from oglio.toXmlV11.OglToXml import OglToXml
+
 from tests.ProjectTestBase import ProjectTestBase
 
 EMPTY_DOCUMENT_FILENAME:     str = 'EmptyDocument.xml'

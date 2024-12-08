@@ -33,7 +33,8 @@ class BaseOglToDom(BaseToDom):
             The updated element
         """
         # Saving size
-        w, h = oglObject.model.GetSize()
+        # w, h = oglObject.model.GetSize()
+        w, h = oglObject.GetSize()
         simpleW, simpleH = self._getSimpleDimensions(w, h)
         root.setAttribute(XmlConstants.ATTR_WIDTH, simpleW)
         root.setAttribute(XmlConstants.ATTR_HEIGHT, simpleH)

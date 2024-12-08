@@ -13,6 +13,7 @@ from ogl.OglClass import OglClass
 from ogl.OglLink import OglLink
 from ogl.OglText import OglText
 from ogl.OglUseCase import OglUseCase
+
 from ogl.sd.OglSDInstance import OglSDInstance
 from ogl.sd.OglSDMessage import OglSDMessage
 
@@ -25,8 +26,9 @@ OglNotes    = NewType('OglNotes',    List[OglNote])
 OglTexts    = NewType('OglTexts',    List[OglText])
 OglActors   = NewType('OglActors',   List[OglActor])
 OglUseCases = NewType('OglUseCases', List[OglUseCase])
-OglSDInstances = NewType('OglSDInstances', Dict[int, OglSDInstance])
-OglSDMessages  = NewType('OglSDMessages',  Dict[int, OglSDMessage])
+
+OglSDInstances   = NewType('OglSDInstances',   Dict[int, OglSDInstance])
+OglSDMessages    = NewType('OglSDMessages',    Dict[int, OglSDMessage])
 
 OglObjects = Union[OglClasses, OglLinks, OglNotes, OglTexts, OglActors, OglUseCases]
 
