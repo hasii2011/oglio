@@ -5,9 +5,10 @@
 [![PyPI version](https://badge.fury.io/py/oglio.svg)](https://badge.fury.io/py/oglio)
 
 # Introduction
-Provides a common way to parse and write Pyut XML files.  Additionally, removes this code from 
-Pyut and places in a new project, so we can easily version the library.  Furthermore, it allows
-the development of an IOXml plugin for Pyut with common code
+
+This package provides a common way to read and write [Pyut](https://github.com/hasii2011/pyut) XML files.  Additionally, it removes this code from 
+Pyut and places in a new package, so we can easily version the library.  Furthermore, it allows
+the development of an IOXml plugin for Pyut with common code.
 
 # Overview
 
@@ -21,7 +22,7 @@ ___
 ## Note
 For all kinds of problems, requests, enhancements, bug reports, etc.,
 please drop me an e-mail.
-Written by <a href="mailto:email@humberto.a.sanchez.ii@gmail.com?subject=Hello Humberto"> Humberto A. Sanchez II</a> (C) 2024
+Written by <a href="mailto:email@humberto.a.sanchez.ii@gmail.com?subject=Hello Humberto"> Humberto A. Sanchez II</a> (C) 2025
 
 
 ---
