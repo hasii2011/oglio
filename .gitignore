@@ -5,7 +5,6 @@ __pycache__/
 build/
 dist/
 oglio.egg-info
-/pyenv-3.11.5/
 /pyenv-3.12.4/
 .envrc
 .python-version
