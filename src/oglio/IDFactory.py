@@ -3,10 +3,10 @@ from typing import Any
 from typing import Dict
 from typing import Union
 
-from codeallybasic.Singleton import Singleton
+from codeallybasic.SingletonV3 import SingletonV3
 
 
-class IDFactory(Singleton):
+class IDFactory(metaclass=SingletonV3):
     """
     Type hinting results in self-documenting code. I really prefer and evangelize it.
 
